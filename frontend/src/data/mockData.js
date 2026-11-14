@@ -1,0 +1,32 @@
+export const mockBooks = [
+  {
+    book_id: 'ca_01',
+    title: 'Manifestul Libertății',
+    author_pubkey: '0x8F9B...3E2A',
+    sha256_hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    web_of_trust_score: '99.4% (Verified Author)',
+    print_batch: 'LOT-2026-RO-500',
+    royalty_split: '20% Direct-to-Author',
+    xmr_tx_proof: 'tx_private_9a8f7d6e5c4b3a21',
+  },
+  {
+    book_id: 'ca_02',
+    title: 'Arhitectura Suveranității Digitale',
+    author_pubkey: '0x4C7A...9F1D',
+    sha256_hash: 'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a',
+    web_of_trust_score: '98.7% (Verified Author)',
+    print_batch: 'LOT-2026-RO-250',
+    royalty_split: '20% Direct-to-Author',
+    xmr_tx_proof: 'tx_private_b3e1a9f2d7c4e6b8',
+  },
+  {
+    book_id: 'ca_03',
+    title: 'Codul Sursă al Rezistenței',
+    author_pubkey: '0x2E5D...8B3C',
+    sha256_hash: '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b',
+    web_of_trust_score: '97.9% (Verified Author)',
+    print_batch: 'LOT-2026-RO-100',
+    royalty_split: '20% Direct-to-Author',
+    xmr_tx_proof: 'tx_private_f8e2c1a4b7d9e3f5',
+  },
+];

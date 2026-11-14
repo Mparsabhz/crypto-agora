@@ -1,179 +1,19 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoAgora | Protocolul de Publicare Suverană</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Librărie ușoară pentru randarea codului QR din string/URL -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-<body>
-    <header class="topbar">
-        <div class="brand">
-            <span class="logo-dot"></span>
-            <h1>CRYPTO<span>AGORA</span></h1>
-            <span class="badge">PROTOCOL v1.0</span>
-        </div>
-        <nav class="nav-tabs" id="main-nav">
-            <button class="tab-btn active" data-target="screen-author">1. Dashboard Autor</button>
-            <button class="tab-btn" data-target="screen-print">2. Panou Tipografie</button>
-            <button class="tab-btn" data-target="screen-reader">3. Verificare Cititor (QR)</button>
-        </nav>
-    </header>
-
-    <main class="container">
-        <!-- ECRANUL 1: DASHBOARD AUTOR -->
-        <section id="screen-author" class="screen active">
-            <div class="screen-header">
-                <h2>Înregistrare Manuscris &amp; Web of Trust</h2>
-                <p>Generează amprenta criptografică SHA-256 și leagă opera de identitatea ta suverană, fără intermediari.</p>
-            </div>
-
-            <div class="grid-2">
-                <div class="card">
-                    <h3>Datele Operei</h3>
-                    <form id="author-form">
-                        <div class="form-group">
-                            <label for="book-title">Titlul Operei / Manuscrisului</label>
-                            <input type="text" id="book-title" value="Manifestul Libertății" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="author-pubkey">Cheie Publică Autor (XMR / Stealth Address)</label>
-                            <input type="text" id="author-pubkey" value="0x8F9B7C4D2A1E90B3C5D8E7F6A1B2C3D4E5F63E2A" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="manuscript-file">Încarcă Manuscris (PDF / TXT / EPUB)</label>
-                            <input type="file" id="manuscript-file" accept=".pdf,.txt,.epub,.md">
-                            <small class="hint">Dacă nu selectezi un fișier, se va folosi hash-ul de test din protocol.</small>
-                        </div>
-                        <button type="submit" class="btn-primary">Ancorează în Protocol &amp; Calculează Hash</button>
-                    </form>
-                </div>
-
-                <div class="card status-card">
-                    <h3>Certificat Criptografic Generat</h3>
-                    <div class="data-row">
-                        <span class="label">Status Rețea:</span>
-                        <span class="value text-green" id="author-status">● Pregătit pentru semnare</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="label">Web of Trust Score:</span>
-                        <span class="value badge-trust" id="author-wot">99.4% (Verified Author)</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="label">ID Operă (Book ID):</span>
-                        <span class="value mono" id="author-book-id">ca_01</span>
-                    </div>
-                    <div class="data-block">
-                        <span class="label">Amprentă SHA-256 Manuscris:</span>
-                        <code class="hash-box" id="author-hash">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>
-                    </div>
-                    <button type="button" class="btn-secondary" id="btn-to-print">Continuă la Tipografie →</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- ECRANUL 2: PANOU TIPOGRAFIE -->
-        <section id="screen-print" class="screen">
-            <div class="screen-header">
-                <h2>Certificare Tiraj Fizic (Physical-to-Digital)</h2>
-                <p>Generează token-ul de lot și sticker-ul QR criptografic gata de aplicat pe exemplarele tipărite.</p>
-            </div>
-
-            <div class="grid-2">
-                <div class="card">
-                    <h3>Configurare Lot Tipar</h3>
-                    <form id="print-form">
-                        <div class="form-group">
-                            <label for="batch-code">Cod Identificare Lot</label>
-                            <input type="text" id="batch-code" value="LOT-2026-RO-500" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="batch-size">Mărime Tiraj (Exemplare)</label>
-                            <input type="number" id="batch-size" value="500" min="1" max="100000" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="royalty-split">Alocare Suverană Autor (Hardcoded)</label>
-                            <input type="text" id="royalty-split" value="20% Direct-to-Author (XMR)" disabled>
-                        </div>
-                        <button type="submit" class="btn-primary">Generează Token Tiraj &amp; Sticker QR</button>
-                    </form>
-                </div>
-
-                <div class="card qr-preview-card">
-                    <h3>Sticker QR Gata de Print</h3>
-                    <div class="sticker-box" id="printable-sticker">
-                        <div class="sticker-header">CRYPTOAGORA VERIFIED</div>
-                        <div id="qrcode-container"></div>
-                        <div class="sticker-meta">
-                            <strong id="sticker-title">Manifestul Libertății</strong>
-                            <span id="sticker-batch">LOT-2026-RO-500 • #001/500</span>
-                            <small>Scanează pentru autenticitate &amp; 20% plată autor</small>
-                        </div>
-                    </div>
-                    <div class="actions-row">
-                        <button type="button" class="btn-secondary" onclick="window.print()">Printează Sticker</button>
-                        <button type="button" class="btn-primary" id="btn-simulate-scan">Simulează Scanare Mobil →</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ECRANUL 3: SCANNER CITITOR (MOBILE VIEW) -->
-        <section id="screen-reader" class="screen">
-            <div class="mobile-certificate">
-                <div class="cert-banner">
-                    <div class="check-icon">✓</div>
-                    <h2>COPIE FIZICĂ AUTENTICĂ</h2>
-                    <p>Verificat matematic prin Protocolul CryptoAgora</p>
-                </div>
-
-                <div class="cert-body">
-                    <div class="cert-item">
-                        <span class="label">Titlu Operă</span>
-                        <strong class="val-large" id="verify-title">Manifestul Libertății</strong>
-                    </div>
-
-                    <div class="cert-grid">
-                        <div class="cert-item">
-                            <span class="label">Reputație Autor (WoT)</span>
-                            <span class="badge-trust" id="verify-wot">99.4% (Verified Author)</span>
-                        </div>
-                        <div class="cert-item">
-                            <span class="label">Lot Tipografic</span>
-                            <span class="mono" id="verify-batch">LOT-2026-RO-500</span>
-                        </div>
-                    </div>
-
-                    <div class="cert-item">
-                        <span class="label">Cheie Publică Autor</span>
-                        <span class="mono" id="verify-pubkey">0x8F9B...3E2A</span>
-                    </div>
-
-                    <div class="cert-item">
-                        <span class="label">Amprentă SHA-256 Manuscris</span>
-                        <code class="hash-box small" id="verify-hash">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>
-                    </div>
-
-                    <div class="royalty-box">
-                        <div class="royalty-header">
-                            <span>DECONTARE PRIVATĂ NECENZURABILĂ</span>
-                            <span class="royalty-tag" id="verify-royalty">20% Direct-to-Author</span>
-                        </div>
-                        <p class="royalty-desc">20% din valoarea acestui exemplar a fost direcționată direct către portofelul autorului, fără intermediari bancari.</p>
-                        <div class="tx-proof">
-                            <span>Dovadă Tranzacție (XMR Proof):</span>
-                            <code id="verify-tx">tx_private_9a8f7d6e5c4b3a21</code>
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn-primary full-width" id="btn-trigger-tx">Confirmă &amp; Trimite Micro-Tranzacție (20%)</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="app.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
+    <meta name="theme-color" content="#0a0c10" />
+    <title>CryptoAgora — Physical-to-Digital Protocol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
