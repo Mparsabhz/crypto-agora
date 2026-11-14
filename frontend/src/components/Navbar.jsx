@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import './Navbar.css';
 
 const MODULES = [
-  { id: 'author', number: '01', label: 'Author Terminal', icon: BookOpen },
-  { id: 'print', number: '02', label: 'Print House Panel', icon: Printer },
-  { id: 'reader', number: '03', label: 'Reader Verification', icon: ShieldCheck },
+  { id: 'author', label: 'Author Terminal', icon: BookOpen },
+  { id: 'print', label: 'Print House Panel', icon: Printer },
+  { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
 ];
 
 export default function Navbar({ active, onChange, onDemoFill }) {
@@ -55,14 +55,12 @@ export default function Navbar({ active, onChange, onDemoFill }) {
           <span className="navbar__drawer-label">MODULE PROTOCOL</span>
           <div className="navbar__modules">
             <button className={`navbar__module ${active === 'home' ? 'is-active' : ''}`} onClick={() => navigate('home')}>
-              <span className="navbar__module-number">00 //</span>
               <Home size={17} />
               <span>Home</span>
               {active === 'home' && <i className="navbar__module-active" />}
             </button>
-            {MODULES.map(({ id, number, label, icon: Icon }) => (
+            {MODULES.map(({ id, label, icon: Icon }) => (
               <button key={id} className={`navbar__module ${active === id ? 'is-active' : ''}`} onClick={() => navigate(id)}>
-                <span className="navbar__module-number">{number} //</span>
                 <Icon size={17} />
                 <span>{label}</span>
                 {active === id && <i className="navbar__module-active" />}

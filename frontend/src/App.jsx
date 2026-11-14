@@ -103,7 +103,7 @@ function Shell() {
                 <div className="home-card-grid home-card-grid--steps">
                   {HOW_IT_WORKS.map(({ number, title, text, icon: Icon }) => (
                     <article className="home-info-card" key={number}>
-                      <div className="home-info-card__topline"><span>{number} //</span><Icon size={21} /></div>
+                      <div className="home-info-card__topline"><Icon size={21} /></div>
                       <h3>{title}</h3>
                       <p>{text}</p>
                     </article>
