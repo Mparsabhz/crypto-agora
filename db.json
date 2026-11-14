@@ -1,0 +1,37 @@
+{
+    "books": {
+        "ca_01": {
+            "book_id": "ca_01",
+            "title": "Manifestul Libertățiه",
+            "filename": "Newsletter_DRI_07_2026[1].pdf",
+            "author_pubkey": "0x8F9B...3E2A",
+            "sha256_hash": "5e12fbab1004ee0682bb3ec91863795c96c54de4bd038d45384212bb9554dcf4",
+            "web_of_trust_score": "99.4% (Verified Author)",
+            "print_batch": null,
+            "royalty_split": "20% Direct-to-Author",
+            "xmr_tx_proof": null
+        },
+        "ca_02": {
+            "book_id": "ca_02",
+            "title": "Manifestul Libertățiه",
+            "filename": "Newsletter_DRI_07_2026[1].pdf",
+            "author_pubkey": "0x8F9B...3E2A",
+            "sha256_hash": "5e12fbab1004ee0682bb3ec91863795c96c54de4bd038d45384212bb9554dcf4",
+            "web_of_trust_score": "99.4% (Verified Author)",
+            "print_batch": null,
+            "royalty_split": "20% Direct-to-Author",
+            "xmr_tx_proof": null
+        },
+        "ca_03": {
+            "book_id": "ca_03",
+            "title": "Manifestul Libertății",
+            "filename": "Newsletter_DRI_07_2026[1].pdf",
+            "author_pubkey": "0x8F9B...3E2A",
+            "sha256_hash": "5e12fbab1004ee0682bb3ec91863795c96c54de4bd038d45384212bb9554dcf4",
+            "web_of_trust_score": "99.4% (Verified Author)",
+            "print_batch": "LOT-2026-RO-500",
+            "royalty_split": "20% Direct-to-Author",
+            "xmr_tx_proof": "tx_private_3cc00943a8d7a34a"
+        }
+    }
+}
