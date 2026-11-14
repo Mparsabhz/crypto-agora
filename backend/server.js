@@ -1,41 +1,108 @@
 const express = require('express');
 const crypto = require('crypto');
+const cors = require('cors'); // opțional, dar bun dacă frontend-ul rulează pe alt port (ex: 5173)
+
 const app = express();
-
 app.use(express.json());
+app.use(cors()); // Permite cereri din frontend fără bătăi de cap cu CORS
 
-class Blockchain {
-    constructor() {
-        this.chain = [];
-        // Creăm block-ul de geneză (primul block din rețea)
-        this.createBlock("0", "CryptoAgora_Genesis", "0000000000000000");
+class Block {
+    constructor(index, timestamp, authorId, manuscriptHash, previousHash = '') {
+        this.index = index;
+        this.timestamp = timestamp;
+        this.author_id = authorId;
+        this.manuscript_hash = manuscriptHash;
+        this.previous_hash = previousHash;
+        this.nonce = 0;
+        this.hash = this.calculateHash();
     }
 
-    createBlock(previousHash, authorId, manuscriptHash) {
-        const block = {
-            index: this.chain.length + 1,
-            timestamp: Date.now(),
-            author_id: authorId,
-            manuscript_hash: manuscriptHash,
-            previous_hash: previousHash
-        };
-        
-        // Generăm hash-ul criptografic SHA-256 al block-ului curent
-        const blockString = JSON.stringify(block, Object.keys(block).sort());
-        block.hash = crypto.createHash('sha256').update(blockString).digest('hex');
-        
-        this.chain.push(block);
-        return block;
+    // Calculează hash-ul SHA-256 al blocului curent
+    calculateHash() {
+        return crypto.createHash('sha256')
+            .update(
+                this.index + 
+                this.timestamp + 
+                this.author_id + 
+                this.manuscript_hash + 
+                this.previous_hash + 
+                this.nonce
+            )
+            .digest('hex');
     }
 
-    getLastBlock() {
-        return this.chain[this.chain.length - 1];
+    // Proof-of-Work simplificat (opțional, dă bine la juriu că "minează" un bloc)
+    mineBlock(difficulty) {
+        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+            this.nonce++;
+            this.hash = this.calculateHash();
+        }
     }
 }
 
-const blockchain = new Blockchain();
+class Blockchain {
+    constructor() {
+        this.chain = [this.createGenesisBlock()];
+        this.difficulty = 2; // Setează 2 sau 3 pentru viteză maximă la hackathon
+    }
 
-// Endpoint pentru înregistrarea unei cărți noi
+    createGenesisBlock() {
+        return new Block(
+            1, 
+            Date.now(), 
+            "CryptoAgora_Genesis", 
+            "0000000000000000000000000000000000000000000000000000000000000000", 
+            "0"
+        );
+    }
+
+    getLatestBlock() {
+        return this.chain[this.chain.length - 1];
+    }
+
+    addBlock(authorId, manuscriptHash) {
+        const latestBlock = this.getLatestBlock();
+        const newBlock = new Block(
+            this.chain.length + 1,
+            Date.now(),
+            authorId,
+            manuscriptHash,
+            latestBlock.hash
+        );
+        
+        // Minăm blocul (generează hash-ul cu dificultatea impusă)
+        newBlock.mineBlock(this.difficulty);
+        
+        this.chain.push(newBlock);
+        return newBlock;
+    }
+
+    // Verifică integritatea întregului lanț
+    isChainValid() {
+        for (let i = 1; i < this.chain.length; i++) {
+            const currentBlock = this.chain[i];
+            const previousBlock = this.chain[i - 1];
+
+            // Verificăm dacă hash-ul curent a fost modificat
+            if (currentBlock.hash !== currentBlock.calculateHash()) {
+                return false;
+            }
+
+            // Verificăm dacă legătura cu blocul anterior este ruptă
+            if (currentBlock.previous_hash !== previousBlock.hash) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+// Inițializăm blockchain-ul
+const cryptoAgoraChain = new Blockchain();
+
+// --- ENDPOINT-URI API ---
+
+// 1. Înregistrează o carte nouă în blockchain
 app.post('/register-book', (req, res) => {
     const { author_id, manuscript_hash } = req.body;
     
@@ -43,25 +110,27 @@ app.post('/register-book', (req, res) => {
         return res.status(400).json({ error: "Lipsește author_id sau manuscript_hash!" });
     }
 
-    const lastBlock = blockchain.getLastBlock();
-    const newBlock = blockchain.createBlock(
-        lastBlock.hash,
-        author_id,
-        manuscript_hash
-    );
-
-    res.json({ message: "Cartea a fost înregistrată public în blockchain!", block: newBlock });
+    const newBlock = cryptoAgoraChain.addBlock(author_id, manuscript_hash);
+    
+    res.json({ 
+        message: "Cartea a fost minată și înregistrată public în blockchain!", 
+        block: newBlock 
+    });
 });
 
-// Endpoint pentru vizualizarea întregului ledger
+// 2. Returnează întregul ledger (lanțul) și starea de validare
 app.get('/ledger', (req, res) => {
-    res.json({ chain: blockchain.chain, length: blockchain.chain.length });
+    res.json({ 
+        isValid: cryptoAgoraChain.isChainValid(),
+        length: cryptoAgoraChain.chain.length,
+        chain: cryptoAgoraChain.chain 
+    });
 });
 
-// Endpoint pentru verificarea unei cărți după hash-ul manuscrisului
+// 3. Verifică o carte după hash-ul manuscrisului
 app.get('/verify/:hash', (req, res) => {
     const targetHash = req.params.hash;
-    const foundBlock = blockchain.chain.find(b => b.manuscript_hash === targetHash);
+    const foundBlock = cryptoAgoraChain.chain.find(b => b.manuscript_hash === targetHash);
 
     if (foundBlock) {
         return res.json({
@@ -69,7 +138,8 @@ app.get('/verify/:hash', (req, res) => {
             verified: true,
             author: foundBlock.author_id,
             timestamp: foundBlock.timestamp,
-            block_index: foundBlock.index
+            block_index: foundBlock.index,
+            block_hash: foundBlock.hash
         });
     }
 
@@ -79,9 +149,14 @@ app.get('/verify/:hash', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.json({ status: "Online", project: "CryptoAgora Ledger API" });
+    res.json({ 
+        status: "Online 🚀", 
+        project: "CryptoAgora Blockchain Node", 
+        totalBlocks: cryptoAgoraChain.chain.length,
+        isChainValid: cryptoAgoraChain.isChainValid()
+    });
 });
 
 app.listen(PORT, () => {
-    console.log(`CryptoAgora Node.js Ledger running on port ${PORT}`);
+    console.log(`🚀 CryptoAgora Robust Blockchain Node running on port ${PORT}`);
 });
