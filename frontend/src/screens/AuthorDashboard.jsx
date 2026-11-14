@@ -162,41 +162,80 @@ Network: CryptoAgora-Mainnet
     toast('Manuscript signed successfully', 'success');
   };
 
-  // Înregistrare în Protocol (cu P2P Simulator)
-  const handleRegister = () => {
+   // Înregistrare în Protocol (cu P2P Simulator + Backend Real)
+  const handleRegister = async () => {
     if (!file || !title || !pubkey || !hash || !signature) return;
     setRegistering(true);
     setP2pStep(1);
     setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Broadcasting to P2P mesh initiated...', type: 'warn' }]);
     
-    setTimeout(() => { setP2pStep(2); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Chunking verified. Pinning to IPFS...', type: 'info' }]); }, 1200);
-    setTimeout(() => { setP2pStep(3); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); }, 2400);
-    setTimeout(() => { setP2pStep(4); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Consensus reached. Block mined!', type: 'success' }]); }, 3600);
-    
-    setTimeout(() => {
-      const newBook = {
-        book_id: `ca_${String(books.length + 1).padStart(2, '0')}`,
-        title: title.trim(),
-        author_pubkey: pubkey.trim(),
-        sha256_hash: hash,
-        web_of_trust_score: '99.9% (Verified Author)',
-        print_batch: '—',
-        royalty_split: `${royalty}% Direct-to-Author`,
-        xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
-      };
+    try {
+      // 1. Trimitem cererea POST reală către serverul de Node.js
+      const response = await fetch('http://localhost:3000/register-book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          author_id: `${title} (${pubkey})`,
+          manuscript_hash: hash
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Eroare la minarea blocului');
+      }
+
+      // 2. Continuăm animațiile vizuale pentru juriu
+      setTimeout(() => { 
+        setP2pStep(2); 
+        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Chunking verified. Pinning to IPFS...', type: 'info' }]); 
+      }, 1200);
       
-      onRegister(newBook);
+      setTimeout(() => { 
+        setP2pStep(3); 
+        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); 
+      }, 2400);
+      
+      setTimeout(() => { 
+        setP2pStep(4); 
+        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: `Consensus reached. Block #${data.block.index} mined! Hash: ${data.block.hash.slice(0, 10)}...`, type: 'success' }]); 
+      }, 3600);
+      
+      setTimeout(() => {
+        const newBook = {
+          book_id: `ca_${String(books.length + 1).padStart(2, '0')}`,
+          title: title.trim(),
+          author_pubkey: pubkey.trim(),
+          sha256_hash: hash,
+          web_of_trust_score: '99.9% (Verified Author)',
+          print_batch: '—',
+          royalty_split: `${royalty}% Direct-to-Author`,
+          xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
+          block_index: data.block.index,
+          block_hash: data.block.hash
+        };
+        
+        onRegister(newBook);
+        setRegistering(false);
+        setP2pStep(0);
+        setFile(null);
+        setTitle('');
+        setPubkey('');
+        setPrivkey('');
+        setHash('');
+        setSignature('');
+        setChunks([]);
+        toast('Cartea a fost minată oficial în blockchain!', 'success');
+      }, 4500);
+
+    } catch (err) {
+      console.error("Eroare:", err);
+      toast('Nu s-a putut conecta la serverul de Node.js sau eroare de minare!', 'error');
       setRegistering(false);
       setP2pStep(0);
-      setFile(null);
-      setTitle('');
-      setPubkey('');
-      setPrivkey('');
-      setHash('');
-      setSignature('');
-      setChunks([]);
-    }, 4500);
+    }
   };
+
 
   return (
     <div className="author-dash">
