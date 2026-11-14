@@ -176,6 +176,9 @@ Network: CryptoAgora-Mainnet
       formData.append('file', file);
       formData.append('author_id', `${title} (${pubkey})`);
       formData.append('manuscript_hash', hash);
+      formData.append('title', title.trim());
+      formData.append('author_pubkey', pubkey.trim());
+      formData.append('signature', signature);
 
       const response = await fetch('http://localhost:3000/register-book', {
         method: 'POST',
@@ -205,18 +208,13 @@ Network: CryptoAgora-Mainnet
       
       setTimeout(() => {
         const newBook = {
-          book_id: `ca_${String(books.length + 1).padStart(2, '0')}`,
-          title: title.trim(),
-          author_pubkey: pubkey.trim(),
-          sha256_hash: hash,
+          ...data.data,
           merkle_root: analysis.merkleRoot,
           chunk_count: analysis.chunkCount,
           web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
-          print_batch: '—',
+          print_batch: data.data.print_batch || '—',
           royalty_split: `${royalty}% Direct-to-Author`,
-          xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
-          block_index: data.block.index,
-          block_hash: data.block.hash
+          xmr_tx_proof: data.data.xmr_tx_proof || `tx_private_${Date.now().toString(16)}`
         };
         
         onRegister(newBook);

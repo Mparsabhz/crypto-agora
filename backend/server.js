@@ -12,6 +12,7 @@ app.use(cors()); // Permite cereri din frontend fără bătăi de cap cu CORS
 const uploadDirectory = path.join(__dirname, 'uploads');
 fs.mkdirSync(uploadDirectory, { recursive: true });
 const blockchainFile = path.join(__dirname, 'blockchain.json');
+const booksFile = path.join(__dirname, 'books.json');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -28,6 +29,31 @@ const upload = multer({
         callback(null, allowedExtensions.has(extension));
     }
 });
+
+function loadBooks() {
+    if (!fs.existsSync(booksFile)) {
+        return {};
+    }
+
+    const storedBooks = JSON.parse(fs.readFileSync(booksFile, 'utf8'));
+    if (!storedBooks || typeof storedBooks !== 'object' || Array.isArray(storedBooks)) {
+        throw new Error(`Format invalid pentru ${booksFile}`);
+    }
+
+    return storedBooks;
+}
+
+function saveBooks(books) {
+    const temporaryFile = `${booksFile}.tmp`;
+    fs.writeFileSync(temporaryFile, JSON.stringify(books, null, 2), 'utf8');
+    fs.renameSync(temporaryFile, booksFile);
+}
+
+function findLatestBlockByHash(hash) {
+    return [...cryptoAgoraChain.chain]
+        .reverse()
+        .find((block) => block.manuscript_hash === hash);
+}
 
 class Block {
     constructor(index, timestamp, authorId, manuscriptHash, previousHash = '') {
@@ -160,16 +186,17 @@ class Blockchain {
 
 // Inițializăm blockchain-ul
 const cryptoAgoraChain = new Blockchain();
+const books = loadBooks();
 
 // --- ENDPOINT-URI API ---
 
 // 1. Salvează manuscrisul și îl înregistrează în blockchain
 app.post('/register-book', upload.single('file'), (req, res) => {
-    const { author_id, manuscript_hash } = req.body;
+    const { author_id, manuscript_hash, title, author_pubkey, signature } = req.body;
     
-    if (!author_id || !manuscript_hash || !req.file) {
+    if (!author_id || !manuscript_hash || !title || !author_pubkey || !req.file) {
         if (req.file) fs.unlinkSync(req.file.path);
-        return res.status(400).json({ error: "Lipsește author_id, manuscript_hash sau fișierul!" });
+        return res.status(400).json({ error: "Lipsesc titlul, cheia autorului, hash-ul sau fișierul!" });
     }
 
     const uploadedHash = crypto
@@ -182,11 +209,36 @@ app.post('/register-book', upload.single('file'), (req, res) => {
         return res.status(400).json({ error: "Hash-ul fișierului nu corespunde manuscrisului trimis!" });
     }
 
+    if (findLatestBlockByHash(manuscript_hash)) {
+        fs.unlinkSync(req.file.path);
+        return res.status(409).json({ error: "Acest manuscris este deja înregistrat în blockchain!" });
+    }
+
     const newBlock = cryptoAgoraChain.addBlock(author_id, manuscript_hash);
+    const bookId = `ca_${String(newBlock.index - 1).padStart(2, '0')}`;
+    const book = {
+        book_id: bookId,
+        title: title.trim(),
+        author_pubkey: author_pubkey.trim(),
+        signature: signature || null,
+        sha256_hash: manuscript_hash,
+        filename: req.file.originalname,
+        stored_as: req.file.filename,
+        file_size: req.file.size,
+        web_of_trust_score: '99.9% (Verified Author)',
+        print_batch: null,
+        royalty_split: '20% Direct-to-Author',
+        xmr_tx_proof: null,
+        block_index: newBlock.index,
+        block_hash: newBlock.hash
+    };
+    books[bookId] = book;
+    saveBooks(books);
     
     res.json({ 
         message: "Cartea a fost minată și înregistrată public în blockchain!", 
         block: newBlock,
+        data: book,
         file: {
             name: req.file.originalname,
             storedAs: req.file.filename,
@@ -200,23 +252,50 @@ app.get('/ledger', (req, res) => {
     res.json({ 
         isValid: cryptoAgoraChain.isChainValid(),
         length: cryptoAgoraChain.chain.length,
-        chain: cryptoAgoraChain.chain 
+        chain: cryptoAgoraChain.chain,
+        books: Object.values(books)
     });
 });
 
 // 3. Verifică o carte după hash-ul manuscrisului
+app.get('/books/:bookId', (req, res) => {
+    const book = books[req.params.bookId];
+    if (!book) {
+        return res.status(404).json({ detail: "Cartea nu există în registrul public!" });
+    }
+
+    const block = findLatestBlockByHash(book.sha256_hash);
+
+    if (!block) {
+        return res.status(409).json({ detail: "Metadata cărții nu are un bloc valid în ledger!" });
+    }
+
+    res.json({
+        status: "AUTENTIC",
+        verified: true,
+        data: book,
+        block
+    });
+});
+
 app.get('/verify/:hash', (req, res) => {
     const targetHash = req.params.hash;
-    const foundBlock = cryptoAgoraChain.chain.find(b => b.manuscript_hash === targetHash);
+    const foundBlock = findLatestBlockByHash(targetHash);
 
     if (foundBlock) {
+        const book = Object.values(books).find((item) => item.sha256_hash === targetHash);
         return res.json({
             status: "AUTENTIC",
             verified: true,
             author: foundBlock.author_id,
             timestamp: foundBlock.timestamp,
             block_index: foundBlock.index,
-            block_hash: foundBlock.hash
+            block_hash: foundBlock.hash,
+            data: book || {
+                sha256_hash: foundBlock.manuscript_hash,
+                block_index: foundBlock.index,
+                block_hash: foundBlock.hash
+            }
         });
     }
 

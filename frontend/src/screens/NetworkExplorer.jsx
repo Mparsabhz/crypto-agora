@@ -8,6 +8,27 @@ import { shortHash } from '../utils/crypto';
 import './NetworkExplorer.css';
 
 export default function NetworkExplorer() {
+  const [ledger, setLedger] = useState({ chain: [], isValid: false, length: 0 });
+
+  useEffect(() => {
+    let active = true;
+    fetch('http://localhost:3000/ledger')
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Ledger request failed');
+        return response.json();
+      })
+      .then((data) => {
+        if (active) setLedger(data);
+      })
+      .catch(() => {
+        if (active) setLedger({ chain: [], isValid: false, length: 0 });
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Simulare date rețea
   const [feed, setFeed] = useState([
     { id: 1, type: 'tx', text: 'Batch LOT-2026-RO-500 verified', value: '+0.024 XMR sent to 0x8F9B...3E2A', time: '2 mins ago' },
@@ -46,7 +67,9 @@ export default function NetworkExplorer() {
           <h1>Network Explorer</h1>
           <p className="dim">Real-time telemetry of the CryptoAgora P2P mesh, IPFS shards, and Web of Trust.</p>
         </div>
-        <div className="head-badge mono"><span className="dot dot--live" /> MAINNET · SYNCED</div>
+        <div className="head-badge mono">
+          <span className="dot dot--live" /> {ledger.isValid ? `LEDGER · ${ledger.length} BLOCKS` : 'LEDGER · OFFLINE'}
+        </div>
       </header>
 
       {/* STATS ROW */}
@@ -158,6 +181,32 @@ export default function NetworkExplorer() {
           </div>
         </section>
       </div>
+
+      <section className="card" style={{ marginTop: 24 }}>
+        <div className="section-title"><Database size={14} /> Real Blockchain Ledger</div>
+        {ledger.chain.length === 0 ? (
+          <p className="dim">Ledger unavailable. Start the Node.js backend on port 3000.</p>
+        ) : (
+          <div className="table-wrap">
+            <table className="data-table">
+              <thead>
+                <tr><th>Block</th><th>Author</th><th>Manuscript Hash</th><th>Previous Hash</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {ledger.chain.map((block) => (
+                  <tr key={block.hash}>
+                    <td className="mono success">#{block.index}</td>
+                    <td>{block.author_id}</td>
+                    <td className="mono muted">{shortHash(block.manuscript_hash, 10, 6)}</td>
+                    <td className="mono muted">{shortHash(block.previous_hash, 10, 6)}</td>
+                    <td><span className="pill success-pill"><CheckCircle2 size={10} /> VALID</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
 
       {/* BOTTOM GRID: MESH TOPOLOGY & NODE LIST */}
       <div className="explorer-grid bottom-grid">

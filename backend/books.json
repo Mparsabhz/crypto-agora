@@ -1,0 +1,34 @@
+{
+  "ca_02": {
+    "book_id": "ca_02",
+    "title": "idk",
+    "author_pubkey": "0xe9aabc78743c6db5eefa8512cd50bde9169a7a2a",
+    "signature": "-----BEGIN CRYPTOAGORA SIGNATURE-----\r\nVersion: 1.0\r\nAlgorithm: Ed25519\r\nKey-ID: 0xe9aabc78743c6db5eefa8512cd50bde9169a7a2a\r\nSHA-256: 08dff7cbafeff9591bd7b232b734b2863eb3660ded939efc1f9870faf2a624d0\r\nSignature: MEUCIQDxQ2N25C7AJVL...\r\nTimestamp: 2026-11-14T23:24:51.413Z\r\nNetwork: CryptoAgora-Mainnet\r\n-----END CRYPTOAGORA SIGNATURE-----",
+    "sha256_hash": "08dff7cbafeff9591bd7b232b734b2863eb3660ded939efc1f9870faf2a624d0",
+    "filename": "AlgebraGeometrie1.pdf",
+    "stored_as": "1794698693228-d9ab22fbd555f9f7.pdf",
+    "file_size": 1112021,
+    "web_of_trust_score": "99.9% (Verified Author)",
+    "print_batch": null,
+    "royalty_split": "20% Direct-to-Author",
+    "xmr_tx_proof": null,
+    "block_index": 3,
+    "block_hash": "0036daf95c42ace4c62785a02e05286b94eab0734ef595191502e3d1d9751709"
+  },
+  "ca_03": {
+    "book_id": "ca_03",
+    "title": "hkvbkv",
+    "author_pubkey": "0xda3a5b525b3c0f8eb3ffcc0ed7f4ff8a54ebbcff",
+    "signature": "-----BEGIN CRYPTOAGORA SIGNATURE-----\r\nVersion: 1.0\r\nAlgorithm: Ed25519\r\nKey-ID: 0xda3a5b525b3c0f8eb3ffcc0ed7f4ff8a54ebbcff\r\nSHA-256: 06062faef8bad50b3a2f575928e7f191d27483dee08f793def261ae36d4cd71d\r\nSignature: MEUCIQDxEKWTJC5Z90C...\r\nTimestamp: 2026-11-14T23:26:38.111Z\r\nNetwork: CryptoAgora-Mainnet\r\n-----END CRYPTOAGORA SIGNATURE-----",
+    "sha256_hash": "06062faef8bad50b3a2f575928e7f191d27483dee08f793def261ae36d4cd71d",
+    "filename": "Curs nr. 5.pdf",
+    "stored_as": "1794698800538-7b93bbc415ef6a43.pdf",
+    "file_size": 126380,
+    "web_of_trust_score": "99.9% (Verified Author)",
+    "print_batch": null,
+    "royalty_split": "20% Direct-to-Author",
+    "xmr_tx_proof": null,
+    "block_index": 4,
+    "block_hash": "00ca1ca223ca26b44a91ea6e8faef6459f482123027128c93c1bcd83450be296"
+  }
+}

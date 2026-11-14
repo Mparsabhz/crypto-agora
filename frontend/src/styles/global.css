@@ -73,8 +73,13 @@ body::before {
   padding: 24px 24px 80px;
 }
 
+.app-main:not(.home-main) {
+  padding-top: 104px;
+}
+
 @media (max-width: 640px) {
   .app-main { padding: 16px 14px 60px; }
+  .app-main:not(.home-main) { padding-top: 88px; }
 }
 
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }

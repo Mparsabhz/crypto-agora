@@ -12,20 +12,63 @@ import './ReaderVerification.css';
 export default function ReaderVerification({ books }) {
   const toast = useToast();
   const [book, setBook] = useState(null);
+  const [selectedBookId, setSelectedBookId] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('book_id') || '';
+  });
+  const [searchTerm, setSearchTerm] = useState('');
   const [lot, setLot] = useState('');
   const [tipSending, setTipSending] = useState(false);
   const [tipSent, setTipSent] = useState(false);
   const [showRawJson, setShowRawJson] = useState(false);
+  const [verification, setVerification] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const bookId = params.get('book_id') || 'ca_01';
     const lotParam = params.get('lot') || '';
-    
     setLot(lotParam);
-    const found = books.find(b => b.book_id === bookId);
-    setBook(found || books[0]);
-  }, [books]);
+
+    if (!selectedBookId && books[0]?.book_id) {
+      setSelectedBookId(books[0].book_id);
+    }
+  }, [books, selectedBookId]);
+
+  useEffect(() => {
+    if (!selectedBookId) return undefined;
+
+    let active = true;
+    fetch(`http://localhost:3000/books/${encodeURIComponent(selectedBookId)}`)
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Book verification failed');
+        return response.json();
+      })
+      .then((data) => {
+        if (!active) return;
+        setVerification(data);
+        if (data.data) {
+          setBook({
+            ...data.data,
+            blockchain_author: data.block.author_id,
+            blockchain_block: data.block.index,
+          });
+        }
+      })
+      .catch(() => {
+        if (!active) return;
+        const fallback = books.find((item) => item.book_id === selectedBookId);
+        setBook(fallback);
+        setVerification({ verified: false });
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [books, selectedBookId]);
+
+  const filteredBooks = books.filter((item) =>
+    item.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    || item.author_pubkey?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleTip = () => {
     setTipSending(true);
@@ -52,6 +95,35 @@ export default function ReaderVerification({ books }) {
 
   return (
     <div className="verify-page fade-up">
+      <section className="verify-card" style={{ marginBottom: 24 }}>
+        <div className="verify-card__header">
+          <FileText size={16} className="success" />
+          <h2>CAUTĂ O CARTE ÎN BLOCKCHAIN</h2>
+        </div>
+        <div className="data-group">
+          <label className="data-label" htmlFor="book-search">Titlu sau autor</label>
+          <input
+            id="book-search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Caută după numele cărții..."
+          />
+          <label className="data-label" htmlFor="book-select">Carte</label>
+          <select
+            id="book-select"
+            value={selectedBookId}
+            onChange={(event) => setSelectedBookId(event.target.value)}
+          >
+            {filteredBooks.length === 0 && <option value="">Nicio carte găsită</option>}
+            {filteredBooks.map((item) => (
+              <option key={item.book_id} value={item.book_id}>
+                {item.title} — {item.author_pubkey}
+              </option>
+            ))}
+          </select>
+        </div>
+      </section>
+
       <div className="verify-mobile-logo">
         <img src="/logo.svg" alt="CryptoAgora" />
       </div>
@@ -68,7 +140,7 @@ export default function ReaderVerification({ books }) {
         </div>
         
         <div className="verify-hero__text">
-          <h1>AUTENTICITATE VERIFICATĂ MATEMATIC</h1>
+          <h1>{verification?.verified === false ? 'AUTENTICITATE NEVERIFICATĂ' : 'AUTENTICITATE VERIFICATĂ MATEMATIC'}</h1>
           <p className="mono">
             <Lock size={12} /> SHA-256 · SIGNATURE VERIFIED ON-CHAIN · WEB OF TRUST CONSENSUS
           </p>
@@ -97,8 +169,8 @@ export default function ReaderVerification({ books }) {
             </div>
 
             <div className="data-row">
-              <span className="data-label"><KeyRound size={12} /> AUTHOR PUBLIC KEY</span>
-              <span className="data-value mono">{book.author_pubkey}</span>
+              <span className="data-label"><KeyRound size={12} /> AUTHOR FROM BLOCKCHAIN</span>
+              <span className="data-value mono">{book.blockchain_author || book.author_pubkey}</span>
             </div>
 
             <div className="data-row">
