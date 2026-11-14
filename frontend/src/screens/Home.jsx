@@ -3,19 +3,16 @@ import './Home.css';
 
 const HOW_IT_WORKS = [
   {
-    number: '01',
     title: 'Autorul își protejează munca',
     text: 'Scriitorul își încarcă lucrarea și primește un certificat digital de originalitate, ca o semnătură unică pentru cartea sa.',
     icon: ShieldCheck,
   },
   {
-    number: '02',
     title: 'Tipografia imprimă codul unic',
     text: 'Cartea ajunge pe hârtie, iar pe copertă primește un mic sticker QR care este legat de acel exemplar.',
     icon: QrCode,
   },
   {
-    number: '03',
     title: 'Cititorul verifică și susține',
     text: 'Scanezi codul cu telefonul, vezi că ai o carte originală și susții direct autorul, fără drumuri ascunse pentru bani.',
     icon: ScanLine,
@@ -69,9 +66,9 @@ export default function Home({ onNavigate }) {
             <p>Un drum clar de la ideea autorului la cartea din mâinile tale.</p>
           </div>
           <div className="home-card-grid home-card-grid--steps">
-            {HOW_IT_WORKS.map(({ number, title, text, icon: Icon }) => (
-              <article className="home-info-card" key={number}>
-                <div className="home-info-card__topline"><span>{number} //</span><Icon size={21} /></div>
+            {HOW_IT_WORKS.map(({ title, text, icon: Icon }) => (
+              <article className="home-info-card" key={title}>
+                <div className="home-info-card__topline"><Icon size={21} /></div>
                 <h3>{title}</h3>
                 <p>{text}</p>
               </article>

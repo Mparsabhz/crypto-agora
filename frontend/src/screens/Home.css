@@ -62,7 +62,7 @@ body:has(.home-main)::-webkit-scrollbar {
   max-height: 96vh;
   object-fit: contain;
   mix-blend-mode: lighten;
-  transform: translateX(-0%);
+  transform: translateX(-9%);
 }
 
 .home-story {
@@ -121,8 +121,7 @@ body:has(.home-main)::-webkit-scrollbar {
   transition: transform 0.2s, border-color 0.2s, background 0.2s;
 }
 .home-info-card:hover { transform: translateY(-4px); background: #111822; border-color: rgba(0, 229, 255, 0.45); }
-.home-info-card__topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; color: #00e5ff; }
-.home-info-card__topline span { font: 10px var(--mono); letter-spacing: 0.08em; }
+.home-info-card__topline { display: flex; align-items: center; margin-bottom: 32px; color: #00e5ff; }
 .home-info-card h3 { color: #e8ecef; font-size: 18px; line-height: 1.25; margin-bottom: 13px; }
 .home-info-card p { color: #7f8ea3; font-size: 13px; line-height: 1.7; }
 .home-info-card--benefit { min-height: 210px; }
