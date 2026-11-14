@@ -17,6 +17,7 @@
 .node-bar__item { display: flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--text-muted); }
 .node-bar__label { color: var(--text-muted); }
 .node-bar__value { color: var(--text); font-weight: 600; }
+.node-bar__value.success { color: var(--validation-green); }
 .dot {
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--emerald);
@@ -30,3 +31,4 @@
 @media (max-width: 720px) {
   .node-bar__group:last-child { display: none; }
 }
+.node-bar .dot { background: var(--validation-green); box-shadow: 0 0 8px rgba(16, 185, 129, 0.55); }

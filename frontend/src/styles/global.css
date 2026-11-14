@@ -1,17 +1,24 @@
 :root {
-  --bg: #0a0c10;
-  --bg-elev: #0f1319;
-  --bg-elev-2: #141922;
-  --bg-elev-3: #1a2130;
-  --border: #1e2430;
-  --border-strong: #2a3242;
-  --text: #e6edf7;
-  --text-dim: #8b95a8;
-  --text-muted: #5a6478;
-  --emerald: #00ff88;
-  --emerald-2: #10b981;
-  --emerald-dim: rgba(0, 255, 136, 0.12);
-  --emerald-glow: rgba(0, 255, 136, 0.35);
+  --bg-primary: #05070a;
+  --bg-card: #0c1118;
+  --bg-card-hover: #111822;
+  --accent-primary: #00e5ff;
+  --accent-secondary: #0ea5e9;
+  --text-main: #e8ecef;
+  --text-muted: #7f8ea3;
+  --validation-green: #10b981;
+  --bg: var(--bg-primary);
+  --bg-elev: #081019;
+  --bg-elev-2: var(--bg-card);
+  --bg-elev-3: var(--bg-card-hover);
+  --border: rgba(0, 229, 255, 0.16);
+  --border-strong: rgba(0, 229, 255, 0.32);
+  --text: var(--text-main);
+  --text-dim: var(--text-muted);
+  --emerald: var(--accent-primary);
+  --emerald-2: var(--accent-secondary);
+  --emerald-dim: rgba(0, 229, 255, 0.12);
+  --emerald-glow: rgba(0, 229, 255, 0.35);
   --amber: #f59e0b;
   --amber-dim: rgba(245, 158, 11, 0.14);
   --danger: #ef4444;
@@ -19,7 +26,7 @@
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
   --radius: 12px;
   --radius-lg: 16px;
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 0 24px rgba(0, 229, 255, 0.08);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +40,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at 20% 0%, rgba(0, 255, 136, 0.05), transparent 40%),
+    radial-gradient(circle at 20% 0%, rgba(0, 229, 255, 0.05), transparent 40%),
     radial-gradient(circle at 80% 100%, rgba(245, 158, 11, 0.05), transparent 40%);
   background-attachment: fixed;
 }
@@ -71,7 +78,7 @@ body::before {
 }
 
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
-a { color: var(--emerald); text-decoration: none; }
+a { color: var(--accent-primary); text-decoration: none; }
 
 input, select, textarea {
   font-family: inherit;
@@ -86,7 +93,7 @@ input, select, textarea {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: var(--emerald-2);
+  border-color: var(--accent-primary);
   box-shadow: 0 0 0 3px var(--emerald-dim);
 }
 input::placeholder { color: var(--text-muted); }
@@ -112,8 +119,8 @@ select option { background: var(--bg-elev-2); }
   white-space: nowrap;
 }
 .btn-primary {
-  background: linear-gradient(180deg, var(--emerald), var(--emerald-2));
-  color: #04120a;
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  color: #031116;
   box-shadow: 0 0 24px var(--emerald-glow);
 }
 .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 32px var(--emerald-glow); }
@@ -139,7 +146,7 @@ select option { background: var(--bg-elev-2); }
 .btn-amber.full, .btn-primary.full { width: 100%; }
 
 .card {
-  background: linear-gradient(180deg, rgba(20, 25, 34, 0.8), rgba(15, 19, 25, 0.8));
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 22px;
@@ -153,7 +160,7 @@ select option { background: var(--bg-elev-2); }
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.18), transparent 40%, transparent 60%, rgba(245, 158, 11, 0.12));
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.22), transparent 40%, transparent 60%, rgba(14, 165, 233, 0.12));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
@@ -198,3 +205,18 @@ select option { background: var(--bg-elev-2); }
   }
   .no-print { display: none !important; }
 }
+
+.card::after,
+.verify-card::after {
+  content: '';
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  width: 42px;
+  height: 1px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.7);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.card::after { border-radius: 50%; }

@@ -54,15 +54,15 @@ export default function PrintHousePanel({ books }) {
       );
 
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-      <rect width="100%" height="100%" fill="#0a0c10"/>
-      <rect x="16" y="16" width="${W - 32}" height="${H - 32}" fill="none" stroke="#00ff88" stroke-width="2" stroke-dasharray="10 8" rx="8"/>
-      <text x="${W / 2}" y="70" text-anchor="middle" fill="#00ff88" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700" letter-spacing="4">CRYPTOAGORA</text>
-      <text x="${W / 2}" y="96" text-anchor="middle" fill="#8b95a8" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="3">PHYSICAL-TO-DIGITAL PROTOCOL</text>
+      <rect width="100%" height="100%" fill="#05070a"/>
+      <rect x="16" y="16" width="${W - 32}" height="${H - 32}" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="10 8" rx="8"/>
+      <text x="${W / 2}" y="70" text-anchor="middle" fill="#00e5ff" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700" letter-spacing="4">CRYPTOAGORA</text>
+      <text x="${W / 2}" y="96" text-anchor="middle" fill="#7f8ea3" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="3">PUBLISH • VERIFY • OWN</text>
       <image href="${qrDataUrl}" x="${W / 2 - 210}" y="130" width="420" height="420"/>
-      <text x="${W / 2}" y="600" text-anchor="middle" fill="#e6edf7" font-family="JetBrains Mono, monospace" font-size="16" font-weight="600">${esc(book.title)}</text>
+      <text x="${W / 2}" y="600" text-anchor="middle" fill="#e8ecef" font-family="JetBrains Mono, monospace" font-size="16" font-weight="600">${esc(book.title)}</text>
       <text x="${W / 2}" y="630" text-anchor="middle" fill="#f59e0b" font-family="JetBrains Mono, monospace" font-size="14" letter-spacing="1">${esc(token)}</text>
-      <text x="${W / 2}" y="665" text-anchor="middle" fill="#5a6478" font-family="JetBrains Mono, monospace" font-size="10">SHA-256 · ${esc(shortHash(book.sha256_hash, 20, 10))}</text>
-      <text x="${W / 2}" y="690" text-anchor="middle" fill="#5a6478" font-family="JetBrains Mono, monospace" font-size="10">BOOK ID · ${esc(book.book_id)}</text>
+      <text x="${W / 2}" y="665" text-anchor="middle" fill="#7f8ea3" font-family="JetBrains Mono, monospace" font-size="10">SHA-256 · ${esc(shortHash(book.sha256_hash, 20, 10))}</text>
+      <text x="${W / 2}" y="690" text-anchor="middle" fill="#7f8ea3" font-family="JetBrains Mono, monospace" font-size="10">BOOK ID · ${esc(book.book_id)}</text>
       <text x="${W / 2}" y="760" text-anchor="middle" fill="#10b981" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2">SCAN TO VERIFY AUTHENTICITY</text>
     </svg>`;
 
@@ -196,7 +196,7 @@ export default function PrintHousePanel({ books }) {
                     value={verifyUrl}
                     size={220}
                     bgColor="#ffffff"
-                    fgColor="#0a0c10"
+                    fgColor="#05070a"
                     level="M"
                   />
                 </div>
