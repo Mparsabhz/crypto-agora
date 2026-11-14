@@ -42,10 +42,14 @@
 .navbar__module.is-active { color: var(--accent-primary); }
 .navbar__module-active { position: absolute; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary); }
 .navbar__drawer-footer { margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(0, 229, 255, .14); }
-.navbar__demo-link { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 12px; transition: color .2s; }
-.navbar__demo-link:hover { color: var(--accent-primary); }
-.navbar__network-status { display: block; margin-top: 18px; color: var(--text-muted); font: 10px var(--mono); }
-.navbar__network-status b { color: var(--accent-primary); margin: 0 4px; }
+.navbar__contact { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; color: var(--text); font-size: 13px; }
+.navbar__contact-links { display: flex; gap: 8px; }
+.navbar__social { display: grid; width: 34px; height: 34px; place-items: center; color: #fff; border-radius: 8px; transition: transform .2s, box-shadow .2s; }
+.navbar__social:hover { transform: translateY(-3px); }
+.navbar__social--instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.navbar__social--instagram:hover { box-shadow: 0 6px 18px rgba(220, 39, 67, .35); }
+.navbar__social--linkedin { background: #0A66C2; }
+.navbar__social--linkedin:hover { box-shadow: 0 6px 18px rgba(10, 102, 194, .4); }
 
 @media (max-width: 640px) {
   .navbar { padding: 14px 16px; }

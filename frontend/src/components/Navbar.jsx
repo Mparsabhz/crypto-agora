@@ -1,4 +1,4 @@
-import { Activity, BookOpen, Home, Printer, ShieldCheck } from 'lucide-react';
+import { BookOpen, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import './Navbar.css';
 
@@ -48,7 +48,7 @@ export default function Navbar({ active, onChange, onDemoFill }) {
 
       <aside className={`navbar__drawer ${isOpen ? 'is-open' : ''}`} aria-hidden={!isOpen}>
         <div className="navbar__drawer-head">
-          <span className="mono">CONTROL // NAVIGATION</span>
+          <span className="mono">CONTROL NAVIGATION</span>
           <span className="navbar__drawer-status"><i /> ONLINE</span>
         </div>
         <div className="navbar__drawer-section">
@@ -69,11 +69,40 @@ export default function Navbar({ active, onChange, onDemoFill }) {
           </div>
         </div>
         <div className="navbar__drawer-footer">
-          <span className="navbar__drawer-label">UTILITIES &amp; DEMO</span>
-          <button className="navbar__demo-link" onClick={() => { onDemoFill(); setIsOpen(false); }}>
-            <Activity size={14} /> Load Demo Data
-          </button>
-          <span className="navbar__network-status"><i /> Node: Synced <b>•</b> P2P Active</span>
+          <span className="navbar__drawer-label">TEAM // CONTACT</span>
+          <div className="navbar__contact">
+            <span>Alex</span>
+            <div className="navbar__contact-links">
+              <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/alexandru.j1/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Alex on Instagram">
+                <Instagram size={17} />
+              </a>
+              <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/alex-username" target="_blank" rel="noopener noreferrer" aria-label="Alex on LinkedIn">
+                <Linkedin size={17} />
+              </a>
+            </div>
+          </div>
+          <div className="navbar__contact">
+            <span>Parsabhz</span>
+            <div className="navbar__contact-links">
+              <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/pars.bhz4/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on Instagram">
+                <Instagram size={17} />
+              </a>
+              <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/parsabhz-username" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on LinkedIn">
+                <Linkedin size={17} />
+              </a>
+            </div>
+          </div>
+          <div className="navbar__contact">
+            <span>Dani Puscaș</span>
+            <div className="navbar__contact-links">
+              <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/puscasdani07/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on Instagram">
+                <Instagram size={17} />
+              </a>
+              <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/dani-puscas" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on LinkedIn">
+                <Linkedin size={17} />
+              </a>
+            </div>
+          </div>
         </div>
       </aside>
     </nav>

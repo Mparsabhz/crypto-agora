@@ -3,28 +3,24 @@ import { useState } from 'react';
 import { mockBooks } from './data/mockData';
 import { ToastProvider, useToast } from './components/Toast';
 import Navbar from './components/Navbar';
-import NodeStatusBar from './components/NodeStatusBar';
 import AuthorDashboard from './screens/AuthorDashboard';
 import PrintHousePanel from './screens/PrintHousePanel';
 import ReaderVerification from './screens/ReaderVerification';
-import NetworkExplorer from './screens/NetworkExplorer'; // NOU
+import NetworkExplorer from './screens/NetworkExplorer';
 import './App.css';
 
 const HOW_IT_WORKS = [
   {
-    number: '01',
     title: 'Autorul își protejează munca',
     text: 'Scriitorul își încarcă lucrarea și primește un certificat digital de originalitate, ca o semnătură unică pentru cartea sa.',
     icon: ShieldCheck,
   },
   {
-    number: '02',
     title: 'Tipografia imprimă codul unic',
     text: 'Cartea ajunge pe hârtie, iar pe copertă primește un mic sticker QR care este legat de acel exemplar.',
     icon: QrCode,
   },
   {
-    number: '03',
     title: 'Cititorul verifică și susține',
     text: 'Scanezi codul cu telefonul, vezi că ai o carte originală și susții direct autorul, fără drumuri ascunse pentru bani.',
     icon: ScanLine,
@@ -49,6 +45,115 @@ const BENEFITS = [
   },
 ];
 
+function formatRon(value) {
+  return `${value.toLocaleString('ro-RO', { maximumFractionDigits: 2 })} RON`;
+}
+
+function TransparencyCalculator() {
+  const [price, setPrice] = useState(50);
+  const [copies, setCopies] = useState(1000);
+  const traditionalPerBook = price * 0.1;
+  const cryptoAgoraPerBook = price * 0.2;
+  const traditionalTotal = traditionalPerBook * copies;
+  const cryptoAgoraTotal = cryptoAgoraPerBook * copies;
+  const difference = cryptoAgoraTotal - traditionalTotal;
+
+  return (
+    <section className="home-section transparency-section">
+      <div className="home-section__heading">
+        <span className="home-kicker">Vezi diferența în cifre reale</span>
+        <h2>Calculatorul de Transparență: Editură Clasică vs. CryptoAgora</h2>
+        <p>
+          Alege prețul unei cărți și câte exemplare vinzi. Calculatorul îți arată simplu cât ajunge la autor în fiecare sistem.
+        </p>
+      </div>
+
+      <div className="transparency-controls">
+        <label className="transparency-control">
+          <span className="transparency-control__header">
+            <span>Prețul unei cărți</span>
+            <strong>{formatRon(price)}</strong>
+          </span>
+          <input
+            type="range"
+            min="20"
+            max="150"
+            step="1"
+            value={price}
+            onChange={(event) => setPrice(Number(event.target.value))}
+            aria-label="Prețul unei cărți în RON"
+          />
+          <span className="transparency-control__limits"><span>20 RON</span><span>150 RON</span></span>
+        </label>
+
+        <label className="transparency-control">
+          <span className="transparency-control__header">
+            <span>Număr de exemplare vândute</span>
+            <strong>{copies.toLocaleString('ro-RO')} cărți</strong>
+          </span>
+          <input
+            type="range"
+            min="100"
+            max="10000"
+            step="100"
+            value={copies}
+            onChange={(event) => setCopies(Number(event.target.value))}
+            aria-label="Numărul de exemplare vândute"
+          />
+          <span className="transparency-control__limits"><span>100 cărți</span><span>10.000 cărți</span></span>
+          <span className="transparency-presets">
+            {[100, 1000, 5000].map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                className={copies === preset ? 'is-selected' : ''}
+                onClick={() => setCopies(preset)}
+              >
+                {preset.toLocaleString('ro-RO')} cărți
+              </button>
+            ))}
+          </span>
+        </label>
+      </div>
+
+      <div className="transparency-cards">
+        <article className="transparency-card transparency-card--traditional">
+          <span className="transparency-badge">SISTEM VECHI · 85–90% REȚINUT DE INTERMEDIARI</span>
+          <h3>Editură clasică &amp; intermediari</h3>
+          <p className="transparency-card__intro">Autorul primește aproximativ 10% din valoarea fiecărei cărți.</p>
+          <div className="transparency-amounts">
+            <div><span>Autorul primește / carte</span><strong>{formatRon(traditionalPerBook)}</strong></div>
+            <div><span>Total autor pe tiraj</span><strong>{formatRon(traditionalTotal)}</strong></div>
+            <div><span>Editura, distribuția și comisioanele</span><strong>{formatRon(price * 0.9)} / carte</strong></div>
+          </div>
+          <div className="transparency-progress">
+            <div className="transparency-progress__label"><span>Partea autorului</span><strong>10%</strong></div>
+            <div className="transparency-progress__track"><span style={{ width: '10%' }} /></div>
+          </div>
+          <p className="transparency-note">Plată la 6–12 luni · Risc de cenzură sau blocare a contului</p>
+        </article>
+
+        <article className="transparency-card transparency-card--crypto">
+          <span className="transparency-badge">CRYPTOAGORA · 20% GARANTAT DIRECT LA AUTOR</span>
+          <h3>Protocolul CryptoAgora</h3>
+          <p className="transparency-card__intro">Prin scanarea cărții, 20% ajunge direct în portofelul autorului.</p>
+          <div className="transparency-amounts">
+            <div><span>Autorul primește / carte</span><strong>{formatRon(cryptoAgoraPerBook)}</strong></div>
+            <div><span>Total autor pe tiraj</span><strong>{formatRon(cryptoAgoraTotal)}</strong></div>
+            <div><span>În plus față de sistemul vechi</span><strong>+{formatRon(difference)}</strong></div>
+          </div>
+          <div className="transparency-gain">+{formatRon(difference)} în plus direct la autor</div>
+          <div className="transparency-progress">
+            <div className="transparency-progress__label"><span>Partea autorului</span><strong>20%</strong></div>
+            <div className="transparency-progress__track"><span style={{ width: '20%' }} /></div>
+          </div>
+          <p className="transparency-note">Decontare instantanee · 100% necenzurabil · Editezi și distribui liber</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function Shell() {
   const [screen, setScreen] = useState(() => {
     const params = new URLSearchParams(window.location.search);
@@ -71,7 +176,6 @@ function Shell() {
   return (
     <>
       <Navbar active={screen} onChange={setScreen} onDemoFill={handleDemoFill} />
-      {screen !== 'home' && <NodeStatusBar />}
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
         {screen === 'home' && (
           <>
@@ -101,8 +205,8 @@ function Shell() {
                   <p>Un drum clar de la ideea autorului la cartea din mâinile tale.</p>
                 </div>
                 <div className="home-card-grid home-card-grid--steps">
-                  {HOW_IT_WORKS.map(({ number, title, text, icon: Icon }) => (
-                    <article className="home-info-card" key={number}>
+                  {HOW_IT_WORKS.map(({ title, text, icon: Icon }) => (
+                    <article className="home-info-card" key={title}>
                       <div className="home-info-card__topline"><Icon size={21} /></div>
                       <h3>{title}</h3>
                       <p>{text}</p>
@@ -110,6 +214,8 @@ function Shell() {
                   ))}
                 </div>
               </section>
+
+              <TransparencyCalculator />
 
               <section className="home-section home-section--benefits">
                 <div className="home-section__heading">
