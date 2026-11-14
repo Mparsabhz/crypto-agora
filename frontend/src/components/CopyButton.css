@@ -1,0 +1,16 @@
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: var(--mono);
+  transition: all 0.15s;
+}
+.copy-btn:hover { border-color: var(--emerald-2); color: var(--emerald); }
+.copy-btn.is-copied { border-color: var(--emerald); color: var(--emerald); background: var(--emerald-dim); }

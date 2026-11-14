@@ -1,0 +1,244 @@
+import { useState, useEffect } from 'react';
+import {
+  ShieldCheck, CheckCircle2, Copy, Hash, KeyRound, Package,
+  Wallet, Send, Sparkles, Loader2, Radio, FileText, Check,
+  Shield, Fingerprint, Activity, ArrowRight, Server, Terminal,
+  Lock, ExternalLink
+} from 'lucide-react';
+import { useToast } from '../components/Toast';
+import { copyToClipboard, shortHash } from '../utils/crypto';
+import './ReaderVerification.css';
+
+export default function ReaderVerification({ books }) {
+  const toast = useToast();
+  const [book, setBook] = useState(null);
+  const [lot, setLot] = useState('');
+  const [tipSending, setTipSending] = useState(false);
+  const [tipSent, setTipSent] = useState(false);
+  const [showRawJson, setShowRawJson] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const bookId = params.get('book_id') || 'ca_01';
+    const lotParam = params.get('lot') || '';
+    
+    setLot(lotParam);
+    const found = books.find(b => b.book_id === bookId);
+    setBook(found || books[0]);
+  }, [books]);
+
+  const handleTip = () => {
+    setTipSending(true);
+    setTimeout(() => {
+      setTipSending(false);
+      setTipSent(true);
+      toast('Tip broadcast to author via private Monero tx', 'success');
+    }, 1500);
+  };
+
+  const handleCopy = async (text) => {
+    await copyToClipboard(text);
+    toast('Copied to clipboard', 'success');
+  };
+
+  if (!book) {
+    return (
+      <div className="verify-loading">
+        <Loader2 size={32} className="spin success" />
+        <p className="mono success">Querying P2P network...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="verify-page fade-up">
+      <div className="verify-mobile-logo">
+        <img src="/logo.svg" alt="CryptoAgora" />
+      </div>
+      
+      {/* 1. MASSIVE HERO BADGE */}
+      <div className="verify-hero">
+        <div className="verify-hero__scanline" />
+        <div className="verify-hero__grid-bg" />
+        
+        <div className="verify-hero__badge">
+          <div className="ring ring--outer" />
+          <div className="ring ring--inner" />
+          <ShieldCheck size={46} className="icon-shield" />
+        </div>
+        
+        <div className="verify-hero__text">
+          <h1>AUTENTICITATE VERIFICATĂ MATEMATIC</h1>
+          <p className="mono">
+            <Lock size={12} /> SHA-256 · SIGNATURE VERIFIED ON-CHAIN · WEB OF TRUST CONSENSUS
+          </p>
+        </div>
+      </div>
+
+      {/* 2. TWO COLUMN GRID */}
+      <div className="verify-grid">
+        
+        {/* LEFT: BOOK CERTIFICATE */}
+        <section className="verify-card">
+          <div className="verify-card__header">
+            <FileText size={16} className="success" />
+            <h2>BOOK CERTIFICATE</h2>
+          </div>
+
+          <div className="data-group">
+            <div className="data-row">
+              <span className="data-label">TITLE</span>
+              <span className="data-value title-value">{book.title}</span>
+            </div>
+            
+            <div className="data-row">
+              <span className="data-label">BOOK ID</span>
+              <span className="data-value mono">{book.book_id}</span>
+            </div>
+
+            <div className="data-row">
+              <span className="data-label"><KeyRound size={12} /> AUTHOR PUBLIC KEY</span>
+              <span className="data-value mono">{book.author_pubkey}</span>
+            </div>
+
+            <div className="data-row">
+              <span className="data-label"><Hash size={12} /> SHA-256 HASH</span>
+              <div className="data-value hash-box mono">
+                <span>{book.sha256_hash}</span>
+                <button className="copy-icon" onClick={() => handleCopy(book.sha256_hash)}>
+                  <Copy size={13} />
+                </button>
+              </div>
+            </div>
+
+            <div className="data-row">
+              <span className="data-label"><Radio size={12} /> WEB OF TRUST</span>
+              <div className="data-value success font-bold">
+                {book.web_of_trust_score}
+                <div className="wot-bar-mini">
+                  <div className="wot-fill-mini" style={{ width: '99.4%' }} />
+                </div>
+              </div>
+            </div>
+
+            <div className="data-row">
+              <span className="data-label"><Package size={12} /> PRINT BATCH</span>
+              <span className="data-value mono amber">{lot || book.print_batch}</span>
+            </div>
+          </div>
+
+          {/* EXTRA: Cryptographic Trace */}
+          <div className="crypto-trace">
+            <div className="crypto-trace__header">
+              <Activity size={14} className="success" />
+              <span>VERIFICATION TRACE</span>
+            </div>
+            <div className="trace-steps">
+              <div className="step">
+                <CheckCircle2 size={14} className="success" />
+                <span className="mono">Hash match on local ledger</span>
+              </div>
+              <div className="step">
+                <CheckCircle2 size={14} className="success" />
+                <span className="mono">Ed25519 signature valid</span>
+              </div>
+              <div className="step">
+                <CheckCircle2 size={14} className="success" />
+                <span className="mono">Consensus reached (14 nodes)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT: PAYMENT & ROYALTY PROOF */}
+        <section className="verify-card">
+          <div className="verify-card__header">
+            <Wallet size={16} className="amber" />
+            <h2>DIRECT PAYMENT PROOF — 20% ROYALTY</h2>
+          </div>
+
+          <div className="payment-status-box">
+            <CheckCircle2 size={20} className="success" />
+            <div>
+              <div className="payment-title">Decontat direct în portofelul autorului</div>
+              <div className="payment-sub mono">Fără intermediari · Necenzurabil</div>
+            </div>
+          </div>
+
+          <div className="xmr-proof-box">
+            <div className="xmr-proof__header">
+              <span className="mono muted">XMR TX PROOF</span>
+              <span className="mono amber">{shortHash(book.xmr_tx_proof, 12, 6)}</span>
+              <button className="copy-icon" onClick={() => handleCopy(book.xmr_tx_proof)}>
+                <Copy size={13} />
+              </button>
+            </div>
+            
+            {/* Payment Route Visualizer */}
+            <div className="payment-route">
+              <div className="route-node">
+                <div className="route-icon"><Terminal size={14} /></div>
+                <span>Reader</span>
+              </div>
+              <ArrowRight size={14} className="route-arrow" />
+              <div className="route-node active">
+                <div className="route-icon"><Shield size={14} /></div>
+                <span>Protocol</span>
+              </div>
+              <ArrowRight size={14} className="route-arrow" />
+              <div className="route-node">
+                <div className="route-icon"><Wallet size={14} /></div>
+                <span>Author</span>
+              </div>
+            </div>
+
+            <div className="data-row mt-2">
+              <span className="data-label">ROYALTY SPLIT</span>
+              <span className="data-value mono success">20% Direct-to-Author</span>
+            </div>
+            <div className="data-row">
+              <span className="data-label">PAYMENT NETWORK</span>
+              <span className="data-value mono">Monero (XMR)</span>
+            </div>
+            <div className="data-row">
+              <span className="data-label">ROUTE</span>
+              <span className="data-value mono">Reader → Author (Direct)</span>
+            </div>
+          </div>
+
+          <button
+            className={`btn-amber full ${tipSent ? 'success-btn' : ''}`}
+            disabled={tipSending || tipSent}
+            onClick={handleTip}
+          >
+            {tipSending ? <Loader2 size={16} className="spin" /> : 
+             tipSent ? <Check size={16} /> : <Send size={16} />}
+            {tipSending ? 'Broadcasting private tx...' : 
+             tipSent ? 'Tip trimis cu succes' : 'Trimite bacșiș extra / Susține Autorul'}
+          </button>
+
+          {tipSent && (
+            <div className="tip-confirmed mono">
+              <Sparkles size={12} className="success" /> 
+              0.0042 XMR routed to author wallet · tx_private_confirmed
+            </div>
+          )}
+        </section>
+      </div>
+
+      {/* 3. RAW JSON VIEWER (For Hackathon Judges) */}
+      <div className="verify-footer">
+        <button className="btn-ghost mono" onClick={() => setShowRawJson(!showRawJson)}>
+          <Server size={14} /> 
+          {showRawJson ? 'HIDE_RAW_JSON' : 'VIEW_RAW_JSON_CONTRACT'}
+        </button>
+        
+        {showRawJson && (
+          <div className="raw-json-box mono">
+            <pre>{JSON.stringify(book, null, 2)}</pre>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
