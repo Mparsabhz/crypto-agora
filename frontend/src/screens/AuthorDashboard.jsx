@@ -170,14 +170,15 @@ Network: CryptoAgora-Mainnet
     setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Broadcasting to P2P mesh initiated...', type: 'warn' }]);
     
     try {
-      // 1. Trimitem cererea POST reală către serverul de Node.js
+      // Trimitem manuscrisul și metadatele către serverul de Node.js
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('author_id', `${title} (${pubkey})`);
+      formData.append('manuscript_hash', hash);
+
       const response = await fetch('http://localhost:3000/register-book', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          author_id: `${title} (${pubkey})`,
-          manuscript_hash: hash
-        })
+        body: formData
       });
 
       const data = await response.json();
@@ -486,7 +487,7 @@ Network: CryptoAgora-Mainnet
                   </div>
                 </div>
               ) : (
-                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !title || !pubkey || !signature} onClick={handleRegister}>
+                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !(file instanceof File) || !title || !pubkey || !signature} onClick={handleRegister}>
                   <Send size={16} /> Broadcast to Protocol Network
                 </button>
               )}
