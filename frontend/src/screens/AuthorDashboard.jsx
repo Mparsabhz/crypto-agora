@@ -6,7 +6,8 @@ import {
   PenTool, Sliders, Eye, EyeOff, Box, Database, Network,
   Lock, Unlock, AlertCircle, FileCode, Check, HelpCircle, Code2
 } from 'lucide-react';
-import { sha256FromFile, copyToClipboard, shortHash } from '../utils/crypto';
+import { copyToClipboard, shortHash } from '../utils/crypto';
+import { analyzeManuscript } from '../utils/manuscriptVerifier';
 import { useToast } from '../components/Toast';
 import './AuthorDashboard.css';
 
@@ -33,6 +34,8 @@ export default function AuthorDashboard({ books, onRegister, demoSignal }) {
   const [privkey, setPrivkey] = useState('');
   const [showPrivkey, setShowPrivkey] = useState(false);
   const [hash, setHash] = useState('');
+  const [analysis, setAnalysis] = useState(null);
+  const [analysisError, setAnalysisError] = useState('');
   
   // --- STATE: CRYPTO & ECONOMIC ---
   const [signature, setSignature] = useState('');
@@ -76,68 +79,66 @@ export default function AuthorDashboard({ books, onRegister, demoSignal }) {
   // Efect pentru Demo Autofill
   useEffect(() => {
     if (!demoSignal) return;
-    (async () => {
-      setHashing(true);
-      setTimeout(async () => {
-        const demoText = 'Manifestul Libertății — demo manuscript for CryptoAgora protocol';
-        const buf = new TextEncoder().encode(demoText);
-        const hashBuf = await crypto.subtle.digest('SHA-256', buf);
-        const hex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
-        
-        setTitle('Manifestul Libertății');
-        setPubkey('0x8F9B...3E2A');
-        setPrivkey('ed25519-priv-a1b2c3d4e5f6g7h8i9j0');
-        setHash(hex);
-        setSignature(`-----BEGIN CRYPTOAGORA SIGNATURE-----\nVersion: 1.0\nAlgorithm: Ed25519\nKey-ID: 0x8F9B...3E2A\nSHA-256: ${hex}\nSignature: MEUCIQDx... [DEMO_SIGNATURE]\nTimestamp: ${new Date().toISOString()}\n-----END CRYPTOAGORA SIGNATURE-----`);
-        setFile({ name: 'manifestul-libertatii.pdf', size: 482331 });
-        
-        // Generare chunks demo
-        setChunks(Array.from({ length: 12 }).map((_, i) => ({ id: i, hash: Math.random().toString(16).substring(2, 10), size: '256KB', status: 'ready' })));
-        
-        setHashing(false);
-        toast('Demo autofill completed. All fields populated.', 'info');
-      }, 1200);
-    })();
+    const demoText = 'Manifestul Libertatii - demo manuscript for CryptoAgora protocol';
+    setTitle('Manifestul Libertatii');
+    setPubkey('0x8f9b000000000000000000000000000000003e2a');
+    setPrivkey('ed25519-priv-a1b2c3d4e5f6g7h8i9j0');
+    setSignature('');
+    setFile(new File([demoText], 'manifestul-libertatii.txt', { type: 'text/plain' }));
+    setAnalysis(null);
+    setHash('');
+    setChunks([]);
+    toast('Demo manuscript loaded for real local analysis.', 'info');
   }, [demoSignal, toast]);
 
-  // Procesare fișier real
-  const processFile = async (f) => {
+  const processFile = (f) => {
     setFile(f);
-    setHashing(true);
     setSignature('');
+    setAnalysis(null);
+    setAnalysisError('');
+    setHash('');
     setChunks([]);
-    
-    try {
-      // 1. Calcul Hash Real
-      const h = await sha256FromFile(f);
-      setHash(h);
-      
-      // 2. Simulare Chunking IPFS
-      const numChunks = Math.floor(Math.random() * 8) + 8; // 8-16 chunks
-      const mockChunks = Array.from({ length: numChunks }).map((_, i) => ({
-        id: i,
-        hash: Math.random().toString(16).substring(2, 10) + Math.random().toString(16).substring(2, 10),
-        size: '256KB',
-        status: 'ready'
-      }));
-      
-      setTimeout(() => {
-        setChunks(mockChunks);
-        setHashing(false);
-        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: `File chunked into ${numChunks} IPFS shards.`, type: 'success' }]);
-        toast('File processed and chunked successfully', 'success');
-      }, 1000);
-      
-    } catch {
-      toast('Failed to process file', 'error');
-      setHashing(false);
-    }
   };
+
+  useEffect(() => {
+    if (!file) return undefined;
+    let cancelled = false;
+    setHashing(true);
+    setAnalysisError('');
+    setSignature('');
+
+    analyzeManuscript(file, pubkey, books)
+      .then((result) => {
+        if (cancelled) return;
+        setAnalysis(result);
+        setHash(result.sha256Hash);
+        setChunks(result.chunks);
+        setLogs(prev => [...prev, {
+          id: Date.now(),
+          time: new Date().toLocaleTimeString(),
+          text: `Manuscript analyzed: ${result.chunkCount} verified 64KB chunks.`,
+          type: result.publishable ? 'success' : 'warn',
+        }]);
+        toast(result.publishable ? 'Manuscript analyzed successfully' : 'Manuscript failed validation', result.publishable ? 'success' : 'error');
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setAnalysisError(error.message || 'Failed to analyze manuscript');
+        setHash('');
+        setChunks([]);
+        toast('Failed to analyze manuscript', 'error');
+      })
+      .finally(() => {
+        if (!cancelled) setHashing(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [file, pubkey, books, toast]);
 
   // Generare Chei
   const generateKeypair = () => {
     const randomHex = Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
-    setPubkey(`0x${randomHex.slice(0, 6)}...${randomHex.slice(-4)}`);
+    setPubkey(`0x${randomHex}`);
     setPrivkey(`ed25519-priv-${randomHex}`);
     setShowPrivkey(false);
     toast('Ed25519 Keypair generated securely in browser', 'success');
@@ -164,7 +165,7 @@ Network: CryptoAgora-Mainnet
 
    // Înregistrare în Protocol (cu P2P Simulator + Backend Real)
   const handleRegister = async () => {
-    if (!file || !title || !pubkey || !hash || !signature) return;
+     if (!file || !title || !pubkey || !hash || !signature || !analysis?.publishable) return;
     setRegistering(true);
     setP2pStep(1);
     setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Broadcasting to P2P mesh initiated...', type: 'warn' }]);
@@ -208,7 +209,9 @@ Network: CryptoAgora-Mainnet
           title: title.trim(),
           author_pubkey: pubkey.trim(),
           sha256_hash: hash,
-          web_of_trust_score: '99.9% (Verified Author)',
+          merkle_root: analysis.merkleRoot,
+          chunk_count: analysis.chunkCount,
+          web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
           print_batch: '—',
           royalty_split: `${royalty}% Direct-to-Author`,
           xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
@@ -226,6 +229,8 @@ Network: CryptoAgora-Mainnet
         setHash('');
         setSignature('');
         setChunks([]);
+        setAnalysis(null);
+        setAnalysisError('');
         toast('Cartea a fost minată oficial în blockchain!', 'success');
       }, 4500);
 
@@ -251,38 +256,6 @@ Network: CryptoAgora-Mainnet
           <div className="head-badge mono amber"><Lock size={12} /> E2E_ENCRYPTED</div>
         </div>
       </header>
-
-      {/* EXTENDED STATS BAR */}
-      <div className="stats-row">
-        <div className="stat-card">
-          <div className="stat-icon"><BookOpen size={18} /></div>
-          <div className="stat-info">
-            <span className="stat-label">TOTAL WORKS</span>
-            <span className="stat-value">{books.length} <span className="stat-sub">registered</span></span>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon amber"><ShieldCheck size={18} /></div>
-          <div className="stat-info">
-            <span className="stat-label">AVG TRUST SCORE</span>
-            <span className="stat-value success">99.4%</span>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon"><Wallet size={18} /></div>
-          <div className="stat-info">
-            <span className="stat-label">EST. ROYALTIES</span>
-            <span className="stat-value">0.482 XMR</span>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon"><Database size={18} /></div>
-          <div className="stat-info">
-            <span className="stat-label">IPFS STORAGE</span>
-            <span className="stat-value">14.2 GB <span className="stat-sub">pinned</span></span>
-          </div>
-        </div>
-      </div>
 
       <div className="dash-grid">
         {/* COL 1: INTAKE FORM (CU TAB-URI) */}
@@ -431,7 +404,11 @@ Network: CryptoAgora-Mainnet
             </div>
           )}
 
-          {hash && !hashing && (
+          {analysisError && !hashing && (
+            <div className="proof-error"><AlertCircle size={16} /> {analysisError}</div>
+          )}
+
+          {analysis && !hashing && (
             <div className="proof-content fade-up">
               
               {/* HASH BOX */}
@@ -441,6 +418,46 @@ Network: CryptoAgora-Mainnet
                   <button className="btn-ghost-xs" onClick={() => { copyToClipboard(hash); toast('Hash copied', 'success'); }}><Copy size={12} /> COPY</button>
                 </div>
                 <div className="hash-value mono">{hash}</div>
+              </div>
+
+              <div className="audit-box">
+                <div className="audit-header">
+                  <span className="mono muted flex-gap"><ShieldCheck size={12} /> AUDIT CHECKLIST</span>
+                  <span className="mono success text-xs">LOCAL VERIFIED</span>
+                </div>
+                <div className="audit-list">
+                  <div className="audit-row">
+                    <span><FileCode size={13} /> Binary Header / Magic Bytes</span>
+                    <strong className={analysis.formatValid ? 'success' : 'danger'}>{analysis.formatDetail}</strong>
+                  </div>
+                  <div className="audit-row">
+                    <span><Activity size={13} /> Shannon Entropy</span>
+                    <strong className={analysis.entropyValid ? 'success' : 'danger'}>
+                      {analysis.entropy.toFixed(2)} bits/byte — {analysis.entropyValid ? 'OPTIMAL' : 'LOW DENSITY'}
+                    </strong>
+                  </div>
+                  <div className="audit-row">
+                    <span><Network size={13} /> P2P Merkle Root</span>
+                    <span className="audit-value">
+                      <strong className="mono success">{analysis.chunkCount} chunks · {shortHash(analysis.merkleRoot, 10, 6)}</strong>
+                      <button className="btn-ghost-xs" onClick={() => { copyToClipboard(analysis.merkleRoot); toast('Merkle root copied', 'success'); }}><Copy size={11} /> COPY</button>
+                    </span>
+                  </div>
+                  <div className="audit-row">
+                    <span><Fingerprint size={13} /> Ledger Uniqueness</span>
+                    <strong className={analysis.isDuplicate ? 'danger' : 'success'}>
+                      {analysis.isDuplicate ? 'DUPLICATE DETECTED' : 'UNIQUE ORIGINAL'}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="trust-box">
+                <div className="trust-header">
+                  <span className="mono muted">DYNAMIC TRUST SCORE</span>
+                  <strong className={analysis.trustScore >= 70 ? 'success' : 'danger'}>{analysis.trustScore.toFixed(1)}%</strong>
+                </div>
+                <div className="trust-track"><span style={{ width: `${analysis.trustScore}%` }} /></div>
               </div>
 
               {/* IPFS CHUNKS VISUALIZER */}
@@ -476,7 +493,7 @@ Network: CryptoAgora-Mainnet
                   <div className="p2p-steps">
                     <div className="p2p-step complete"><CheckCircle2 size={14} className="success"/> 1. Hashing & Signing PDF... [OK]</div>
                     <div className={`p2p-step ${p2pStep >= 2 ? 'complete' : 'active'}`}>
-                      {p2pStep >= 2 ? <CheckCircle2 size={14} className="success"/> : <Loader2 size={14} className="spin"/>} 2. Chunking into 256KB shards...
+                      {p2pStep >= 2 ? <CheckCircle2 size={14} className="success"/> : <Loader2 size={14} className="spin"/>} 2. Chunking into 64KB shards...
                     </div>
                     <div className={`p2p-step ${p2pStep >= 3 ? 'complete' : p2pStep === 2 ? 'active' : 'muted'}`}>
                       {p2pStep >= 3 ? <CheckCircle2 size={14} className="success"/> : <Loader2 size={14} className="spin"/>} 3. Pinning to IPFS & Mesh Nodes (14 peers)...
@@ -487,8 +504,8 @@ Network: CryptoAgora-Mainnet
                   </div>
                 </div>
               ) : (
-                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !(file instanceof File) || !title || !pubkey || !signature} onClick={handleRegister}>
-                  <Send size={16} /> Broadcast to Protocol Network
+                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !(file instanceof File) || !title || !pubkey || !signature || !analysis?.publishable} onClick={handleRegister}>
+                  <Send size={16} /> Register &amp; Anchor Work
                 </button>
               )}
             </div>
