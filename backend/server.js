@@ -220,6 +220,29 @@ function profileIdForEmail(email) {
     return crypto.createHash('sha256').update(email).digest('hex').slice(0, 24);
 }
 
+function ensureAnonymousProfiles() {
+    let changed = false;
+    db.prepare('SELECT account_id, public_key FROM anonymous_accounts').all().forEach((account) => {
+        const ownerEmail = `anonymous:${account.account_id}`;
+        if (profiles[ownerEmail]) return;
+        profiles[ownerEmail] = {
+            owner_email: ownerEmail,
+            profile_type: 'author',
+            display_name: `Anonymous author ${account.account_id.slice(0, 8)}`,
+            bio: 'Autor anonim care folosește CryptoAgora fără un cont Google.',
+            website: '',
+            genres: '',
+            public_key: account.public_key,
+            payout_address: '',
+            updated_at: new Date().toISOString()
+        };
+        changed = true;
+    });
+    if (changed) saveProfiles(profiles);
+}
+
+ensureAnonymousProfiles();
+
 function findProfileById(profileId) {
     return Object.entries(profiles)
         .find(([ownerEmail]) => profileIdForEmail(ownerEmail) === profileId);
@@ -304,6 +327,18 @@ app.post('/auth/anonymous', (req, res) => {
         crypto.createHash('sha256').update(credential).digest('hex'),
         new Date().toISOString()
     );
+    profiles[`anonymous:${accountId}`] = {
+        owner_email: `anonymous:${accountId}`,
+        profile_type: 'author',
+        display_name: `Anonymous author ${accountId.slice(0, 8)}`,
+        bio: 'Autor anonim care folosește CryptoAgora fără un cont Google.',
+        website: '',
+        genres: '',
+        public_key: publicKey,
+        payout_address: '',
+        updated_at: new Date().toISOString()
+    };
+    saveProfiles(profiles);
 
     return res.status(201).json({
         account_id: accountId,
