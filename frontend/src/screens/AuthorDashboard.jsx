@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   UploadCloud, FileText, Fingerprint, ShieldCheck, Send,
   Loader2, BookOpen, Cpu, Key, CheckCircle2, ChevronRight,
@@ -170,11 +170,11 @@ Network: CryptoAgora-Mainnet
     setRegistering(true);
     setP2pStep(1);
     setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Broadcasting to P2P mesh initiated...', type: 'warn' }]);
-    
+
     setTimeout(() => { setP2pStep(2); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Chunking verified. Pinning to IPFS...', type: 'info' }]); }, 1200);
     setTimeout(() => { setP2pStep(3); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); }, 2400);
     setTimeout(() => { setP2pStep(4); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Consensus reached. Block mined!', type: 'success' }]); }, 3600);
-    
+
     setTimeout(() => {
       const newBook = {
         book_id: `ca_${String(books.length + 1).padStart(2, '0')}`,
@@ -184,50 +184,12 @@ Network: CryptoAgora-Mainnet
         merkle_root: analysis.merkleRoot,
         chunk_count: analysis.chunkCount,
         web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
-        print_batch: 'â€”',
+        print_batch: '—',
         royalty_split: `${royalty}% Direct-to-Author`,
         xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
       };
-      
-      setTimeout(() => { 
-        setP2pStep(3); 
-        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); 
-      }, 2400);
-      
-      setTimeout(() => { 
-        setP2pStep(4); 
-        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: `Consensus reached. Block #${data.block.index} mined! Hash: ${data.block.hash.slice(0, 10)}...`, type: 'success' }]); 
-      }, 3600);
-      
-      setTimeout(() => {
-        const newBook = {
-          ...data.data,
-          merkle_root: analysis.merkleRoot,
-          chunk_count: analysis.chunkCount,
-          web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
-          print_batch: data.data.print_batch || '—',
-          royalty_split: `${royalty}% Direct-to-Author`,
-          xmr_tx_proof: data.data.xmr_tx_proof || `tx_private_${Date.now().toString(16)}`
-        };
 
-        onRegister(newBook);
-        setRegistering(false);
-        setP2pStep(0);
-        setFile(null);
-        setTitle('');
-        setPubkey('');
-        setPrivkey('');
-        setHash('');
-        setSignature('');
-        setChunks([]);
-        setAnalysis(null);
-        setAnalysisError('');
-        toast('Cartea a fost minată oficial în blockchain!', 'success');
-      }, 4500);
-
-    } catch (err) {
-      console.error("Eroare:", err);
-      toast('Nu s-a putut conecta la serverul de Node.js sau eroare de minare!', 'error');
+      onRegister(newBook);
       setRegistering(false);
       setP2pStep(0);
       setFile(null);
@@ -239,6 +201,7 @@ Network: CryptoAgora-Mainnet
       setChunks([]);
       setAnalysis(null);
       setAnalysisError('');
+      toast('Cartea a fost ancorată oficial în protocol!', 'success');
     }, 4500);
   };
 
