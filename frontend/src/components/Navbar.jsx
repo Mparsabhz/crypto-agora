@@ -1,4 +1,4 @@
-import { BookOpen, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
+import { BookOpen, ChevronDown, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import './Navbar.css';
 
@@ -8,8 +8,9 @@ const MODULES = [
   { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
 ];
 
-export default function Navbar({ active, onChange, onDemoFill }) {
+export default function Navbar({ active, onChange, user, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [contactsOpen, setContactsOpen] = useState(false);
 
   useEffect(() => {
     const closeOnEscape = (event) => {
@@ -68,9 +69,17 @@ export default function Navbar({ active, onChange, onDemoFill }) {
             ))}
           </div>
         </div>
+        <div className="navbar__session">
+          <span className="navbar__role-badge">{user.role === 'dev' ? 'DEV ACCESS' : 'CLIENT ACCESS'}</span>
+          <button className="navbar__logout" type="button" onClick={onLogout}>Sign Out</button>
+        </div>
         <div className="navbar__drawer-footer">
-          <span className="navbar__drawer-label">TEAM // CONTACT</span>
-          <div className="navbar__contact">
+          <button className={`navbar__contacts-toggle ${contactsOpen ? 'is-open' : ''}`} type="button" onClick={() => setContactsOpen((open) => !open)} aria-expanded={contactsOpen}>
+            <span className="navbar__drawer-label">TEAM // CONTACT</span>
+            <ChevronDown size={15} />
+          </button>
+          {contactsOpen && <div className="navbar__contacts-list">
+            <div className="navbar__contact">
             <span>Alex</span>
             <div className="navbar__contact-links">
               <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/alexandru.j1/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Alex on Instagram">
@@ -81,7 +90,7 @@ export default function Navbar({ active, onChange, onDemoFill }) {
               </a>
             </div>
           </div>
-          <div className="navbar__contact">
+            <div className="navbar__contact">
             <span>Parsabhz</span>
             <div className="navbar__contact-links">
               <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/pars.bhz4/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on Instagram">
@@ -92,7 +101,7 @@ export default function Navbar({ active, onChange, onDemoFill }) {
               </a>
             </div>
           </div>
-          <div className="navbar__contact">
+            <div className="navbar__contact">
             <span>Dani Puscaș</span>
             <div className="navbar__contact-links">
               <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/puscasdani07/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on Instagram">
@@ -103,6 +112,7 @@ export default function Navbar({ active, onChange, onDemoFill }) {
               </a>
             </div>
           </div>
+          </div>}
         </div>
       </aside>
     </nav>
