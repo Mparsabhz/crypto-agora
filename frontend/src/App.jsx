@@ -28,7 +28,7 @@ function derivePublicKey(email) {
   return `0xCA${digest.slice(0, 6).toUpperCase()}...${digest.slice(-4).toUpperCase()}`;
 }
 
-function LoginPage({ onLogin, onLoginError }) {
+function LoginPage({ onLogin, onLoginError, onAnonymousLogin }) {
   const [role, setRole] = useState('client');
 
   return (
@@ -37,7 +37,7 @@ function LoginPage({ onLogin, onLoginError }) {
         <span className="home-kicker">CRYPTOAGORA IDENTITY</span>
         <div className="auth-required__icon"><ShieldCheck size={30} /></div>
         <h1>Welcome to CryptoAgora</h1>
-        <p>Conectează-te cu Google pentru a accesa platforma și a publica sau semna cărți.</p>
+        <p>Conectează-te cu Google sau creează un cont anonim pentru a publica și semna cărți.</p>
       <div className="auth-role-toggle">
         <button type="button" className={role === 'dev' ? 'is-selected' : ''} onClick={() => setRole('dev')}>Login as Dev</button>
         <button type="button" className={role === 'client' ? 'is-selected' : ''} onClick={() => setRole('client')}>Login as Client</button>
@@ -53,6 +53,10 @@ function LoginPage({ onLogin, onLoginError }) {
           onError={onLoginError}
         />
       </div>
+      <button type="button" className="btn-ghost full" onClick={onAnonymousLogin}>
+        Creează cont anonim
+      </button>
+      <p className="mono muted">Fără email. Dacă pierzi sesiunea anonimă, contul nu poate fi recuperat.</p>
       </section>
     </main>
   );
@@ -199,6 +203,42 @@ function Shell() {
     toast('Google sign-in was cancelled or failed.', 'error');
   };
 
+  const handleAnonymousLogin = async () => {
+    try {
+      const keyPair = await crypto.subtle.generateKey(
+        { name: 'ECDSA', namedCurve: 'P-256' },
+        true,
+        ['sign', 'verify']
+      );
+      const publicKey = JSON.stringify(await crypto.subtle.exportKey('jwk', keyPair.publicKey));
+      const privateKey = JSON.stringify(await crypto.subtle.exportKey('jwk', keyPair.privateKey));
+      const response = await fetch(`${API_BASE}/auth/anonymous`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ public_key: publicKey })
+      });
+      const data = await response.json();
+      if (!response.ok || !data.credential) {
+        throw new Error(data.error || 'Contul anonim nu a putut fi creat.');
+      }
+
+      const nextUser = {
+        name: 'Anonymous contributor',
+        email: `anonymous:${data.account_id}`,
+        publicKey: data.public_key,
+        credential: data.credential,
+        role: 'client',
+        identityType: 'anonymous',
+        privateKey
+      };
+      setUser(nextUser);
+      localStorage.setItem('cryptoagora_user', JSON.stringify(nextUser));
+      toast('Cont anonim creat. Salvează cheia privată pentru demo.', 'success');
+    } catch (error) {
+      toast(error.message || 'Contul anonim nu a putut fi creat.', 'error');
+    }
+  };
+
   const handleAiTrustResult = (result) => {
     setAiTrustScore(result);
     localStorage.setItem('cryptoagora_ai_trust', JSON.stringify(result));
@@ -213,7 +253,13 @@ function Shell() {
   }
 
   if (!user) {
-    return <LoginPage onLogin={handleGoogleLogin} onLoginError={handleGoogleLoginError} />;
+    return (
+      <LoginPage
+        onLogin={handleGoogleLogin}
+        onLoginError={handleGoogleLoginError}
+        onAnonymousLogin={handleAnonymousLogin}
+      />
+    );
   }
 
   return (
@@ -234,7 +280,10 @@ function Shell() {
         {screen === 'reader' && <ReaderVerification books={allBooks} />}
         {screen === 'explorer' && <NetworkExplorer />}
         {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
-        {screen === 'profile' && <Profile authToken={user.credential} user={user} />}
+        {screen === 'profile' && <Profile authToken={user.credential} user={user} onUserImport={(nextUser) => {
+          setUser(nextUser);
+          localStorage.setItem('cryptoagora_user', JSON.stringify(nextUser));
+        }} />}
         {screen === 'trust' && <TrustDashboard authToken={user.credential} />}
         {screen === 'authors' && <ProfileDirectory initialType="author" />}
         {screen === 'publishers' && <ProfileDirectory initialType="publisher" />}

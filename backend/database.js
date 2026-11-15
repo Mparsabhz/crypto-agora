@@ -68,6 +68,12 @@ db.exec(`
         tx_id TEXT NOT NULL,
         created_at TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS anonymous_accounts (
+        account_id TEXT PRIMARY KEY,
+        public_key TEXT NOT NULL UNIQUE,
+        token_hash TEXT NOT NULL UNIQUE,
+        created_at TEXT NOT NULL
+    );
 `);
 
 const paymentColumns = db.pragma('table_info(payments)').map((column) => column.name);

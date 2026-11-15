@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Building2, CheckCircle2, Globe, KeyRound, UserRound } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Building2, CheckCircle2, Download, Globe, KeyRound, Upload, UserRound } from 'lucide-react';
 import { useToast } from '../components/Toast';
 import './Profile.css';
 
@@ -20,11 +20,12 @@ const emptyProfile = {
   specialties: '',
 };
 
-export default function Profile({ authToken, user }) {
+export default function Profile({ authToken, user, onUserImport }) {
   const toast = useToast();
   const [profile, setProfile] = useState({ ...emptyProfile, public_key: user.publicKey || '' });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const identityFile = useRef(null);
 
   useEffect(() => {
     let active = true;
@@ -89,6 +90,61 @@ export default function Profile({ authToken, user }) {
     }
   };
 
+  const exportAnonymousIdentity = () => {
+    const identity = {
+      format: 'cryptoagora-anonymous-identity-v1',
+      account_id: user.email.replace('anonymous:', ''),
+      public_key: user.publicKey,
+      private_key: user.privateKey,
+      credential: user.credential,
+    };
+    const blob = new Blob([JSON.stringify(identity, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `cryptoagora-anonymous-${identity.account_id}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    toast('Identitatea anonimă a fost exportată. Păstrează fișierul offline.', 'success');
+  };
+
+  const importAnonymousIdentity = async (event) => {
+    const [file] = event.target.files || [];
+    event.target.value = '';
+    if (!file) return;
+
+    try {
+      const identity = JSON.parse(await file.text());
+      if (
+        identity.format !== 'cryptoagora-anonymous-identity-v1'
+        || typeof identity.public_key !== 'string'
+        || typeof identity.private_key !== 'string'
+        || typeof identity.credential !== 'string'
+        || !identity.credential.startsWith('anon_')
+      ) {
+        throw new Error('Fișierul de identitate anonimă este invalid.');
+      }
+
+      const response = await fetch(`${API_BASE}/my-books`, {
+        headers: { Authorization: `Bearer ${identity.credential}` },
+      });
+      if (!response.ok) throw new Error('Sesiunea anonimă din fișier nu mai este valabilă.');
+
+      onUserImport({
+        name: 'Anonymous contributor',
+        email: `anonymous:${identity.account_id}`,
+        publicKey: identity.public_key,
+        privateKey: identity.private_key,
+        credential: identity.credential,
+        identityType: 'anonymous',
+        role: 'client',
+      });
+      toast('Identitatea anonimă a fost importată.', 'success');
+    } catch (error) {
+      toast(error.message || 'Identitatea anonimă nu a putut fi importată.', 'error');
+    }
+  };
+
   if (loading) {
     return <div className="profile-page"><p className="dim">Se încarcă profilul…</p></div>;
   }
@@ -99,8 +155,26 @@ export default function Profile({ authToken, user }) {
     <div className="profile-page fade-up">
       <header className="page-head">
         <h1>Identity Profile</h1>
-        <p className="dim">Profilul tău este salvat pe server și este legat de contul Google.</p>
+        <p className="dim">Profilul tău este salvat pe server și este legat de identitatea activă.</p>
       </header>
+
+      {user.identityType === 'anonymous' && (
+        <section className="profile-card card">
+          <div className="profile-account">
+            <KeyRound size={24} className="success" />
+            <div>
+              <strong>Identitate anonimă</strong>
+              <span className="mono">{user.email.replace('anonymous:', '')}</span>
+            </div>
+          </div>
+          <p className="dim">Exportă fișierul și păstrează-l offline. Conține credential-ul care îți permite accesul la cont.</p>
+          <div className="profile-grid">
+            <button type="button" className="btn-ghost" onClick={exportAnonymousIdentity}><Download size={15} /> Exportă identitatea</button>
+            <button type="button" className="btn-ghost" onClick={() => identityFile.current?.click()}><Upload size={15} /> Importă identitatea</button>
+          </div>
+          <input ref={identityFile} type="file" accept="application/json" hidden onChange={importAnonymousIdentity} />
+        </section>
+      )}
 
       <form className="profile-card card" onSubmit={save}>
         <div className="profile-type-toggle">

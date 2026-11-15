@@ -225,14 +225,35 @@ function findProfileById(profileId) {
         .find(([ownerEmail]) => profileIdForEmail(ownerEmail) === profileId);
 }
 
-async function authenticateGoogle(req, res, next) {
+function anonymousAccountForToken(token) {
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    return db.prepare(
+        'SELECT account_id, public_key FROM anonymous_accounts WHERE token_hash = ?'
+    ).get(tokenHash);
+}
+
+async function authenticateUser(req, res, next) {
     const authorization = req.get('authorization') || '';
     const token = authorization.startsWith('Bearer ')
         ? authorization.slice('Bearer '.length)
         : '';
 
     if (!token) {
-        return res.status(401).json({ error: 'Google authentication required.' });
+        return res.status(401).json({ error: 'Authentication required.' });
+    }
+
+    if (token.startsWith('anon_')) {
+        const account = anonymousAccountForToken(token);
+        if (!account) {
+            return res.status(401).json({ error: 'Invalid anonymous account token.' });
+        }
+        req.user = {
+            email: `anonymous:${account.account_id}`,
+            name: 'Anonymous contributor',
+            identity_type: 'anonymous',
+            public_key: account.public_key
+        };
+        return next();
     }
 
     try {
@@ -255,6 +276,42 @@ async function authenticateGoogle(req, res, next) {
         return res.status(401).json({ error: 'Invalid Google authentication token.' });
     }
 }
+
+app.post('/auth/anonymous', (req, res) => {
+    const publicKey = typeof req.body?.public_key === 'string'
+        ? req.body.public_key.trim()
+        : '';
+    if (publicKey.length < 32 || publicKey.length > 2000) {
+        return res.status(400).json({ error: 'Cheia publică anonimă este invalidă.' });
+    }
+
+    const existing = db.prepare(
+        'SELECT account_id, public_key FROM anonymous_accounts WHERE public_key = ?'
+    ).get(publicKey);
+    if (existing) {
+        return res.status(409).json({
+            error: 'Acest cont anonim există deja. Folosește cheia de sesiune salvată local.'
+        });
+    }
+
+    const accountId = crypto.createHash('sha256').update(publicKey).digest('hex').slice(0, 24);
+    const credential = `anon_${crypto.randomBytes(32).toString('hex')}`;
+    db.prepare(
+        'INSERT INTO anonymous_accounts (account_id, public_key, token_hash, created_at) VALUES (?, ?, ?, ?)'
+    ).run(
+        accountId,
+        publicKey,
+        crypto.createHash('sha256').update(credential).digest('hex'),
+        new Date().toISOString()
+    );
+
+    return res.status(201).json({
+        account_id: accountId,
+        public_key: publicKey,
+        credential,
+        returning_account: false
+    });
+});
 
 // --- ENDPOINT-URI API ---
 
@@ -298,7 +355,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // 1. Salvează manuscrisul și îl înregistrează în blockchain
-app.post('/register-book', authenticateGoogle, upload.single('file'), (req, res) => {
+app.post('/register-book', authenticateUser, upload.single('file'), (req, res) => {
     const { author_id, manuscript_hash, title, author_pubkey, signature } = req.body;
     
     if (!author_id || !manuscript_hash || !title || !author_pubkey || !req.file) {
@@ -390,7 +447,7 @@ app.get('/books', (req, res) => {
     });
 });
 
-app.get('/my-books', authenticateGoogle, (req, res) => {
+app.get('/my-books', authenticateUser, (req, res) => {
     const result = Object.values(books)
         .filter((book) => book.owner_email === req.user.email);
     res.json({ count: result.length, books: result });
@@ -483,7 +540,7 @@ app.get('/trust/profile/:profileId', (req, res) => {
     });
 });
 
-app.post('/trust/attestations', authenticateGoogle, (req, res) => {
+app.post('/trust/attestations', authenticateUser, (req, res) => {
     const targetProfileId = String(req.body?.target_profile_id || '').trim();
     const reason = String(req.body?.reason || '').trim();
     const fromProfileId = profileIdForEmail(req.user.email);
@@ -519,7 +576,7 @@ app.post('/trust/attestations', authenticateGoogle, (req, res) => {
     return res.status(201).json({ attestation });
 });
 
-app.post('/trust/reports', authenticateGoogle, (req, res) => {
+app.post('/trust/reports', authenticateUser, (req, res) => {
     const subjectProfileId = String(req.body?.subject_profile_id || '').trim();
     const category = String(req.body?.category || 'suspicious_activity').trim();
     const reason = String(req.body?.reason || '').trim();
@@ -644,7 +701,7 @@ app.get('/trust/investigate/:profileId', async (req, res) => {
     });
 });
 
-app.get('/profile', authenticateGoogle, (req, res) => {
+app.get('/profile', authenticateUser, (req, res) => {
     return res.json({
         profile: profiles[req.user.email] || null,
         email: req.user.email,
@@ -652,7 +709,7 @@ app.get('/profile', authenticateGoogle, (req, res) => {
     });
 });
 
-app.put('/profile', authenticateGoogle, (req, res) => {
+app.put('/profile', authenticateUser, (req, res) => {
     const {
         profile_type: profileType,
         display_name: displayName,
@@ -710,7 +767,7 @@ app.put('/profile', authenticateGoogle, (req, res) => {
     return res.json({ message: 'Profilul a fost salvat.', profile });
 });
 
-app.post('/print-runs', authenticateGoogle, (req, res) => {
+app.post('/print-runs', authenticateUser, (req, res) => {
     const {
         book_id: bookId,
         quantity,
@@ -779,7 +836,7 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
     });
 });
 
-app.get('/my-print-runs', authenticateGoogle, (req, res) => {
+app.get('/my-print-runs', authenticateUser, (req, res) => {
     const result = Object.values(printRuns)
         .filter((run) => run.owner_email === req.user.email)
         .map((run) => ({
@@ -792,7 +849,7 @@ app.get('/my-print-runs', authenticateGoogle, (req, res) => {
     return res.json({ count: result.length, print_runs: result });
 });
 
-app.get('/my-publisher-runs', authenticateGoogle, (req, res) => {
+app.get('/my-publisher-runs', authenticateUser, (req, res) => {
     const publisherProfileId = crypto.createHash('sha256')
         .update(req.user.email)
         .digest('hex')
