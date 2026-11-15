@@ -2,7 +2,7 @@ import { BookOpen, HeartHandshake, QrCode, ScanLine, ShieldCheck, UserRound } fr
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
-import { mockBooks } from './data/mockData';
+import { useEffect } from 'react';
 import { ToastProvider, useToast } from './components/Toast';
 import Navbar from './components/Navbar';
 import AuthorDashboard from './screens/AuthorDashboard';
@@ -11,7 +11,10 @@ import ReaderVerification from './screens/ReaderVerification';
 import NetworkExplorer from './screens/NetworkExplorer';
 import Home from './screens/Home';
 import GetHelp from './screens/GetHelp';
+import Profile from './screens/Profile';
 import './App.css';
+
+const API_BASE = 'http://localhost:3000';
 
 function derivePublicKey(email) {
   let hash = 2166136261;
@@ -53,11 +56,14 @@ function LoginPage({ onLogin, onLoginError }) {
 }
 
 function Shell() {
+  const publicVerification = new URLSearchParams(window.location.search).has('copy_id')
+    || new URLSearchParams(window.location.search).has('book_id');
   const [screen, setScreen] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.has('book_id') || params.has('copy_id') ? 'reader' : 'home';
   });
-  const [books, setBooks] = useState(mockBooks);
+  const [allBooks, setAllBooks] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
   const [demoSignal, setDemoSignal] = useState(0);
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('cryptoagora_user');
@@ -85,8 +91,45 @@ function Shell() {
   });
   const toast = useToast();
 
+  useEffect(() => {
+    let active = true;
+
+    fetch(`${API_BASE}/books`)
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Public catalog request failed');
+        return response.json();
+      })
+      .then((data) => {
+        if (active) setAllBooks(Array.isArray(data.books) ? data.books : []);
+      })
+      .catch(() => {
+        if (active) setAllBooks([]);
+      });
+
+    if (user?.credential) {
+      fetch(`${API_BASE}/my-books`, {
+        headers: { Authorization: `Bearer ${user.credential}` },
+      })
+        .then(async (response) => {
+          if (!response.ok) throw new Error('Private catalog request failed');
+          return response.json();
+        })
+        .then((data) => {
+          if (active) setMyBooks(Array.isArray(data.books) ? data.books : []);
+        })
+        .catch(() => {
+          if (active) setMyBooks([]);
+        });
+    } else {
+      setMyBooks([]);
+    }
+
+    return () => { active = false; };
+  }, [user]);
+
   const handleRegister = (newBook) => {
-    setBooks((prev) => [newBook, ...prev]);
+    setAllBooks((prev) => [newBook, ...prev]);
+    setMyBooks((prev) => [newBook, ...prev]);
     toast(`Registered "${newBook.title}" in protocol`, 'success');
   };
 
@@ -132,6 +175,14 @@ function Shell() {
     localStorage.setItem('cryptoagora_ai_trust', JSON.stringify(result));
   };
 
+  if (!user && publicVerification) {
+    return (
+      <main className="app-main">
+        <ReaderVerification books={allBooks} />
+      </main>
+    );
+  }
+
   if (!user) {
     return <LoginPage onLogin={handleGoogleLogin} onLoginError={handleGoogleLoginError} />;
   }
@@ -146,11 +197,12 @@ function Shell() {
       />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
         {screen === 'home' && <Home onNavigate={setScreen} />}
-        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
-        {screen === 'print' && <PrintHousePanel books={books} />}
-        {screen === 'reader' && <ReaderVerification books={books} />}
+        {screen === 'author' && <AuthorDashboard books={myBooks} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
+        {screen === 'print' && <PrintHousePanel books={myBooks} authToken={user.credential} />}
+        {screen === 'reader' && <ReaderVerification books={allBooks} />}
         {screen === 'explorer' && <NetworkExplorer />}
         {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
+        {screen === 'profile' && <Profile authToken={user.credential} user={user} />}
       </main>
     </>
   );
