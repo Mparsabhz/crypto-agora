@@ -9,6 +9,27 @@
 }
 @media (max-width: 900px) { .print-house__grid { grid-template-columns: 1fr; } }
 
+.print-runs-list { display: flex; flex-direction: column; gap: 7px; margin-top: 12px; }
+.print-run-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr .6fr .7fr .6fr .7fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  text-align: left;
+  color: var(--text-main);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.print-run-row:hover, .print-run-row.is-active { border-color: var(--accent-primary); }
+@media (max-width: 700px) {
+  .print-run-row { grid-template-columns: 1fr 1fr; }
+}
+
 .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
 .field > span { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
 

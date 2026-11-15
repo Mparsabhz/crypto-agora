@@ -16,6 +16,7 @@ export default function ReaderVerification({ books }) {
     const params = new URLSearchParams(window.location.search);
     return params.get('book_id') || '';
   });
+  const [copyId] = useState(() => new URLSearchParams(window.location.search).get('copy_id') || '');
   const [searchTerm, setSearchTerm] = useState('');
   const [lot, setLot] = useState('');
   const [tipSending, setTipSending] = useState(false);
@@ -28,16 +29,19 @@ export default function ReaderVerification({ books }) {
     const lotParam = params.get('lot') || '';
     setLot(lotParam);
 
-    if (!selectedBookId && books[0]?.book_id) {
+    if (!copyId && !selectedBookId && books[0]?.book_id) {
       setSelectedBookId(books[0].book_id);
     }
-  }, [books, selectedBookId]);
+  }, [books, selectedBookId, copyId]);
 
   useEffect(() => {
-    if (!selectedBookId) return undefined;
+    if (!selectedBookId && !copyId) return undefined;
 
     let active = true;
-    fetch(`http://localhost:3000/books/${encodeURIComponent(selectedBookId)}`)
+    const endpoint = copyId
+      ? `http://localhost:3000/copies/${encodeURIComponent(copyId)}`
+      : `http://localhost:3000/books/${encodeURIComponent(selectedBookId)}`;
+    fetch(endpoint)
       .then(async (response) => {
         if (!response.ok) throw new Error('Book verification failed');
         return response.json();
@@ -45,7 +49,16 @@ export default function ReaderVerification({ books }) {
       .then((data) => {
         if (!active) return;
         setVerification(data);
-        if (data.data) {
+        if (copyId && data.book) {
+          setBook({
+            ...data.book,
+            copy_id: data.copy.copy_id,
+            copy_sequence: data.copy.sequence,
+            copy_run_id: data.copy.run_id,
+            blockchain_author: data.block.author_id,
+            blockchain_block: data.block.index,
+          });
+        } else if (data.data) {
           setBook({
             ...data.data,
             blockchain_author: data.block.author_id,
@@ -63,7 +76,7 @@ export default function ReaderVerification({ books }) {
     return () => {
       active = false;
     };
-  }, [books, selectedBookId]);
+  }, [books, selectedBookId, copyId]);
 
   const filteredBooks = books.filter((item) =>
     item.title?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -167,6 +180,12 @@ export default function ReaderVerification({ books }) {
               <span className="data-label">BOOK ID</span>
               <span className="data-value mono">{book.book_id}</span>
             </div>
+            {book.copy_id && (
+              <div className="data-row">
+                <span className="data-label">UNIQUE COPY</span>
+                <span className="data-value mono success">#{book.copy_sequence} · {book.copy_id}</span>
+              </div>
+            )}
 
             <div className="data-row">
               <span className="data-label"><KeyRound size={12} /> AUTHOR FROM BLOCKCHAIN</span>

@@ -52,17 +52,21 @@ function LoginPage({ onLogin, onLoginError }) {
 }
 
 function Shell() {
+  const publicVerification = new URLSearchParams(window.location.search).has('copy_id')
+    || new URLSearchParams(window.location.search).has('book_id');
   const [screen, setScreen] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.has('book_id') ? 'reader' : 'home';
+    return params.has('book_id') || params.has('copy_id') ? 'reader' : 'home';
   });
-  const [books, setBooks] = useState([]);
+  const [allBooks, setAllBooks] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('cryptoagora_user');
     if (!storedUser) return null;
     try {
       const parsedUser = JSON.parse(storedUser);
       return parsedUser?.name && parsedUser?.email && parsedUser?.publicKey
+        && parsedUser?.credential
         ? { ...parsedUser, role: parsedUser.role || 'client' }
         : null;
     } catch {
@@ -75,27 +79,37 @@ function Shell() {
   useEffect(() => {
     let active = true;
 
-    fetch(`${API_BASE}/books`)
-      .then(async (response) => {
-        if (!response.ok) throw new Error('Books request failed');
-        return response.json();
+    if (!user?.email) return undefined;
+
+    Promise.all([
+      fetch(`${API_BASE}/books`),
+      fetch(`${API_BASE}/my-books`, {
+        headers: { Authorization: `Bearer ${user.credential}` }
+      }),
+    ])
+      .then(async ([allResponse, ownResponse]) => {
+        if (!allResponse.ok || !ownResponse.ok) throw new Error('Books request failed');
+        return Promise.all([allResponse.json(), ownResponse.json()]);
       })
-      .then((data) => {
-        if (active && Array.isArray(data.books)) {
-          setBooks(data.books);
-        }
+      .then(([allData, ownData]) => {
+        if (!active) return;
+        setAllBooks(Array.isArray(allData.books) ? allData.books : []);
+        setMyBooks(Array.isArray(ownData.books) ? ownData.books : []);
       })
       .catch(() => {
-        if (active) setBooks([]);
+        if (!active) return;
+        setAllBooks([]);
+        setMyBooks([]);
       });
 
     return () => {
       active = false;
     };
-  }, []);
+  }, [user]);
 
   const handleRegister = (newBook) => {
-    setBooks((prev) => [newBook, ...prev]);
+    setAllBooks((prev) => [newBook, ...prev]);
+    setMyBooks((prev) => [newBook, ...prev]);
     toast(`Registered "${newBook.title}" in protocol`, 'success');
   };
 
@@ -116,6 +130,7 @@ function Shell() {
         email: decoded.email,
         picture: decoded.picture || '',
         publicKey: derivePublicKey(decoded.email),
+        credential: response.credential,
         role,
       };
       setUser(nextUser);
@@ -136,6 +151,14 @@ function Shell() {
     toast('Google sign-in was cancelled or failed.', 'error');
   };
 
+  if (!user && publicVerification) {
+    return (
+      <main className="app-main">
+        <ReaderVerification books={allBooks} />
+      </main>
+    );
+  }
+
   if (!user) {
     return <LoginPage onLogin={handleGoogleLogin} onLoginError={handleGoogleLoginError} />;
   }
@@ -145,9 +168,9 @@ function Shell() {
       <Navbar active={screen} onChange={setScreen} user={user} onLogout={handleLogout} />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
         {screen === 'home' && <Home onNavigate={setScreen} />}
-        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} />}
-        {screen === 'print' && <PrintHousePanel books={books} />}
-        {screen === 'reader' && <ReaderVerification books={books} />}
+        {screen === 'author' && <AuthorDashboard books={myBooks} authToken={user.credential} onRegister={handleRegister} />}
+        {screen === 'print' && <PrintHousePanel books={myBooks} authToken={user.credential} />}
+        {screen === 'reader' && <ReaderVerification books={allBooks} />}
         {screen === 'explorer' && <NetworkExplorer />}
       </main>
     </>

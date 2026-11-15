@@ -4,7 +4,7 @@ import {
   Loader2, BookOpen, Cpu, Key, CheckCircle2, ChevronRight,
   Activity, Terminal, Copy, Hash, Zap, TrendingUp, Wallet,
   PenTool, Sliders, Eye, EyeOff, Box, Database, Network,
-  Lock, Unlock, AlertCircle, FileCode, Check, HelpCircle, Code2
+  Lock, Unlock, AlertCircle, FileCode, Check, HelpCircle, Code2, X
 } from 'lucide-react';
 import { copyToClipboard, shortHash } from '../utils/crypto';
 import { analyzeManuscript } from '../utils/manuscriptVerifier';
@@ -22,7 +22,7 @@ const TerminalLine = ({ time, type, text }) => {
   );
 };
 
-export default function AuthorDashboard({ books, onRegister, demoSignal }) {
+export default function AuthorDashboard({ books, authToken, onRegister, demoSignal }) {
   const toast = useToast();
   const fileInput = useRef(null);
   
@@ -48,6 +48,7 @@ export default function AuthorDashboard({ books, onRegister, demoSignal }) {
   const [dragOver, setDragOver] = useState(false);
   const [hashing, setHashing] = useState(false);
   const [registering, setRegistering] = useState(false);
+  const [managedBook, setManagedBook] = useState(null);
   
   // --- STATE: P2P SIMULATOR & CHUNKS ---
   const [p2pStep, setP2pStep] = useState(0);
@@ -182,6 +183,7 @@ Network: CryptoAgora-Mainnet
 
       const response = await fetch('http://localhost:3000/register-book', {
         method: 'POST',
+        headers: { Authorization: `Bearer ${authToken}` },
         body: formData
       });
 
@@ -216,7 +218,7 @@ Network: CryptoAgora-Mainnet
           royalty_split: `${royalty}% Direct-to-Author`,
           xmr_tx_proof: data.data.xmr_tx_proof || `tx_private_${Date.now().toString(16)}`
         };
-        
+
         onRegister(newBook);
         setRegistering(false);
         setP2pStep(0);
@@ -239,6 +241,10 @@ Network: CryptoAgora-Mainnet
       setP2pStep(0);
     }
   };
+
+  const verificationUrl = managedBook
+    ? `${window.location.origin}/?book_id=${encodeURIComponent(managedBook.book_id)}`
+    : '';
 
 
   return (
@@ -533,7 +539,11 @@ Network: CryptoAgora-Mainnet
                     <td className="font-bold truncate" title={b.title}>{b.title}</td>
                     <td className="mono muted">{shortHash(b.sha256_hash, 8, 6)}</td>
                     <td><span className="pill success-pill"><ShieldCheck size={10} /> {b.web_of_trust_score.split(' ')[0]}</span></td>
-                    <td><button className="btn-ghost-xs action-btn">MANAGE <ChevronRight size={12} /></button></td>
+                    <td>
+                      <button className="btn-ghost-xs action-btn" onClick={() => setManagedBook(b)}>
+                        MANAGE <ChevronRight size={12} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -560,6 +570,39 @@ Network: CryptoAgora-Mainnet
           </div>
         </section>
       </div>
+
+      {managedBook && (
+        <div className="manage-overlay" role="presentation" onClick={() => setManagedBook(null)}>
+          <section className="manage-modal card" role="dialog" aria-modal="true" aria-labelledby="manage-book-title" onClick={(event) => event.stopPropagation()}>
+            <div className="manage-modal__header">
+              <div>
+                <div className="section-title"><BookOpen size={14} /> Manage Manuscript</div>
+                <h2 id="manage-book-title">{managedBook.title}</h2>
+              </div>
+              <button className="btn-icon" onClick={() => setManagedBook(null)} aria-label="Close management panel">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="manage-modal__details">
+              <div><span>BOOK ID</span><strong className="mono">{managedBook.book_id}</strong></div>
+              <div><span>BLOCK</span><strong className="mono">#{managedBook.block_index}</strong></div>
+              <div><span>FILE</span><strong>{managedBook.filename}</strong></div>
+              <div><span>SHA-256</span><strong className="mono manage-hash">{managedBook.sha256_hash}</strong></div>
+              <div><span>AUTHOR KEY</span><strong className="mono">{managedBook.author_pubkey}</strong></div>
+            </div>
+
+            <div className="manage-modal__actions">
+              <button className="btn-primary" onClick={() => window.open(verificationUrl, '_blank', 'noopener,noreferrer')}>
+                <ShieldCheck size={14} /> Open Verification
+              </button>
+              <button className="btn-secondary" onClick={() => { copyToClipboard(verificationUrl); toast('Verification link copied', 'success'); }}>
+                <Copy size={14} /> Copy Verification Link
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

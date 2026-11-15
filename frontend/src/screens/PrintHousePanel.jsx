@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import {
   Printer, Download, Hash, Package, Barcode, CheckCircle2, Loader2,
@@ -8,38 +8,96 @@ import { useToast } from '../components/Toast';
 import CopyButton from '../components/CopyButton';
 import './PrintHousePanel.css';
 
-export default function PrintHousePanel({ books }) {
+export default function PrintHousePanel({ books, authToken }) {
   const toast = useToast();
   const qrWrapRef = useRef(null);
   const [bookId, setBookId] = useState(books[0]?.book_id || '');
   const [batch, setBatch] = useState(500);
+  const [royalty, setRoyalty] = useState(20);
   const [code, setCode] = useState('RO');
-  const [token, setToken] = useState('');
+  const [run, setRun] = useState(null);
+  const [printRuns, setPrintRuns] = useState([]);
+  const [selectedCopyId, setSelectedCopyId] = useState('');
   const [generating, setGenerating] = useState(false);
 
   const book = useMemo(() => books.find((b) => b.book_id === bookId), [books, bookId]);
+  const copies = run?.copies || [];
+  const copy = copies.find((item) => item.copy_id === selectedCopyId) || copies[0];
+  const token = run?.run_id || '';
+
+  useEffect(() => {
+    let active = true;
+    fetch('http://localhost:3000/my-print-runs', {
+      headers: { Authorization: `Bearer ${authToken}` },
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Istoricul tirajelor nu a putut fi încărcat.');
+        return data;
+      })
+      .then((data) => {
+        if (active) setPrintRuns(Array.isArray(data.print_runs) ? data.print_runs : []);
+      })
+      .catch(() => {
+        if (active) setPrintRuns([]);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [authToken]);
 
   const verifyUrl = useMemo(() => {
-    if (!book || !token) return '';
+    if (!book || !copy) return '';
     const origin = window.location.origin;
-    return `${origin}/?book_id=${book.book_id}&lot=${token}`;
-  }, [book, token]);
+    return `${origin}/?copy_id=${encodeURIComponent(copy.copy_id)}`;
+  }, [book, copy]);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!book) return;
     setGenerating(true);
-    setTimeout(() => {
-      setToken(`LOT-2026-${code.toUpperCase()}-${batch}`);
+    try {
+      const response = await fetch('http://localhost:3000/print-runs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          book_id: book.book_id,
+          quantity: batch,
+          royalty_percent: royalty,
+          print_house_code: code,
+        }),
+      });
+      const responseText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error(
+          response.status === 404
+            ? 'Backendul rulează o versiune veche. Oprește-l și pornește din nou cu npm start.'
+            : 'Backendul a trimis un răspuns invalid.'
+        );
+      }
+      if (!response.ok) throw new Error(data.error || 'Tirajul nu a putut fi creat.');
+      setRun(data.run);
+      setPrintRuns((previous) => [data.run, ...previous]);
+      setSelectedCopyId(data.run.copies[0]?.copy_id || '');
+      toast(`Tiraj aprobat: ${data.run.quantity} exemplare unice`, 'success');
+    } catch (error) {
+      toast(error.message || 'Nu s-a putut crea tirajul.', 'error');
+    } finally {
       setGenerating(false);
-      toast('Print token generated', 'success');
-    }, 700);
+    }
   };
 
   const handlePrint = () => window.print();
 
   const downloadPng = async () => {
     const qrSvgEl = qrWrapRef.current?.querySelector('svg');
-    if (!qrSvgEl || !book) return;
+    if (!qrSvgEl || !book || !copy) return;
     toast('Rendering sticker PNG…', 'info');
 
     const qrSvgString = new XMLSerializer().serializeToString(qrSvgEl);
@@ -79,7 +137,7 @@ export default function PrintHousePanel({ books }) {
       c.toBlob((pngBlob) => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(pngBlob);
-        a.download = `cryptoagora-sticker-${token}.png`;
+        a.download = `cryptoagora-${copy.copy_id}.png`;
         a.click();
         URL.revokeObjectURL(url);
       }, 'image/png');
@@ -92,9 +150,37 @@ export default function PrintHousePanel({ books }) {
       <header className="page-head">
         <h1>Print House Panel</h1>
         <p className="dim">
-          Mint a print-run token and generate a QR sticker for physical distribution.
+        Autorul aprobă tirajul, iar fiecare exemplar primește un QR unic verificabil.
         </p>
       </header>
+
+      <section className="card no-print">
+        <div className="section-title">Approved Print Runs</div>
+        {printRuns.length === 0 ? (
+          <p className="dim">Nu ai încă tiraje aprobate pentru cărțile tale.</p>
+        ) : (
+          <div className="print-runs-list">
+            {printRuns.map((item) => (
+              <button
+                type="button"
+                className={`print-run-row ${run?.run_id === item.run_id ? 'is-active' : ''}`}
+                key={item.run_id}
+                onClick={() => {
+                  setRun(item);
+                  setSelectedCopyId(item.copies[0]?.copy_id || '');
+                  setBookId(item.book_id);
+                }}
+              >
+                <span className="mono">{item.run_id}</span>
+                <span>{item.book_id}</span>
+                <span>{item.quantity} copii</span>
+                <span>{item.royalty_percent}% autor</span>
+                <span className="muted">{new Date(item.approved_at).toLocaleDateString('ro-RO')}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
 
       <div className="print-house__grid">
         {/* Controls */}
@@ -103,7 +189,7 @@ export default function PrintHousePanel({ books }) {
 
           <label className="field">
             <span>Select Registered Work</span>
-            <select value={bookId} onChange={(e) => { setBookId(e.target.value); setToken(''); }}>
+            <select value={bookId} onChange={(e) => { setBookId(e.target.value); setRun(null); setSelectedCopyId(''); }}>
               {books.map((b) => (
                 <option key={b.book_id} value={b.book_id}>
                   {b.book_id} — {b.title}
@@ -120,6 +206,16 @@ export default function PrintHousePanel({ books }) {
                 min={1}
                 value={batch}
                 onChange={(e) => setBatch(Math.max(1, Number(e.target.value) || 1))}
+              />
+            </label>
+            <label className="field">
+              <span>Author Royalty (%)</span>
+              <input
+                type="number"
+                min={0}
+                max={100}
+                value={royalty}
+                onChange={(e) => setRoyalty(Math.min(100, Math.max(0, Number(e.target.value) || 0)))}
               />
             </label>
             <label className="field">
@@ -156,13 +252,13 @@ export default function PrintHousePanel({ books }) {
             onClick={handleGenerate}
           >
             {generating ? <Loader2 size={15} className="spin" /> : <Barcode size={15} />}
-            {generating ? 'Minting token…' : 'Generate Print Token'}
+            {generating ? 'Creating approved run…' : 'Approve Print Run'}
           </button>
 
-          {token && (
+          {run && (
             <div className="token-badge">
               <CheckCircle2 size={16} className="success" />
-              <span className="mono">{token}</span>
+              <span><strong className="mono">{run.run_id}</strong> · {run.quantity} unique copies · {run.royalty_percent}% author royalty</span>
             </div>
           )}
         </section>
@@ -173,7 +269,7 @@ export default function PrintHousePanel({ books }) {
             <Barcode size={14} /> Sticker Preview
           </div>
 
-          {!token ? (
+          {!copy ? (
             <div className="sticker-empty">
               <Barcode size={28} className="muted" />
               <p className="dim">Generate a token to preview the sticker.</p>
@@ -202,11 +298,12 @@ export default function PrintHousePanel({ books }) {
                 </div>
 
                 <div className="sticker__title">{book?.title}</div>
-                <div className="sticker__lot mono">{token}</div>
+                <div className="sticker__lot mono">{run.run_id} · COPY {copy.sequence}/{run.quantity}</div>
                 <div className="sticker__meta mono">
                   SHA-256 · {shortHash(book?.sha256_hash, 16, 8)}
                 </div>
                 <div className="sticker__meta mono">BOOK ID · {book?.book_id}</div>
+                <div className="sticker__meta mono">COPY ID · {copy.copy_id}</div>
                 <div className="sticker__cta">SCAN TO VERIFY AUTHENTICITY</div>
               </div>
 
@@ -218,6 +315,16 @@ export default function PrintHousePanel({ books }) {
                   <Download size={15} /> Download PNG
                 </button>
               </div>
+              <label className="field no-print copy-selector">
+                <span>Exemplar pentru printare</span>
+                <select value={copy.copy_id} onChange={(event) => setSelectedCopyId(event.target.value)}>
+                  {copies.map((item) => (
+                    <option key={item.copy_id} value={item.copy_id}>
+                      COPY {item.sequence}/{run.quantity} — {item.copy_id}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </>
           )}
         </section>

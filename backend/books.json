@@ -30,5 +30,22 @@
     "xmr_tx_proof": null,
     "block_index": 4,
     "block_hash": "001bd1da4e649bf32da412c2604dcce4ac8dbd371b516f59c08928fff2542717"
+  },
+  "ca_04": {
+    "book_id": "ca_04",
+    "owner_email": "puscasdanielionut@gmail.com",
+    "title": "testam si noi",
+    "author_pubkey": "0x6047314b5bf61cbbfe1bbdf047ea6df30e8a4b28",
+    "signature": "-----BEGIN CRYPTOAGORA SIGNATURE-----\r\nVersion: 1.0\r\nAlgorithm: Ed25519\r\nKey-ID: 0x6047314b5bf61cbbfe1bbdf047ea6df30e8a4b28\r\nSHA-256: a54d844f4a366855fb05afbe3209d33c19415f1125cce74e165a369e64fa8680\r\nSignature: MEUCIQDx5YVYCTI2PGU...\r\nTimestamp: 2026-11-15T00:48:58.609Z\r\nNetwork: CryptoAgora-Mainnet\r\n-----END CRYPTOAGORA SIGNATURE-----",
+    "sha256_hash": "a54d844f4a366855fb05afbe3209d33c19415f1125cce74e165a369e64fa8680",
+    "filename": "Curs2AlgLinCTI2015.pdf",
+    "stored_as": "1794703741964-9b084043c751a4ca.pdf",
+    "file_size": 123043,
+    "web_of_trust_score": "99.9% (Verified Author)",
+    "print_batch": null,
+    "royalty_split": "20% Direct-to-Author",
+    "xmr_tx_proof": null,
+    "block_index": 5,
+    "block_hash": "00a0f6ed428f781ab73c51998e2434e9d499139d7f1f6037427b458959adca1a"
   }
 }

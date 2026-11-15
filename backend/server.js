@@ -4,6 +4,7 @@ const cors = require('cors'); // opțional, dar bun dacă frontend-ul rulează p
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,10 @@ const uploadDirectory = path.join(__dirname, 'uploads');
 fs.mkdirSync(uploadDirectory, { recursive: true });
 const blockchainFile = path.join(__dirname, 'blockchain.json');
 const booksFile = path.join(__dirname, 'books.json');
+const printRunsFile = path.join(__dirname, 'print-runs.json');
+const googleClientId = process.env.GOOGLE_CLIENT_ID
+    || '588696727944-fljtld63gs6ottrkus3vibc80pjv781q.apps.googleusercontent.com';
+const googleClient = new OAuth2Client(googleClientId);
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -47,6 +52,25 @@ function saveBooks(books) {
     const temporaryFile = `${booksFile}.tmp`;
     fs.writeFileSync(temporaryFile, JSON.stringify(books, null, 2), 'utf8');
     fs.renameSync(temporaryFile, booksFile);
+}
+
+function loadPrintRuns() {
+    if (!fs.existsSync(printRunsFile)) {
+        return {};
+    }
+
+    const storedRuns = JSON.parse(fs.readFileSync(printRunsFile, 'utf8'));
+    if (!storedRuns || typeof storedRuns !== 'object' || Array.isArray(storedRuns)) {
+        throw new Error(`Format invalid pentru ${printRunsFile}`);
+    }
+
+    return storedRuns;
+}
+
+function savePrintRuns(printRuns) {
+    const temporaryFile = `${printRunsFile}.tmp`;
+    fs.writeFileSync(temporaryFile, JSON.stringify(printRuns, null, 2), 'utf8');
+    fs.renameSync(temporaryFile, printRunsFile);
 }
 
 function findLatestBlockByHash(hash) {
@@ -187,11 +211,55 @@ class Blockchain {
 // Inițializăm blockchain-ul
 const cryptoAgoraChain = new Blockchain();
 const books = loadBooks();
+const printRuns = loadPrintRuns();
+const legacyOwnerEmail = String(process.env.LEGACY_OWNER_EMAIL || '').trim().toLowerCase();
+
+if (legacyOwnerEmail) {
+    let migrated = false;
+    Object.values(books).forEach((book) => {
+        if (!book.owner_email) {
+            book.owner_email = legacyOwnerEmail;
+            migrated = true;
+        }
+    });
+    if (migrated) saveBooks(books);
+}
+
+async function authenticateGoogle(req, res, next) {
+    const authorization = req.get('authorization') || '';
+    const token = authorization.startsWith('Bearer ')
+        ? authorization.slice('Bearer '.length)
+        : '';
+
+    if (!token) {
+        return res.status(401).json({ error: 'Google authentication required.' });
+    }
+
+    try {
+        const ticket = await googleClient.verifyIdToken({
+            idToken: token,
+            audience: googleClientId
+        });
+        const payload = ticket.getPayload();
+        if (!payload?.email || payload.email_verified === false) {
+            return res.status(401).json({ error: 'Google account email is not verified.' });
+        }
+
+        req.user = {
+            email: payload.email.toLowerCase(),
+            name: payload.name || payload.email
+        };
+        return next();
+    } catch (error) {
+        console.error('Google token verification failed:', error.message);
+        return res.status(401).json({ error: 'Invalid Google authentication token.' });
+    }
+}
 
 // --- ENDPOINT-URI API ---
 
 // 1. Salvează manuscrisul și îl înregistrează în blockchain
-app.post('/register-book', upload.single('file'), (req, res) => {
+app.post('/register-book', authenticateGoogle, upload.single('file'), (req, res) => {
     const { author_id, manuscript_hash, title, author_pubkey, signature } = req.body;
     
     if (!author_id || !manuscript_hash || !title || !author_pubkey || !req.file) {
@@ -218,6 +286,7 @@ app.post('/register-book', upload.single('file'), (req, res) => {
     const bookId = `ca_${String(newBlock.index - 1).padStart(2, '0')}`;
     const book = {
         book_id: bookId,
+        owner_email: req.user.email,
         title: title.trim(),
         author_pubkey: author_pubkey.trim(),
         signature: signature || null,
@@ -270,6 +339,97 @@ app.get('/books', (req, res) => {
     res.json({
         count: result.length,
         books: result
+    });
+});
+
+app.get('/my-books', authenticateGoogle, (req, res) => {
+    const result = Object.values(books)
+        .filter((book) => book.owner_email === req.user.email);
+    res.json({ count: result.length, books: result });
+});
+
+app.post('/print-runs', authenticateGoogle, (req, res) => {
+    const { book_id: bookId, quantity, royalty_percent: royaltyPercent, print_house_code: printHouseCode } = req.body;
+    const book = books[bookId];
+    const parsedQuantity = Number(quantity);
+    const parsedRoyalty = Number(royaltyPercent);
+    const normalizedCode = String(printHouseCode || '').trim().toUpperCase();
+
+    if (!book) {
+        return res.status(404).json({ error: 'Cartea selectată nu există.' });
+    }
+    if (book.owner_email !== req.user.email) {
+        return res.status(403).json({ error: 'Doar autorul cărții poate aproba un tiraj.' });
+    }
+    if (!Number.isInteger(parsedQuantity) || parsedQuantity < 1 || parsedQuantity > 10000) {
+        return res.status(400).json({ error: 'Tirajul trebuie să fie între 1 și 10.000 de exemplare.' });
+    }
+    if (!Number.isFinite(parsedRoyalty) || parsedRoyalty < 0 || parsedRoyalty > 100) {
+        return res.status(400).json({ error: 'Procentul autorului trebuie să fie între 0 și 100.' });
+    }
+    if (!/^[A-Z0-9_-]{2,12}$/.test(normalizedCode)) {
+        return res.status(400).json({ error: 'Codul tipografiei poate conține doar litere, cifre, _ sau -.' });
+    }
+
+    const runId = `run_${crypto.randomBytes(10).toString('hex')}`;
+    const createdAt = new Date().toISOString();
+    const copies = Array.from({ length: parsedQuantity }, (_, index) => ({
+        copy_id: `copy_${crypto.randomBytes(12).toString('hex')}`,
+        sequence: index + 1,
+        run_id: runId,
+        book_id: book.book_id,
+        status: 'approved',
+        created_at: createdAt
+    }));
+
+    printRuns[runId] = {
+        run_id: runId,
+        book_id: book.book_id,
+        owner_email: req.user.email,
+        print_house_code: normalizedCode,
+        quantity: parsedQuantity,
+        royalty_percent: parsedRoyalty,
+        approved_at: createdAt,
+        copies
+    };
+    savePrintRuns(printRuns);
+
+    return res.status(201).json({
+        message: 'Tirajul a fost aprobat de autor.',
+        run: printRuns[runId],
+        book
+    });
+});
+
+app.get('/my-print-runs', authenticateGoogle, (req, res) => {
+    const result = Object.values(printRuns)
+        .filter((run) => run.owner_email === req.user.email)
+        .sort((left, right) => right.approved_at.localeCompare(left.approved_at));
+
+    return res.json({ count: result.length, print_runs: result });
+});
+
+app.get('/copies/:copyId', (req, res) => {
+    const copy = Object.values(printRuns)
+        .flatMap((run) => run.copies)
+        .find((item) => item.copy_id === req.params.copyId);
+
+    if (!copy) {
+        return res.status(404).json({ detail: 'Exemplarul nu există în registrul public.' });
+    }
+
+    const book = books[copy.book_id];
+    const block = book ? findLatestBlockByHash(book.sha256_hash) : null;
+    if (!book || !block) {
+        return res.status(409).json({ detail: 'Exemplarul nu are o carte validă în ledger.' });
+    }
+
+    return res.json({
+        status: 'EXEMPLAR AUTENTIC',
+        verified: true,
+        copy,
+        book,
+        block
     });
 });
 
