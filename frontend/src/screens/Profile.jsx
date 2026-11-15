@@ -28,6 +28,11 @@ export default function Profile({ authToken, user }) {
 
   useEffect(() => {
     let active = true;
+    if (!authToken) {
+      setLoading(false);
+      return undefined;
+    }
+
     fetch(`${API_BASE}/profile`, {
       headers: { Authorization: `Bearer ${authToken}` },
     })

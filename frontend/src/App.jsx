@@ -70,9 +70,11 @@ function Shell() {
     if (!storedUser) return null;
     try {
       const parsedUser = JSON.parse(storedUser);
-      return parsedUser?.name && parsedUser?.email && parsedUser?.publicKey
-        ? { ...parsedUser, role: parsedUser.role || 'client' }
-        : null;
+      if (!parsedUser?.name || !parsedUser?.email || !parsedUser?.publicKey || !parsedUser?.credential) {
+        localStorage.removeItem('cryptoagora_user');
+        return null;
+      }
+      return { ...parsedUser, role: parsedUser.role || 'client' };
     } catch {
       localStorage.removeItem('cryptoagora_user');
       return null;
@@ -111,13 +113,20 @@ function Shell() {
         headers: { Authorization: `Bearer ${user.credential}` },
       })
         .then(async (response) => {
+          if (response.status === 401) throw new Error('AUTH_INVALID');
           if (!response.ok) throw new Error('Private catalog request failed');
           return response.json();
         })
         .then((data) => {
           if (active) setMyBooks(Array.isArray(data.books) ? data.books : []);
         })
-        .catch(() => {
+        .catch((error) => {
+          if (error.message === 'AUTH_INVALID') {
+            localStorage.removeItem('cryptoagora_user');
+            setUser(null);
+            toast('Sesiunea Google a expirat. Conectează-te din nou.', 'error');
+            return;
+          }
           if (active) setMyBooks([]);
         });
     } else {

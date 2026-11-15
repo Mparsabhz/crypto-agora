@@ -27,6 +27,8 @@ export default function PrintHousePanel({ books, authToken }) {
 
   useEffect(() => {
     let active = true;
+    if (!authToken) return undefined;
+
     fetch('http://localhost:3000/my-print-runs', {
       headers: { Authorization: `Bearer ${authToken}` },
     })
