@@ -11,7 +11,7 @@ import { analyzeManuscript } from '../utils/manuscriptVerifier';
 import { useToast } from '../components/Toast';
 import './AuthorDashboard.css';
 
-// Sub-componentă pentru log-urile din terminal
+// Sub-componentÄƒ pentru log-urile din terminal
 const TerminalLine = ({ time, type, text }) => {
   const colors = { system: 'var(--text-muted)', success: 'var(--emerald)', info: 'var(--text-dim)', warn: 'var(--amber)', error: 'var(--danger)' };
   return (
@@ -22,7 +22,7 @@ const TerminalLine = ({ time, type, text }) => {
   );
 };
 
-export default function AuthorDashboard({ books, authToken, onRegister, demoSignal }) {
+export default function AuthorDashboard({ books, onRegister, demoSignal, aiTrustScore, onOpenHelp }) {
   const toast = useToast();
   const fileInput = useRef(null);
   
@@ -108,7 +108,7 @@ export default function AuthorDashboard({ books, authToken, onRegister, demoSign
     setAnalysisError('');
     setSignature('');
 
-    analyzeManuscript(file, pubkey, books)
+    analyzeManuscript(file, pubkey, books, aiTrustScore?.score)
       .then((result) => {
         if (cancelled) return;
         setAnalysis(result);
@@ -134,7 +134,7 @@ export default function AuthorDashboard({ books, authToken, onRegister, demoSign
       });
 
     return () => { cancelled = true; };
-  }, [file, pubkey, books, toast]);
+  }, [file, pubkey, books, aiTrustScore?.score, toast]);
 
   // Generare Chei
   const generateKeypair = () => {
@@ -164,82 +164,45 @@ Network: CryptoAgora-Mainnet
     toast('Manuscript signed successfully', 'success');
   };
 
-   // Înregistrare în Protocol (cu P2P Simulator + Backend Real)
-  const handleRegister = async () => {
-     if (!file || !title || !pubkey || !hash || !signature || !analysis?.publishable) return;
+  // ÃŽnregistrare Ã®n Protocol (cu P2P Simulator)
+  const handleRegister = () => {
+    if (!file || !title || !pubkey || !hash || !signature || !analysis?.publishable) return;
     setRegistering(true);
     setP2pStep(1);
     setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Broadcasting to P2P mesh initiated...', type: 'warn' }]);
-    
-    try {
-      // Trimitem manuscrisul și metadatele către serverul de Node.js
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('author_id', `${title} (${pubkey})`);
-      formData.append('manuscript_hash', hash);
-      formData.append('title', title.trim());
-      formData.append('author_pubkey', pubkey.trim());
-      formData.append('signature', signature);
 
-      const response = await fetch('http://localhost:3000/register-book', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${authToken}` },
-        body: formData
-      });
+    setTimeout(() => { setP2pStep(2); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Chunking verified. Pinning to IPFS...', type: 'info' }]); }, 1200);
+    setTimeout(() => { setP2pStep(3); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); }, 2400);
+    setTimeout(() => { setP2pStep(4); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Consensus reached. Block mined!', type: 'success' }]); }, 3600);
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Eroare la minarea blocului');
-      }
+    setTimeout(() => {
+      const newBook = {
+        book_id: `ca_${String(books.length + 1).padStart(2, '0')}`,
+        title: title.trim(),
+        author_pubkey: pubkey.trim(),
+        sha256_hash: hash,
+        merkle_root: analysis.merkleRoot,
+        chunk_count: analysis.chunkCount,
+        web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
+        print_batch: '—',
+        royalty_split: `${royalty}% Direct-to-Author`,
+        xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
+      };
 
-      // 2. Continuăm animațiile vizuale pentru juriu
-      setTimeout(() => { 
-        setP2pStep(2); 
-        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Chunking verified. Pinning to IPFS...', type: 'info' }]); 
-      }, 1200);
-      
-      setTimeout(() => { 
-        setP2pStep(3); 
-        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); 
-      }, 2400);
-      
-      setTimeout(() => { 
-        setP2pStep(4); 
-        setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: `Consensus reached. Block #${data.block.index} mined! Hash: ${data.block.hash.slice(0, 10)}...`, type: 'success' }]); 
-      }, 3600);
-      
-      setTimeout(() => {
-        const newBook = {
-          ...data.data,
-          merkle_root: analysis.merkleRoot,
-          chunk_count: analysis.chunkCount,
-          web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
-          print_batch: data.data.print_batch || '—',
-          royalty_split: `${royalty}% Direct-to-Author`,
-          xmr_tx_proof: data.data.xmr_tx_proof || `tx_private_${Date.now().toString(16)}`
-        };
-
-        onRegister(newBook);
-        setRegistering(false);
-        setP2pStep(0);
-        setFile(null);
-        setTitle('');
-        setPubkey('');
-        setPrivkey('');
-        setHash('');
-        setSignature('');
-        setChunks([]);
-        setAnalysis(null);
-        setAnalysisError('');
-        toast('Cartea a fost minată oficial în blockchain!', 'success');
-      }, 4500);
-
-    } catch (err) {
-      console.error("Eroare:", err);
-      toast('Nu s-a putut conecta la serverul de Node.js sau eroare de minare!', 'error');
+      onRegister(newBook);
       setRegistering(false);
       setP2pStep(0);
-    }
+      setFile(null);
+      setTitle('');
+      setPubkey('');
+      setPrivkey('');
+      setHash('');
+      setSignature('');
+      setChunks([]);
+      setAnalysis(null);
+      setAnalysisError('');
+      toast('Cartea a fost ancorată oficial în protocol!', 'success');
+    }, 4500);
   };
 
   const verificationUrl = managedBook
@@ -300,7 +263,7 @@ Network: CryptoAgora-Mainnet
                       <div className="file-icon-wrap"><FileText size={24} className="success" /></div>
                       <div className="file-info">
                         <div className="file-name">{file.name}</div>
-                        <div className="mono muted">{(file.size / 1024).toFixed(1)} KB · {(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                        <div className="mono muted">{(file.size / 1024).toFixed(1)} KB Â· {(file.size / 1024 / 1024).toFixed(2)} MB</div>
                       </div>
                       <CheckCircle2 size={20} className="success" />
                     </div>
@@ -308,7 +271,7 @@ Network: CryptoAgora-Mainnet
                     <>
                       <div className="dz-icon-wrap"><UploadCloud size={32} className="success" /></div>
                       <div className="dz-title">Drag & drop manuscript</div>
-                      <div className="dz-sub mono">.pdf · .txt · .md — Max 50MB</div>
+                      <div className="dz-sub mono">.pdf Â· .txt Â· .md â€” Max 50MB</div>
                       <div className="dz-hint mono">Click to browse local files</div>
                     </>
                   )}
@@ -317,7 +280,7 @@ Network: CryptoAgora-Mainnet
                 <div className="form-group">
                   <label>
                     <span className="lbl">Manuscript Title</span>
-                    <input placeholder="e.g. Manifestul Libertății" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <input placeholder="e.g. Manifestul LibertÄƒÈ›ii" value={title} onChange={(e) => setTitle(e.target.value)} />
                   </label>
                 </div>
               </div>
@@ -346,7 +309,7 @@ Network: CryptoAgora-Mainnet
                         </button>
                       </span>
                       <div className="private-key-box mono">
-                        {showPrivkey ? privkey : '••••••••••••••••••••••••••••••••••••••••'}
+                        {showPrivkey ? privkey : 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢'}
                       </div>
                     </label>
                   </div>
@@ -420,6 +383,53 @@ Network: CryptoAgora-Mainnet
                 <div className="hash-header">
                   <span className="mono muted flex-gap"><Hash size={12} /> SHA-256 DIGEST</span>
                   <button className="btn-ghost-xs" onClick={() => { copyToClipboard(hash); toast('Hash copied', 'success'); }}><Copy size={12} /> COPY</button>
+                </div>
+
+                <div className="audit-box">
+                  <div className="audit-header">
+                    <span className="mono muted flex-gap"><ShieldCheck size={12} /> AUDIT CHECKLIST</span>
+                    <span className="mono success text-xs">LOCAL VERIFIED</span>
+                  </div>
+                  <div className="audit-list">
+                    <div className="audit-row">
+                      <span><FileCode size={13} /> Binary Header / Magic Bytes</span>
+                      <strong className={analysis.formatValid ? 'success' : 'danger'}>{analysis.formatDetail}</strong>
+                    </div>
+                    <div className="audit-row">
+                      <span><Activity size={13} /> Shannon Entropy</span>
+                      <strong className={analysis.entropyValid ? 'success' : 'danger'}>
+                        {analysis.entropy.toFixed(2)} bits/byte â€” {analysis.entropyValid ? 'OPTIMAL' : 'LOW DENSITY'}
+                      </strong>
+                    </div>
+                    <div className="audit-row">
+                      <span><Network size={13} /> P2P Merkle Root</span>
+                      <span className="audit-value">
+                        <strong className="mono success">{analysis.chunkCount} chunks Â· {shortHash(analysis.merkleRoot, 10, 6)}</strong>
+                        <button className="btn-ghost-xs" onClick={() => { copyToClipboard(analysis.merkleRoot); toast('Merkle root copied', 'success'); }}><Copy size={11} /> COPY</button>
+                      </span>
+                    </div>
+                    <div className="audit-row">
+                      <span><Fingerprint size={13} /> Ledger Uniqueness</span>
+                      <strong className={analysis.isDuplicate ? 'danger' : 'success'}>
+                        {analysis.isDuplicate ? 'DUPLICATE DETECTED' : 'UNIQUE ORIGINAL'}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="trust-box">
+                  <div className="trust-header">
+                    <span className="mono muted">DYNAMIC TRUST SCORE</span>
+                    <strong className={analysis.trustScore >= 70 ? 'success' : 'danger'}>{analysis.trustScore.toFixed(1)}%</strong>
+                  </div>
+                  <div className="trust-track"><span style={{ width: `${analysis.trustScore}%` }} /></div>
+                  {analysis.aiVerified ? (
+                    <div className="ai-trust-badge">AI VERIFIED LEGIT (+15% WEB OF TRUST)</div>
+                  ) : (
+                    <button className="ai-trust-link" onClick={onOpenHelp}>
+                      Fă Interviul AI în Get Help pentru +15% Trust Score →
+                    </button>
+                  )}
                 </div>
                 <div className="hash-value mono">{hash}</div>
               </div>
@@ -508,7 +518,7 @@ Network: CryptoAgora-Mainnet
                   </div>
                 </div>
               ) : (
-                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !(file instanceof File) || !title || !pubkey || !signature || !analysis?.publishable} onClick={handleRegister}>
+                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !title || !pubkey || !signature || !analysis?.publishable} onClick={handleRegister}>
                   <Send size={16} /> Register &amp; Anchor Work
                 </button>
               )}

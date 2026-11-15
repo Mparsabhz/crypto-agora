@@ -1,17 +1,17 @@
+import { BookOpen, HeartHandshake, QrCode, ScanLine, ShieldCheck, UserRound } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { mockBooks } from './data/mockData';
 import { ToastProvider, useToast } from './components/Toast';
 import Navbar from './components/Navbar';
-import Home from './screens/Home';
 import AuthorDashboard from './screens/AuthorDashboard';
 import PrintHousePanel from './screens/PrintHousePanel';
 import ReaderVerification from './screens/ReaderVerification';
-import NetworkExplorer from './screens/NetworkExplorer'; // NOU
-import Profile from './screens/Profile';
+import NetworkExplorer from './screens/NetworkExplorer';
+import Home from './screens/Home';
+import GetHelp from './screens/GetHelp';
 import './App.css';
-
-const API_BASE = 'http://localhost:3000';
 
 function derivePublicKey(email) {
   let hash = 2166136261;
@@ -29,45 +29,42 @@ function LoginPage({ onLogin, onLoginError }) {
     <main className="auth-entry">
       <section className="auth-entry__card">
         <span className="home-kicker">CRYPTOAGORA IDENTITY</span>
-        <div className="auth-required__icon">CA</div>
+        <div className="auth-required__icon"><ShieldCheck size={30} /></div>
         <h1>Welcome to CryptoAgora</h1>
         <p>Conectează-te cu Google pentru a accesa platforma și a publica sau semna cărți.</p>
-        <div className="auth-role-toggle">
-          <button type="button" className={role === 'dev' ? 'is-selected' : ''} onClick={() => setRole('dev')}>Login as Dev</button>
-          <button type="button" className={role === 'client' ? 'is-selected' : ''} onClick={() => setRole('client')}>Login as Client</button>
-        </div>
-        <div className="auth-required__login">
-          <GoogleLogin
-            theme="filled_black"
-            shape="pill"
-            size="large"
-            text="signin_with"
-            width="260"
-            onSuccess={(response) => onLogin(response, role)}
-            onError={onLoginError}
-          />
-        </div>
+      <div className="auth-role-toggle">
+        <button type="button" className={role === 'dev' ? 'is-selected' : ''} onClick={() => setRole('dev')}>Login as Dev</button>
+        <button type="button" className={role === 'client' ? 'is-selected' : ''} onClick={() => setRole('client')}>Login as Client</button>
+      </div>
+      <div className="auth-required__login">
+        <GoogleLogin
+          theme="filled_black"
+          shape="pill"
+          size="large"
+          text="signin_with"
+          width="260"
+          onSuccess={(response) => onLogin(response, role)}
+          onError={onLoginError}
+        />
+      </div>
       </section>
     </main>
   );
 }
 
 function Shell() {
-  const publicVerification = new URLSearchParams(window.location.search).has('copy_id')
-    || new URLSearchParams(window.location.search).has('book_id');
   const [screen, setScreen] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.has('book_id') || params.has('copy_id') ? 'reader' : 'home';
   });
-  const [allBooks, setAllBooks] = useState([]);
-  const [myBooks, setMyBooks] = useState([]);
+  const [books, setBooks] = useState(mockBooks);
+  const [demoSignal, setDemoSignal] = useState(0);
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('cryptoagora_user');
     if (!storedUser) return null;
     try {
       const parsedUser = JSON.parse(storedUser);
       return parsedUser?.name && parsedUser?.email && parsedUser?.publicKey
-        && parsedUser?.credential
         ? { ...parsedUser, role: parsedUser.role || 'client' }
         : null;
     } catch {
@@ -75,42 +72,21 @@ function Shell() {
       return null;
     }
   });
+  const [aiTrustScore, setAiTrustScore] = useState(() => {
+    const storedResult = localStorage.getItem('cryptoagora_ai_trust');
+    if (!storedResult) return null;
+    try {
+      const parsedResult = JSON.parse(storedResult);
+      return typeof parsedResult?.score === 'number' ? parsedResult : null;
+    } catch {
+      localStorage.removeItem('cryptoagora_ai_trust');
+      return null;
+    }
+  });
   const toast = useToast();
 
-  useEffect(() => {
-    let active = true;
-
-    if (!user?.email) return undefined;
-
-    Promise.all([
-      fetch(`${API_BASE}/books`),
-      fetch(`${API_BASE}/my-books`, {
-        headers: { Authorization: `Bearer ${user.credential}` }
-      }),
-    ])
-      .then(async ([allResponse, ownResponse]) => {
-        if (!allResponse.ok || !ownResponse.ok) throw new Error('Books request failed');
-        return Promise.all([allResponse.json(), ownResponse.json()]);
-      })
-      .then(([allData, ownData]) => {
-        if (!active) return;
-        setAllBooks(Array.isArray(allData.books) ? allData.books : []);
-        setMyBooks(Array.isArray(ownData.books) ? ownData.books : []);
-      })
-      .catch(() => {
-        if (!active) return;
-        setAllBooks([]);
-        setMyBooks([]);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [user]);
-
   const handleRegister = (newBook) => {
-    setAllBooks((prev) => [newBook, ...prev]);
-    setMyBooks((prev) => [newBook, ...prev]);
+    setBooks((prev) => [newBook, ...prev]);
     toast(`Registered "${newBook.title}" in protocol`, 'success');
   };
 
@@ -131,7 +107,6 @@ function Shell() {
         email: decoded.email,
         picture: decoded.picture || '',
         publicKey: derivePublicKey(decoded.email),
-        credential: response.credential,
         role,
       };
       setUser(nextUser);
@@ -152,13 +127,10 @@ function Shell() {
     toast('Google sign-in was cancelled or failed.', 'error');
   };
 
-  if (!user && publicVerification) {
-    return (
-      <main className="app-main">
-        <ReaderVerification books={allBooks} />
-      </main>
-    );
-  }
+  const handleAiTrustResult = (result) => {
+    setAiTrustScore(result);
+    localStorage.setItem('cryptoagora_ai_trust', JSON.stringify(result));
+  };
 
   if (!user) {
     return <LoginPage onLogin={handleGoogleLogin} onLoginError={handleGoogleLoginError} />;
@@ -166,14 +138,19 @@ function Shell() {
 
   return (
     <>
-      <Navbar active={screen} onChange={setScreen} user={user} onLogout={handleLogout} />
+      <Navbar
+        active={screen}
+        onChange={setScreen}
+        user={user}
+        onLogout={handleLogout}
+      />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
         {screen === 'home' && <Home onNavigate={setScreen} />}
-        {screen === 'author' && <AuthorDashboard books={myBooks} authToken={user.credential} onRegister={handleRegister} />}
-        {screen === 'print' && <PrintHousePanel books={myBooks} authToken={user.credential} />}
-        {screen === 'reader' && <ReaderVerification books={allBooks} />}
+        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
+        {screen === 'print' && <PrintHousePanel books={books} />}
+        {screen === 'reader' && <ReaderVerification books={books} />}
         {screen === 'explorer' && <NetworkExplorer />}
-        {screen === 'profile' && <Profile authToken={user.credential} user={user} />}
+        {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
       </main>
     </>
   );
