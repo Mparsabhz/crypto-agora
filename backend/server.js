@@ -15,6 +15,7 @@ fs.mkdirSync(uploadDirectory, { recursive: true });
 const blockchainFile = path.join(__dirname, 'blockchain.json');
 const booksFile = path.join(__dirname, 'books.json');
 const printRunsFile = path.join(__dirname, 'print-runs.json');
+const profilesFile = path.join(__dirname, 'profiles.json');
 const googleClientId = process.env.GOOGLE_CLIENT_ID
     || '588696727944-fljtld63gs6ottrkus3vibc80pjv781q.apps.googleusercontent.com';
 const googleClient = new OAuth2Client(googleClientId);
@@ -71,6 +72,25 @@ function savePrintRuns(printRuns) {
     const temporaryFile = `${printRunsFile}.tmp`;
     fs.writeFileSync(temporaryFile, JSON.stringify(printRuns, null, 2), 'utf8');
     fs.renameSync(temporaryFile, printRunsFile);
+}
+
+function loadProfiles() {
+    if (!fs.existsSync(profilesFile)) {
+        return {};
+    }
+
+    const storedProfiles = JSON.parse(fs.readFileSync(profilesFile, 'utf8'));
+    if (!storedProfiles || typeof storedProfiles !== 'object' || Array.isArray(storedProfiles)) {
+        throw new Error(`Format invalid pentru ${profilesFile}`);
+    }
+
+    return storedProfiles;
+}
+
+function saveProfiles(profiles) {
+    const temporaryFile = `${profilesFile}.tmp`;
+    fs.writeFileSync(temporaryFile, JSON.stringify(profiles, null, 2), 'utf8');
+    fs.renameSync(temporaryFile, profilesFile);
 }
 
 function findLatestBlockByHash(hash) {
@@ -212,6 +232,7 @@ class Blockchain {
 const cryptoAgoraChain = new Blockchain();
 const books = loadBooks();
 const printRuns = loadPrintRuns();
+const profiles = loadProfiles();
 const legacyOwnerEmail = String(process.env.LEGACY_OWNER_EMAIL || '').trim().toLowerCase();
 
 if (legacyOwnerEmail) {
@@ -346,6 +367,70 @@ app.get('/my-books', authenticateGoogle, (req, res) => {
     const result = Object.values(books)
         .filter((book) => book.owner_email === req.user.email);
     res.json({ count: result.length, books: result });
+});
+
+app.get('/profile', authenticateGoogle, (req, res) => {
+    return res.json({
+        profile: profiles[req.user.email] || null,
+        email: req.user.email,
+        name: req.user.name
+    });
+});
+
+app.put('/profile', authenticateGoogle, (req, res) => {
+    const {
+        profile_type: profileType,
+        display_name: displayName,
+        bio,
+        website,
+        genres,
+        public_key: publicKey,
+        payout_address: payoutAddress,
+        company_name: companyName,
+        description,
+        contact_email: contactEmail,
+        location,
+        specialties
+    } = req.body;
+
+    if (!['author', 'publisher'].includes(profileType)) {
+        return res.status(400).json({ error: 'Tipul profilului trebuie să fie author sau publisher.' });
+    }
+
+    const profile = {
+        owner_email: req.user.email,
+        profile_type: profileType,
+        updated_at: new Date().toISOString(),
+        ...(profileType === 'author'
+            ? {
+                display_name: String(displayName || '').trim(),
+                bio: String(bio || '').trim(),
+                website: String(website || '').trim(),
+                genres: String(genres || '').trim(),
+                public_key: String(publicKey || '').trim(),
+                payout_address: String(payoutAddress || '').trim()
+            }
+            : {
+                company_name: String(companyName || '').trim(),
+                description: String(description || '').trim(),
+                website: String(website || '').trim(),
+                contact_email: String(contactEmail || '').trim().toLowerCase(),
+                location: String(location || '').trim(),
+                specialties: String(specialties || '').trim()
+            })
+    };
+
+    const requiredFields = profileType === 'author'
+        ? [['display_name', profile.display_name], ['bio', profile.bio]]
+        : [['company_name', profile.company_name], ['description', profile.description], ['contact_email', profile.contact_email]];
+    const missingField = requiredFields.find(([, value]) => !value);
+    if (missingField) {
+        return res.status(400).json({ error: `Câmpul ${missingField[0]} este obligatoriu.` });
+    }
+
+    profiles[req.user.email] = profile;
+    saveProfiles(profiles);
+    return res.json({ message: 'Profilul a fost salvat.', profile });
 });
 
 app.post('/print-runs', authenticateGoogle, (req, res) => {
