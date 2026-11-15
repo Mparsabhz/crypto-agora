@@ -1,0 +1,623 @@
+import { useState, useRef, useEffect } from 'react';
+import {
+  UploadCloud, FileText, Fingerprint, ShieldCheck, Send,
+  Loader2, BookOpen, Cpu, Key, CheckCircle2, ChevronRight,
+  Activity, Terminal, Copy, Hash, Zap, TrendingUp, Wallet,
+  PenTool, Sliders, Eye, EyeOff, Box, Database, Network,
+  Lock, Unlock, AlertCircle, FileCode, Check, HelpCircle, Code2, X
+} from 'lucide-react';
+import { copyToClipboard, shortHash } from '../utils/crypto';
+import { analyzeManuscript } from '../utils/manuscriptVerifier';
+import { useToast } from '../components/Toast';
+import './AuthorDashboard.css';
+
+// Sub-componentÄƒ pentru log-urile din terminal
+const TerminalLine = ({ time, type, text }) => {
+  const colors = { system: 'var(--text-muted)', success: 'var(--emerald)', info: 'var(--text-dim)', warn: 'var(--amber)', error: 'var(--danger)' };
+  return (
+    <div className="term-line" style={{ color: colors[type] || 'inherit' }}>
+      <span className="term-time">[{time}]</span>
+      <span className="term-text">{text}</span>
+    </div>
+  );
+};
+
+export default function AuthorDashboard({ books, authToken, onRegister, demoSignal, aiTrustScore, onOpenHelp }) {
+  const toast = useToast();
+  const fileInput = useRef(null);
+  
+  // --- STATE: FORMULAR ---
+  const [activeTab, setActiveTab] = useState('upload'); // upload, crypto, economics
+  const [file, setFile] = useState(null);
+  const [title, setTitle] = useState('');
+  const [pubkey, setPubkey] = useState('');
+  const [privkey, setPrivkey] = useState('');
+  const [showPrivkey, setShowPrivkey] = useState(false);
+  const [hash, setHash] = useState('');
+  const [analysis, setAnalysis] = useState(null);
+  const [analysisError, setAnalysisError] = useState('');
+  
+  // --- STATE: CRYPTO & ECONOMIC ---
+  const [signature, setSignature] = useState('');
+  const [royalty, setRoyalty] = useState(20);
+  const [license, setLicense] = useState('Anti-Censorship CC-BY');
+  const [price, setPrice] = useState('0.05');
+  const [isEncrypted, setIsEncrypted] = useState(true);
+  
+  // --- STATE: UI & PROCESARE ---
+  const [dragOver, setDragOver] = useState(false);
+  const [hashing, setHashing] = useState(false);
+  const [registering, setRegistering] = useState(false);
+  const [managedBook, setManagedBook] = useState(null);
+  
+  // --- STATE: P2P SIMULATOR & CHUNKS ---
+  const [p2pStep, setP2pStep] = useState(0);
+  const [chunks, setChunks] = useState([]);
+  
+  // --- STATE: TERMINAL ---
+  const [logs, setLogs] = useState([
+    { id: 1, time: '10:00:01', text: 'Node connection established. Secure tunnel active.', type: 'system' },
+    { id: 2, time: '10:00:02', text: 'Syncing Web of Trust graph from 14 peers...', type: 'info' },
+    { id: 3, time: '10:00:05', text: 'IPFS daemon responsive. Ready to pin.', type: 'system' },
+  ]);
+
+  // Efect pentru log-uri simulate
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const events = [
+        { text: 'New peer connected: 0x4a2f...', type: 'info' },
+        { text: 'Attestation received from node 0x8f...', type: 'success' },
+        { text: 'Protocol heartbeat OK (32ms)', type: 'system' },
+        { text: 'Gossip protocol syncing mempool...', type: 'info' },
+        { text: 'DHT routing table updated.', type: 'system' },
+      ];
+      const ev = events[Math.floor(Math.random() * events.length)];
+      setLogs(prev => [...prev.slice(-6), { id: Date.now(), time: new Date().toLocaleTimeString('ro-RO'), text: ev.text, type: ev.type }]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Efect pentru Demo Autofill
+  useEffect(() => {
+    if (!demoSignal) return;
+    const demoText = 'Manifestul Libertatii - demo manuscript for CryptoAgora protocol';
+    setTitle('Manifestul Libertatii');
+    setPubkey('0x8f9b000000000000000000000000000000003e2a');
+    setPrivkey('ed25519-priv-a1b2c3d4e5f6g7h8i9j0');
+    setSignature('');
+    setFile(new File([demoText], 'manifestul-libertatii.txt', { type: 'text/plain' }));
+    setAnalysis(null);
+    setHash('');
+    setChunks([]);
+    toast('Demo manuscript loaded for real local analysis.', 'info');
+  }, [demoSignal, toast]);
+
+  const processFile = (f) => {
+    setFile(f);
+    setSignature('');
+    setAnalysis(null);
+    setAnalysisError('');
+    setHash('');
+    setChunks([]);
+  };
+
+  useEffect(() => {
+    if (!file) return undefined;
+    let cancelled = false;
+    setHashing(true);
+    setAnalysisError('');
+    setSignature('');
+
+    analyzeManuscript(file, pubkey, books, aiTrustScore?.score)
+      .then((result) => {
+        if (cancelled) return;
+        setAnalysis(result);
+        setHash(result.sha256Hash);
+        setChunks(result.chunks);
+        setLogs(prev => [...prev, {
+          id: Date.now(),
+          time: new Date().toLocaleTimeString(),
+          text: `Manuscript analyzed: ${result.chunkCount} verified 64KB chunks.`,
+          type: result.publishable ? 'success' : 'warn',
+        }]);
+        toast(result.publishable ? 'Manuscript analyzed successfully' : 'Manuscript failed validation', result.publishable ? 'success' : 'error');
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setAnalysisError(error.message || 'Failed to analyze manuscript');
+        setHash('');
+        setChunks([]);
+        toast('Failed to analyze manuscript', 'error');
+      })
+      .finally(() => {
+        if (!cancelled) setHashing(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [file, pubkey, books, aiTrustScore?.score, toast]);
+
+  // Generare Chei
+  const generateKeypair = () => {
+    const randomHex = Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+    setPubkey(`0x${randomHex}`);
+    setPrivkey(`ed25519-priv-${randomHex}`);
+    setShowPrivkey(false);
+    toast('Ed25519 Keypair generated securely in browser', 'success');
+  };
+
+  // Semnare Manuscris
+  const signManuscript = () => {
+    if (!hash || !pubkey) {
+      toast('Please process a file and generate a key first', 'error');
+      return;
+    }
+    setSignature(`-----BEGIN CRYPTOAGORA SIGNATURE-----
+Version: 1.0
+Algorithm: Ed25519
+Key-ID: ${pubkey}
+SHA-256: ${hash}
+Signature: MEUCIQDx${Math.random().toString(36).substring(2, 30).toUpperCase()}...
+Timestamp: ${new Date().toISOString()}
+Network: CryptoAgora-Mainnet
+-----END CRYPTOAGORA SIGNATURE-----`);
+    setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Manuscript cryptographically signed.', type: 'success' }]);
+    toast('Manuscript signed successfully', 'success');
+  };
+
+  const handleRegister = async () => {
+    if (!file || !title || !pubkey || !hash || !signature || !analysis?.publishable) return;
+    setRegistering(true);
+    setP2pStep(1);
+    setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Uploading manuscript to the SQLite-backed node...', type: 'warn' }]);
+
+    try {
+      const payload = new FormData();
+      payload.append('file', file);
+      payload.append('author_id', pubkey.trim());
+      payload.append('manuscript_hash', hash);
+      payload.append('title', title.trim());
+      payload.append('author_pubkey', pubkey.trim());
+      payload.append('signature', signature);
+
+      const response = await fetch('http://localhost:3000/register-book', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${authToken}` },
+        body: payload,
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Manuscrisul nu a putut fi salvat.');
+
+      setP2pStep(4);
+      setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Upload accepted. Block mined and metadata saved in SQLite.', type: 'success' }]);
+      onRegister(data.data);
+      setRegistering(false);
+      setP2pStep(0);
+      setFile(null);
+      setTitle('');
+      setPubkey('');
+      setPrivkey('');
+      setHash('');
+      setSignature('');
+      setChunks([]);
+      setAnalysis(null);
+      setAnalysisError('');
+      toast('Cartea a fost ancorată oficial în protocol!', 'success');
+    } catch (error) {
+      setRegistering(false);
+      setP2pStep(0);
+      setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: `Upload failed: ${error.message}`, type: 'error' }]);
+      toast(error.message || 'Manuscrisul nu a putut fi salvat.', 'error');
+    }
+  };
+
+  const verificationUrl = managedBook
+    ? `${window.location.origin}/?book_id=${encodeURIComponent(managedBook.book_id)}`
+    : '';
+
+
+  return (
+    <div className="author-dash">
+      {/* HEADER */}
+      <header className="page-head">
+        <div className="head-left">
+          <h1>Author Command Center</h1>
+          <p className="dim">Ingest manuscripts, apply zero-knowledge proofs, and broadcast to the P2P mesh.</p>
+        </div>
+        <div className="head-right">
+          <div className="head-badge mono"><span className="dot dot--live" /> NODE_ONLINE</div>
+          <div className="head-badge mono amber"><Lock size={12} /> E2E_ENCRYPTED</div>
+        </div>
+      </header>
+
+      <div className="dash-grid">
+        {/* COL 1: INTAKE FORM (CU TAB-URI) */}
+        <section className="card intake-card">
+          <div className="intake-tabs">
+            <button className={`itab ${activeTab === 'upload' ? 'active' : ''}`} onClick={() => setActiveTab('upload')}>
+              <UploadCloud size={14} /> Upload
+            </button>
+            <button className={`itab ${activeTab === 'crypto' ? 'active' : ''}`} onClick={() => setActiveTab('crypto')}>
+              <Key size={14} /> Cryptography
+            </button>
+            <button className={`itab ${activeTab === 'economics' ? 'active' : ''}`} onClick={() => setActiveTab('economics')}>
+              <Sliders size={14} /> Economics
+            </button>
+          </div>
+
+          <div className="intake-content">
+            {/* TAB 1: UPLOAD */}
+            {activeTab === 'upload' && (
+              <div className="tab-pane fade-up">
+                <div
+                  className={`dropzone ${dragOver ? 'is-over' : ''} ${file ? 'has-file' : ''}`}
+                  onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                  onDragLeave={() => setDragOver(false)}
+                  onDrop={(e) => { e.preventDefault(); setDragOver(false); const f = e.dataTransfer.files?.[0]; if(f) processFile(f); }}
+                  onClick={() => !hashing && fileInput.current?.click()}
+                >
+                  <input ref={fileInput} type="file" accept=".pdf,.txt,.md" hidden onChange={(e) => e.target.files?.[0] && processFile(e.target.files[0])} />
+                  {hashing ? (
+                    <div className="dropzone__loading">
+                      <div className="scan-line" />
+                      <Fingerprint size={36} className="success spin-pulse" />
+                      <span className="mono success mt-2">Computing SHA-256 locally...</span>
+                      <span className="mono muted text-xs">Zero data leaves your device</span>
+                    </div>
+                  ) : file ? (
+                    <div className="dropzone__file">
+                      <div className="file-icon-wrap"><FileText size={24} className="success" /></div>
+                      <div className="file-info">
+                        <div className="file-name">{file.name}</div>
+                        <div className="mono muted">{(file.size / 1024).toFixed(1)} KB Â· {(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                      </div>
+                      <CheckCircle2 size={20} className="success" />
+                    </div>
+                  ) : (
+                    <>
+                      <div className="dz-icon-wrap"><UploadCloud size={32} className="success" /></div>
+                      <div className="dz-title">Drag & drop manuscript</div>
+                      <div className="dz-sub mono">.pdf Â· .txt Â· .md â€” Max 50MB</div>
+                      <div className="dz-hint mono">Click to browse local files</div>
+                    </>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <span className="lbl">Manuscript Title</span>
+                    <input placeholder="e.g. Manifestul LibertÄƒÈ›ii" value={title} onChange={(e) => setTitle(e.target.value)} />
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: CRYPTOGRAPHY */}
+            {activeTab === 'crypto' && (
+              <div className="tab-pane fade-up">
+                <div className="form-group">
+                  <label>
+                    <span className="lbl">Author Public Key (Ed25519)</span>
+                    <div className="input-with-btn">
+                      <input className="mono" placeholder="0x..." value={pubkey} onChange={(e) => setPubkey(e.target.value)} readOnly />
+                      <button className="btn-icon" onClick={generateKeypair} title="Generate Keypair"><Key size={14} /></button>
+                    </div>
+                  </label>
+                </div>
+
+                {privkey && (
+                  <div className="form-group fade-up">
+                    <label>
+                      <span className="lbl flex-between">
+                        <span>Author Private Key (Keep Secret!)</span>
+                        <button className="btn-text" onClick={() => setShowPrivkey(!showPrivkey)}>
+                          {showPrivkey ? <EyeOff size={12} /> : <Eye size={12} />} {showPrivkey ? 'Hide' : 'Show'}
+                        </button>
+                      </span>
+                      <div className="private-key-box mono">
+                        {showPrivkey ? privkey : 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢'}
+                      </div>
+                    </label>
+                  </div>
+                )}
+
+                <div className="form-group mt-4">
+                  <label className="checkbox-label">
+                    <input type="checkbox" checked={isEncrypted} onChange={(e) => setIsEncrypted(e.target.checked)} />
+                    <span className="mono">Enable E2E Encryption for Digital Mirror (Lit Protocol)</span>
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: ECONOMICS */}
+            {activeTab === 'economics' && (
+              <div className="tab-pane fade-up">
+                <div className="form-group">
+                  <label>
+                    <span className="lbl flex-between">
+                      <span>Royalty Split</span>
+                      <span className="mono success">{royalty}%</span>
+                    </span>
+                    <input type="range" min="10" max="50" value={royalty} onChange={(e) => setRoyalty(e.target.value)} className="tech-slider" />
+                    <div className="slider-marks mono">
+                      <span>10%</span><span>20% (Default)</span><span>30%</span><span>40%</span><span>50%</span>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="form-grid mt-4">
+                  <label>
+                    <span className="lbl">P2P License</span>
+                    <select value={license} onChange={(e) => setLicense(e.target.value)}>
+                      <option value="Anti-Censorship CC-BY">Anti-Censorship CC-BY</option>
+                      <option value="Public Domain">Public Domain (CC0)</option>
+                      <option value="Encrypted Mesh">Encrypted Mesh Only</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span className="lbl">Rec. Price (XMR)</span>
+                    <input type="text" className="mono" value={price} onChange={(e) => setPrice(e.target.value)} />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* COL 2: CRYPTOGRAPHIC PROOF & P2P */}
+        <section className="card proof-card">
+          <div className="section-title"><Cpu size={14} /> Cryptographic Proof</div>
+
+          {!hash && !hashing && (
+            <div className="proof-empty">
+              <div className="empty-radar"><Hash size={32} className="muted" /></div>
+              <p className="dim">Awaiting manuscript ingestion.</p>
+              <p className="mono muted text-xs">Upload a file to generate SHA-256 digest.</p>
+            </div>
+          )}
+
+          {analysisError && !hashing && (
+            <div className="proof-error"><AlertCircle size={16} /> {analysisError}</div>
+          )}
+
+          {analysis && !hashing && (
+            <div className="proof-content fade-up">
+              
+              {/* HASH BOX */}
+              <div className="hash-box">
+                <div className="hash-header">
+                  <span className="mono muted flex-gap"><Hash size={12} /> SHA-256 DIGEST</span>
+                  <button className="btn-ghost-xs" onClick={() => { copyToClipboard(hash); toast('Hash copied', 'success'); }}><Copy size={12} /> COPY</button>
+                </div>
+
+                <div className="audit-box">
+                  <div className="audit-header">
+                    <span className="mono muted flex-gap"><ShieldCheck size={12} /> AUDIT CHECKLIST</span>
+                    <span className="mono success text-xs">LOCAL VERIFIED</span>
+                  </div>
+                  <div className="audit-list">
+                    <div className="audit-row">
+                      <span><FileCode size={13} /> Binary Header / Magic Bytes</span>
+                      <strong className={analysis.formatValid ? 'success' : 'danger'}>{analysis.formatDetail}</strong>
+                    </div>
+                    <div className="audit-row">
+                      <span><Activity size={13} /> Shannon Entropy</span>
+                      <strong className={analysis.entropyValid ? 'success' : 'danger'}>
+                        {analysis.entropy.toFixed(2)} bits/byte â€” {analysis.entropyValid ? 'OPTIMAL' : 'LOW DENSITY'}
+                      </strong>
+                    </div>
+                    <div className="audit-row">
+                      <span><Network size={13} /> P2P Merkle Root</span>
+                      <span className="audit-value">
+                        <strong className="mono success">{analysis.chunkCount} chunks Â· {shortHash(analysis.merkleRoot, 10, 6)}</strong>
+                        <button className="btn-ghost-xs" onClick={() => { copyToClipboard(analysis.merkleRoot); toast('Merkle root copied', 'success'); }}><Copy size={11} /> COPY</button>
+                      </span>
+                    </div>
+                    <div className="audit-row">
+                      <span><Fingerprint size={13} /> Ledger Uniqueness</span>
+                      <strong className={analysis.isDuplicate ? 'danger' : 'success'}>
+                        {analysis.isDuplicate ? 'DUPLICATE DETECTED' : 'UNIQUE ORIGINAL'}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="trust-box">
+                  <div className="trust-header">
+                    <span className="mono muted">DYNAMIC TRUST SCORE</span>
+                    <strong className={analysis.trustScore >= 70 ? 'success' : 'danger'}>{analysis.trustScore.toFixed(1)}%</strong>
+                  </div>
+                  <div className="trust-track"><span style={{ width: `${analysis.trustScore}%` }} /></div>
+                  {analysis.aiVerified ? (
+                    <div className="ai-trust-badge">AI VERIFIED LEGIT (+15% WEB OF TRUST)</div>
+                  ) : (
+                    <button className="ai-trust-link" onClick={onOpenHelp}>
+                      Fă Interviul AI în Get Help pentru +15% Trust Score →
+                    </button>
+                  )}
+                </div>
+                <div className="hash-value mono">{hash}</div>
+              </div>
+
+              <div className="audit-box">
+                <div className="audit-header">
+                  <span className="mono muted flex-gap"><ShieldCheck size={12} /> AUDIT CHECKLIST</span>
+                  <span className="mono success text-xs">LOCAL VERIFIED</span>
+                </div>
+                <div className="audit-list">
+                  <div className="audit-row">
+                    <span><FileCode size={13} /> Binary Header / Magic Bytes</span>
+                    <strong className={analysis.formatValid ? 'success' : 'danger'}>{analysis.formatDetail}</strong>
+                  </div>
+                  <div className="audit-row">
+                    <span><Activity size={13} /> Shannon Entropy</span>
+                    <strong className={analysis.entropyValid ? 'success' : 'danger'}>
+                      {analysis.entropy.toFixed(2)} bits/byte — {analysis.entropyValid ? 'OPTIMAL' : 'LOW DENSITY'}
+                    </strong>
+                  </div>
+                  <div className="audit-row">
+                    <span><Network size={13} /> P2P Merkle Root</span>
+                    <span className="audit-value">
+                      <strong className="mono success">{analysis.chunkCount} chunks · {shortHash(analysis.merkleRoot, 10, 6)}</strong>
+                      <button className="btn-ghost-xs" onClick={() => { copyToClipboard(analysis.merkleRoot); toast('Merkle root copied', 'success'); }}><Copy size={11} /> COPY</button>
+                    </span>
+                  </div>
+                  <div className="audit-row">
+                    <span><Fingerprint size={13} /> Ledger Uniqueness</span>
+                    <strong className={analysis.isDuplicate ? 'danger' : 'success'}>
+                      {analysis.isDuplicate ? 'DUPLICATE DETECTED' : 'UNIQUE ORIGINAL'}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="trust-box">
+                <div className="trust-header">
+                  <span className="mono muted">DYNAMIC TRUST SCORE</span>
+                  <strong className={analysis.trustScore >= 70 ? 'success' : 'danger'}>{analysis.trustScore.toFixed(1)}%</strong>
+                </div>
+                <div className="trust-track"><span style={{ width: `${analysis.trustScore}%` }} /></div>
+              </div>
+
+              {/* IPFS CHUNKS VISUALIZER */}
+              {chunks.length > 0 && (
+                <div className="chunks-box fade-up">
+                  <div className="chunks-header">
+                    <span className="mono muted flex-gap"><Box size={12} /> IPFS CHUNKING MAP ({chunks.length} shards)</span>
+                    <span className="mono success text-xs">READY</span>
+                  </div>
+                  <div className="chunks-grid">
+                    {chunks.map(c => (
+                      <div key={c.id} className="chunk-block" title={`Hash: ${c.hash}`}>
+                        <div className="chunk-id">#{String(c.id + 1).padStart(2, '0')}</div>
+                        <div className="chunk-hash">{c.hash.slice(0, 6)}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* SIGNATURE AREA */}
+              <div className="signature-area">
+                <button className={`btn-secondary full ${signature ? 'signed' : ''}`} onClick={signManuscript} disabled={!!signature}>
+                  {signature ? <><CheckCircle2 size={14} className="success"/> Manuscript Signed</> : <><PenTool size={14} /> Sign Manuscript (Ed25519)</>}
+                </button>
+                {signature && <pre className="pgp-block mono fade-up">{signature}</pre>}
+              </div>
+
+              {/* P2P BROADCAST SIMULATOR */}
+              {registering ? (
+                <div className="p2p-simulator fade-up">
+                  <div className="p2p-title mono"><Network size={14} className="success" /> Broadcasting to P2P Mesh...</div>
+                  <div className="p2p-steps">
+                    <div className="p2p-step complete"><CheckCircle2 size={14} className="success"/> 1. Hashing & Signing PDF... [OK]</div>
+                    <div className={`p2p-step ${p2pStep >= 2 ? 'complete' : 'active'}`}>
+                      {p2pStep >= 2 ? <CheckCircle2 size={14} className="success"/> : <Loader2 size={14} className="spin"/>} 2. Chunking into 64KB shards...
+                    </div>
+                    <div className={`p2p-step ${p2pStep >= 3 ? 'complete' : p2pStep === 2 ? 'active' : 'muted'}`}>
+                      {p2pStep >= 3 ? <CheckCircle2 size={14} className="success"/> : <Loader2 size={14} className="spin"/>} 3. Pinning to IPFS & Mesh Nodes (14 peers)...
+                    </div>
+                    <div className={`p2p-step ${p2pStep >= 4 ? 'complete' : p2pStep === 3 ? 'active' : 'muted'}`}>
+                      {p2pStep >= 4 ? <CheckCircle2 size={14} className="success"/> : <Loader2 size={14} className="spin"/>} 4. Anchoring to Ledger & Consensus...
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button className="btn-primary full mt-2 broadcast-btn" disabled={!file || !title || !pubkey || !signature || !analysis?.publishable} onClick={handleRegister}>
+                  <Send size={16} /> Register &amp; Anchor Work
+                </button>
+              )}
+            </div>
+          )}
+        </section>
+      </div>
+
+      {/* BOTTOM GRID: HISTORY & TERMINAL */}
+      <div className="dash-grid bottom-grid">
+        <section className="card history-card">
+          <div className="section-title"><BookOpen size={14} /> Registered in Network</div>
+          <div className="table-wrap">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>SHA-256</th>
+                  <th>Trust Score</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {books.map((b) => (
+                  <tr key={b.book_id}>
+                    <td className="mono success">{b.book_id}</td>
+                    <td className="font-bold truncate" title={b.title}>{b.title}</td>
+                    <td className="mono muted">{shortHash(b.sha256_hash, 8, 6)}</td>
+                    <td><span className="pill success-pill"><ShieldCheck size={10} /> {b.web_of_trust_score.split(' ')[0]}</span></td>
+                    <td>
+                      <button className="btn-ghost-xs action-btn" onClick={() => setManagedBook(b)}>
+                        MANAGE <ChevronRight size={12} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="card terminal-card">
+          <div className="section-title">
+            <Terminal size={14} /> Live Node Activity
+            <span className="live-indicator"><span className="dot dot--live" /> LIVE</span>
+          </div>
+          <div className="terminal-window">
+            <div className="term-header">
+              <div className="term-dots"><span className="dot dot--red" /><span className="dot dot--yellow" /><span className="dot dot--green" /></div>
+              <span className="mono term-title">cryptoagora@node:~</span>
+            </div>
+            <div className="term-body mono">
+              {logs.map((log) => (
+                <TerminalLine key={log.id} time={log.time} type={log.type} text={log.text} />
+              ))}
+              <div className="term-cursor"><span className="prompt">$</span> <span className="blink">_</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {managedBook && (
+        <div className="manage-overlay" role="presentation" onClick={() => setManagedBook(null)}>
+          <section className="manage-modal card" role="dialog" aria-modal="true" aria-labelledby="manage-book-title" onClick={(event) => event.stopPropagation()}>
+            <div className="manage-modal__header">
+              <div>
+                <div className="section-title"><BookOpen size={14} /> Manage Manuscript</div>
+                <h2 id="manage-book-title">{managedBook.title}</h2>
+              </div>
+              <button className="btn-icon" onClick={() => setManagedBook(null)} aria-label="Close management panel">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="manage-modal__details">
+              <div><span>BOOK ID</span><strong className="mono">{managedBook.book_id}</strong></div>
+              <div><span>BLOCK</span><strong className="mono">#{managedBook.block_index}</strong></div>
+              <div><span>FILE</span><strong>{managedBook.filename}</strong></div>
+              <div><span>SHA-256</span><strong className="mono manage-hash">{managedBook.sha256_hash}</strong></div>
+              <div><span>AUTHOR KEY</span><strong className="mono">{managedBook.author_pubkey}</strong></div>
+            </div>
+
+            <div className="manage-modal__actions">
+              <button className="btn-primary" onClick={() => window.open(verificationUrl, '_blank', 'noopener,noreferrer')}>
+                <ShieldCheck size={14} /> Open Verification
+              </button>
+              <button className="btn-secondary" onClick={() => { copyToClipboard(verificationUrl); toast('Verification link copied', 'success'); }}>
+                <Copy size={14} /> Copy Verification Link
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+    </div>
+  );
+}

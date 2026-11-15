@@ -1,0 +1,51 @@
+{
+  "ca_02": {
+    "book_id": "ca_02",
+    "title": "idk",
+    "author_pubkey": "0xe9aabc78743c6db5eefa8512cd50bde9169a7a2a",
+    "signature": "-----BEGIN CRYPTOAGORA SIGNATURE-----\r\nVersion: 1.0\r\nAlgorithm: Ed25519\r\nKey-ID: 0xe9aabc78743c6db5eefa8512cd50bde9169a7a2a\r\nSHA-256: 08dff7cbafeff9591bd7b232b734b2863eb3660ded939efc1f9870faf2a624d0\r\nSignature: MEUCIQDxQ2N25C7AJVL...\r\nTimestamp: 2026-11-14T23:24:51.413Z\r\nNetwork: CryptoAgora-Mainnet\r\n-----END CRYPTOAGORA SIGNATURE-----",
+    "sha256_hash": "08dff7cbafeff9591bd7b232b734b2863eb3660ded939efc1f9870faf2a624d0",
+    "filename": "AlgebraGeometrie1.pdf",
+    "stored_as": "1794698693228-d9ab22fbd555f9f7.pdf",
+    "file_size": 1112021,
+    "web_of_trust_score": "99.9% (Verified Author)",
+    "print_batch": null,
+    "royalty_split": "20% Direct-to-Author",
+    "xmr_tx_proof": null,
+    "block_index": 2,
+    "block_hash": "0056b4394c67b61034f65ab5d4e7377c395cc01641301ec4e6a4a55fc3fbbdc5"
+  },
+  "ca_03": {
+    "book_id": "ca_03",
+    "title": "djjghgjyhgj",
+    "author_pubkey": "0x2bab3e64c3cc9d742ab022d46ca74db8367dafbf",
+    "signature": "-----BEGIN CRYPTOAGORA SIGNATURE-----\r\nVersion: 1.0\r\nAlgorithm: Ed25519\r\nKey-ID: 0x2bab3e64c3cc9d742ab022d46ca74db8367dafbf\r\nSHA-256: 790f165e9add5455e148b86668ee9eeb4d9b0620d93e7b37b6fa65712d8b0d22\r\nSignature: MEUCIQDx4WVTWTYSQLX...\r\nTimestamp: 2026-11-15T00:22:45.931Z\r\nNetwork: CryptoAgora-Mainnet\r\n-----END CRYPTOAGORA SIGNATURE-----",
+    "sha256_hash": "790f165e9add5455e148b86668ee9eeb4d9b0620d93e7b37b6fa65712d8b0d22",
+    "filename": "Curs_SDA_05 (1).pdf",
+    "stored_as": "1794702168476-bc317c050be3cd63.pdf",
+    "file_size": 1341612,
+    "web_of_trust_score": "99.9% (Verified Author)",
+    "print_batch": null,
+    "royalty_split": "20% Direct-to-Author",
+    "xmr_tx_proof": null,
+    "block_index": 4,
+    "block_hash": "001bd1da4e649bf32da412c2604dcce4ac8dbd371b516f59c08928fff2542717"
+  },
+  "ca_04": {
+    "book_id": "ca_04",
+    "owner_email": "puscasdanielionut@gmail.com",
+    "title": "testam si noi",
+    "author_pubkey": "0x6047314b5bf61cbbfe1bbdf047ea6df30e8a4b28",
+    "signature": "-----BEGIN CRYPTOAGORA SIGNATURE-----\r\nVersion: 1.0\r\nAlgorithm: Ed25519\r\nKey-ID: 0x6047314b5bf61cbbfe1bbdf047ea6df30e8a4b28\r\nSHA-256: a54d844f4a366855fb05afbe3209d33c19415f1125cce74e165a369e64fa8680\r\nSignature: MEUCIQDx5YVYCTI2PGU...\r\nTimestamp: 2026-11-15T00:48:58.609Z\r\nNetwork: CryptoAgora-Mainnet\r\n-----END CRYPTOAGORA SIGNATURE-----",
+    "sha256_hash": "a54d844f4a366855fb05afbe3209d33c19415f1125cce74e165a369e64fa8680",
+    "filename": "Curs2AlgLinCTI2015.pdf",
+    "stored_as": "1794703741964-9b084043c751a4ca.pdf",
+    "file_size": 123043,
+    "web_of_trust_score": "99.9% (Verified Author)",
+    "print_batch": null,
+    "royalty_split": "20% Direct-to-Author",
+    "xmr_tx_proof": null,
+    "block_index": 5,
+    "block_hash": "00a0f6ed428f781ab73c51998e2434e9d499139d7f1f6037427b458959adca1a"
+  }
+}

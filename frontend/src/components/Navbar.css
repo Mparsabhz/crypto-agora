@@ -1,0 +1,73 @@
+.navbar {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: #05070a;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.14);
+  isolation: isolate;
+}
+.navbar.is-home { background: transparent; border-bottom-color: transparent; }
+.navbar.is-subpage { background: #05070a; }
+.navbar__brand { display: flex; align-items: center; padding: 0; text-align: left; }
+.navbar__brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.navbar__name { font-weight: 700; letter-spacing: 0.18em; font-size: 15px; color: var(--text-main); }
+.navbar__name strong { color: var(--accent-primary); }
+.navbar__tag  { margin-top: 5px; font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.08em; }
+.navbar__tag b { color: var(--accent-primary); font-weight: 700; }
+
+.navbar__menu-toggle { position: fixed; top: 24px; right: 28px; z-index: 1100; width: 44px; height: 40px; display: grid; place-content: center; gap: 5px; border: 1px solid rgba(0, 229, 255, 0.25); border-radius: 7px; transition: border-color .2s, box-shadow .2s; }
+.navbar__menu-toggle span { display: block; width: 19px; height: 1px; background: var(--accent-primary); transition: transform .25s, opacity .2s; }
+.navbar__menu-toggle:hover { border-color: var(--accent-primary); box-shadow: 0 0 18px rgba(0, 229, 255, .18); }
+.navbar.is-menu-open .navbar__menu-toggle span:first-child { transform: translateY(6px) rotate(45deg); }
+.navbar.is-menu-open .navbar__menu-toggle span:nth-child(2) { opacity: 0; }
+.navbar.is-menu-open .navbar__menu-toggle span:last-child { transform: translateY(-6px) rotate(-45deg); }
+
+.navbar__backdrop { position: fixed; inset: 0; z-index: 1; background: rgba(0, 0, 0, .35); cursor: default; }
+.navbar__drawer { position: fixed; z-index: 2; top: 0; right: 0; width: min(390px, calc(100vw - 24px)); height: 100vh; display: flex; flex-direction: column; padding: 90px 28px 28px; background: rgba(12, 17, 24, .96); backdrop-filter: blur(16px); border-left: 1px solid rgba(0, 229, 255, .25); box-shadow: -20px 0 60px rgba(0, 0, 0, .4); transform: translateX(105%); transition: transform .3s ease; pointer-events: none; }
+.navbar__drawer.is-open { transform: translateX(0); pointer-events: auto; }
+.navbar__drawer-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid rgba(0, 229, 255, .14); color: var(--text-muted); font-size: 10px; }
+.navbar__drawer-status { color: #10b981; font: 10px var(--mono); }
+.navbar__drawer-status i, .navbar__network-status i { display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, .6); }
+.navbar__drawer-section { padding-top: 28px; }
+.navbar__drawer-label { display: block; margin-bottom: 12px; color: var(--text-muted); font: 10px var(--mono); letter-spacing: .14em; }
+.navbar__modules { display: flex; flex-direction: column; gap: 5px; }
+.navbar__module { position: relative; display: grid; grid-template-columns: 22px 1fr; align-items: center; gap: 10px; width: 100%; padding: 14px 12px; color: var(--text-muted); text-align: left; border: 1px solid transparent; border-radius: 6px; font-size: 13px; transition: color .2s, background .2s, border-color .2s; }
+.navbar__module:hover, .navbar__module.is-active { color: var(--text-main); background: rgba(0, 229, 255, .07); border-color: rgba(0, 229, 255, .2); }
+.navbar__module.is-active { color: var(--accent-primary); }
+.navbar__module > span { display: flex; align-items: center; gap: 8px; }
+.navbar__module-badge { padding: 2px 5px; color: var(--accent-primary); border: 1px solid rgba(0, 229, 255, .3); border-radius: 4px; font: 8px var(--mono); letter-spacing: .08em; }
+.navbar__module-active { position: absolute; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary); }
+.navbar__session { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; padding: 12px; border: 1px solid rgba(0, 229, 255, .16); border-radius: 8px; background: rgba(0, 229, 255, .04); }
+.navbar__role-badge { color: var(--accent-primary); font: 10px var(--mono); letter-spacing: .08em; }
+.navbar__logout { padding: 6px 10px; color: var(--text-muted); background: transparent; border: 1px solid rgba(239, 68, 68, .25); border-radius: 6px; font-size: 11px; transition: color .2s, border-color .2s, background .2s; }
+.navbar__logout:hover { color: #fca5a5; background: rgba(239, 68, 68, .08); border-color: rgba(239, 68, 68, .55); }
+.navbar__drawer-footer { margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(0, 229, 255, .14); }
+.navbar__contacts-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0; color: var(--text-muted); }
+.navbar__contacts-toggle .navbar__drawer-label { margin-bottom: 0; }
+.navbar__contacts-toggle svg { transition: transform .2s ease; }
+.navbar__contacts-toggle.is-open svg { transform: rotate(180deg); }
+.navbar__contacts-toggle:hover { color: var(--accent-primary); }
+.navbar__contacts-list { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+.navbar__contact { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; color: var(--text); font-size: 13px; }
+.navbar__contacts-list .navbar__contact { margin-top: 0; }
+.navbar__contact-links { display: flex; gap: 8px; }
+.navbar__social { display: grid; width: 34px; height: 34px; place-items: center; color: #fff; border-radius: 8px; transition: transform .2s, box-shadow .2s; }
+.navbar__social:hover { transform: translateY(-3px); }
+.navbar__social--instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.navbar__social--instagram:hover { box-shadow: 0 6px 18px rgba(220, 39, 67, .35); }
+.navbar__social--linkedin { background: #0A66C2; }
+.navbar__social--linkedin:hover { box-shadow: 0 6px 18px rgba(10, 102, 194, .4); }
+
+@media (max-width: 640px) {
+  .navbar { padding: 14px 16px; }
+  .navbar__name { font-size: 13px; }
+  .navbar__tag { font-size: 8px; }
+  .navbar__drawer { padding-left: 20px; padding-right: 20px; }
+  .navbar__menu-toggle { top: 14px; right: 16px; }
+}
