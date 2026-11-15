@@ -22,23 +22,51 @@ const INTERVIEW_QUESTIONS = [
   'Ești de acord ca amprenta digitală a cărții să fie verificată public prin cod QR pentru a preveni falsurile?',
 ];
 
-async function askGemini(contents) {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  if (!apiKey) throw new Error('Gemini API key is not configured');
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-      contents,
-      generationConfig: { temperature: 0.85, topP: 0.95, maxOutputTokens: 700 },
-    }),
-  });
-  if (!response.ok) throw new Error(`Gemini request failed with status ${response.status}`);
-  const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('').trim();
-  if (!text) throw new Error('Gemini returned an empty response');
-  return text;
+const AI_CHAT_ENDPOINT = import.meta.env.VITE_AI_CHAT_ENDPOINT || '/api/chat';
+
+async function askGroq(contents) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  const prompt = [
+    SYSTEM_PROMPT,
+    ...contents.map((content) => `${content.role === 'model' ? 'CryptoAgora Sentinel' : 'Utilizator'}: ${content.parts.map((part) => part.text || '').join('')}`),
+  ].join('\n\n');
+
+  try {
+    console.log('[CryptoAgora AI] Trimit cererea către Groq...');
+    const response = await fetch(AI_CHAT_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        prompt,
+      }),
+    });
+    console.log('[CryptoAgora AI] Status HTTP:', response.status);
+
+    let data = {};
+    try {
+      data = await response.json();
+    } catch {
+      data = {};
+    }
+    console.log('[CryptoAgora AI] Răspuns brut:', data);
+
+    if (!response.ok) {
+      const error = new Error(data?.error || `Groq request failed with status ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
+
+    const aiText = data?.reply?.trim();
+    if (!aiText) throw new Error(data?.error || 'Groq returned an empty response');
+    console.log('[CryptoAgora AI] Răspuns live:', aiText);
+    return { text: aiText, source: 'groq' };
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 async function evaluateInterview(answers) {
@@ -47,7 +75,7 @@ Răspunsuri:
 1. ${answers[0]}
 2. ${answers[1]}
 3. ${answers[2]}`;
-  const text = await askGemini([{ role: 'user', parts: [{ text: prompt }] }]);
+  const { text } = await askGroq([{ role: 'user', parts: [{ text: prompt }] }]);
   const parsed = JSON.parse(text.replace(/^```json\s*|\s*```$/g, '').trim());
   const score = Math.max(0, Math.min(100, Math.round(Number(parsed.score))));
   const vulgarityDetected = FALLBACK_ENGINE.containsVulgarity(answers.join(' '));
@@ -61,7 +89,7 @@ Răspunsuri:
       ? 'Putem continua imediat ce răspunsurile sunt reformulate civilizat. Un interviu de încredere are nevoie de claritate, nu de limbaj agresiv.'
       : String(parsed.summary || parsed.reasoning?.riskSignals || 'Evaluarea a fost finalizată.'),
     reasoning: parsed.reasoning || {},
-    source: 'gemini',
+    source: 'groq',
   };
 }
 
@@ -102,17 +130,35 @@ export default function GetHelp({ aiTrustScore, onTrustResult }) {
     setMessages((current) => [...current, { id: Date.now(), role: 'user', text: trimmedQuestion }]);
     setChatting(true);
     let response;
-    if (FALLBACK_ENGINE.containsVulgarity(trimmedQuestion)) {
-      response = FALLBACK_ENGINE.answer(trimmedQuestion);
-    } else {
-      try {
-        response = await askGemini(conversation);
-      } catch {
+    let responseSource = 'local';
+    let fallbackNotice = '';
+    try {
+      if (FALLBACK_ENGINE.containsVulgarity(trimmedQuestion)) {
         response = FALLBACK_ENGINE.answer(trimmedQuestion);
+      } else {
+        const liveResponse = await askGroq(conversation);
+        response = liveResponse.text;
+        responseSource = liveResponse.source;
       }
+    } catch (error) {
+      console.error('[CryptoAgora AI] Cererea Groq a eșuat, folosesc fallback local:', error);
+      response = FALLBACK_ENGINE.answer(trimmedQuestion);
+      fallbackNotice = error?.status === 503
+        ? '🟡 Groq API ocupat (503) — mod local activ'
+        : error?.name === 'AbortError'
+          ? '🟡 Groq API nu a răspuns în 15 secunde — mod local activ'
+          : '';
+    } finally {
+      setChatting(false);
     }
-    setMessages((current) => [...current, { id: Date.now() + 1, role: 'assistant', text: response, feedback: null }]);
-    setChatting(false);
+    setMessages((current) => [...current, {
+      id: Date.now() + 1,
+      role: 'assistant',
+      text: response,
+      source: responseSource,
+      notice: fallbackNotice,
+      feedback: null,
+    }]);
   };
 
   const handleFeedback = (messageId, messageText, value) => {
@@ -186,7 +232,9 @@ export default function GetHelp({ aiTrustScore, onTrustResult }) {
               <div key={message.id} className={`help-message help-message--${message.role}`}>
                 <span>{message.role === 'assistant' ? 'AI' : 'TU'}</span>
                 <div>
+                  {message.notice && <small className="help-fallback-notice">{message.notice}</small>}
                   <p>{message.text}</p>
+                  {message.source === 'groq' && <small className="help-live-badge">🟢 LIVE GROQ AI</small>}
                   {message.role === 'assistant' && (
                     <div className="help-feedback">
                       <button className={message.feedback === 'helpful' ? 'is-selected' : ''} disabled={Boolean(message.feedback)} onClick={() => handleFeedback(message.id, message.text, 'helpful')}><ThumbsUp size={12} /> Răspuns util</button>
@@ -232,7 +280,7 @@ export default function GetHelp({ aiTrustScore, onTrustResult }) {
           {verdict && (
             <div className={`help-verdict ${verdict.score >= 75 ? 'is-positive' : 'is-risk'}`}>
               <CheckCircle2 size={30} />
-              <span className="help-step">CARD OFICIAL DE VERDICT AI · {verdict.source === 'gemini' ? 'GEMINI' : 'LOCAL FALLBACK'}</span>
+              <span className="help-step">CARD OFICIAL DE VERDICT AI · {verdict.source === 'groq' ? 'GROQ' : 'LOCAL FALLBACK'}</span>
               <strong className="help-verdict__score">{verdict.score}%</strong>
               <h2>{verdict.status}</h2>
               <p>{verdict.summary}</p>

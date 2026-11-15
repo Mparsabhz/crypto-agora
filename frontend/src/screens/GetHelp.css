@@ -19,10 +19,12 @@
 .help-message { display: flex; gap: 10px; align-items: flex-start; max-width: 82%; }
 .help-message > span { flex: 0 0 auto; padding-top: 9px; color: #00e5ff; font: 9px var(--mono, monospace); }
 .help-message p { margin: 0; padding: 10px 13px; color: #d7e0e4; line-height: 1.55; border: 1px solid rgba(255,255,255,.08); border-radius: 4px 12px 12px; background: #111a23; }
+.help-fallback-notice { display: block; margin: 0 0 6px 13px; color: #f0c674; font: 10px var(--mono, monospace); }
 .help-feedback { display: flex; gap: 5px; margin-top: 5px; }
 .help-feedback button { display: inline-flex; align-items: center; gap: 4px; padding: 3px 5px; color: #70818a; border: 0; background: transparent; cursor: pointer; font-size: 10px; }
 .help-feedback button:hover, .help-feedback button.is-selected { color: #00e5ff; }
 .help-feedback button:disabled { cursor: default; }
+.help-live-badge { display: block; margin-top: 6px; color: #71e6a1; font: 9px var(--mono, monospace); letter-spacing: .06em; }
 .help-message--user { align-self: flex-end; flex-direction: row-reverse; }
 .help-message--user > span { color: #8de68a; }
 .help-message--user p { border-color: rgba(0,229,255,.18); border-radius: 12px 4px 12px 12px; }
