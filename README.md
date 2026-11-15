@@ -118,7 +118,27 @@ cd ../frontend
 npm install
 ```
 
-### 4. Configurează backend-ul
+### 4. Opțional: rulează prototipul FastAPI
+
+`main.py` este un prototip Python separat de aplicația principală Express. Pentru a-l porni:
+
+```bash
+cd ..
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+Pe Windows, activarea mediului virtual este:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Prototipul FastAPI folosește un fișier local `db.json` și nu este necesar pentru rularea frontend-ului împreună cu backend-ul Express.
+
+### 5. Configurează backend-ul
 
 Creează fișierul `backend/.env`:
 
@@ -135,7 +155,7 @@ Toate cheile sunt opționale pentru pornirea aplicației:
 - fără `GOOGLE_CLIENT_ID`, proiectul folosește Client ID-ul demonstrativ inclus în cod;
 - nu comite niciodată fișiere `.env` sau chei API.
 
-### 5. Pornește API-ul
+### 6. Pornește API-ul
 
 Într-un terminal:
 
@@ -152,7 +172,7 @@ npm run dev
 
 Backend-ul rulează pe [http://localhost:3000](http://localhost:3000).
 
-### 6. Pornește frontend-ul
+### 7. Pornește frontend-ul
 
 Într-un al doilea terminal:
 
