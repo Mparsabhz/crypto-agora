@@ -145,7 +145,10 @@ export default function Profile({ authToken, user }) {
               <label className="field"><span>Locație</span><input value={profile.location} onChange={update('location')} placeholder="București, România" /></label>
             </div>
             <label className="field"><span>Specializări</span><input value={profile.specialties} onChange={update('specialties')} placeholder="tipar, distribuție, fantasy" /></label>
-            <label className="field"><span><KeyRound size={12} /> Cheie publică editură (generată automat)</span><input className="mono" value={profile.public_key} readOnly aria-readonly="true" /></label>
+            <div className="profile-grid">
+              <label className="field"><span><KeyRound size={12} /> Cheie publică editură (generată automat)</span><input className="mono" value={profile.public_key} readOnly aria-readonly="true" /></label>
+              <label className="field"><span>Adresă payout editură</span><input className="mono" value={profile.payout_address} onChange={update('payout_address')} placeholder="Adresa pentru decontare" /></label>
+            </div>
           </>
         )}
 

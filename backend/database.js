@@ -39,7 +39,41 @@ db.exec(`
         created_at TEXT NOT NULL,
         copy_data TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS trust_attestations (
+        attestation_id TEXT PRIMARY KEY,
+        from_profile_id TEXT NOT NULL,
+        to_profile_id TEXT NOT NULL,
+        reason TEXT NOT NULL,
+        weight INTEGER NOT NULL,
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS trust_reports (
+        report_id TEXT PRIMARY KEY,
+        reporter_profile_id TEXT NOT NULL,
+        subject_profile_id TEXT NOT NULL,
+        category TEXT NOT NULL,
+        reason TEXT NOT NULL,
+        severity INTEGER NOT NULL,
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS payments (
+        payment_id TEXT PRIMARY KEY,
+        book_id TEXT NOT NULL,
+        copy_id TEXT,
+        amount_xmr REAL NOT NULL,
+        author_amount_xmr REAL NOT NULL,
+        publisher_amount_xmr REAL NOT NULL,
+        royalty_percent REAL NOT NULL,
+        status TEXT NOT NULL,
+        tx_id TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
 `);
+
+const paymentColumns = db.pragma('table_info(payments)').map((column) => column.name);
+if (paymentColumns.includes('protocol_amount_xmr') && !paymentColumns.includes('publisher_amount_xmr')) {
+    db.exec('ALTER TABLE payments RENAME COLUMN protocol_amount_xmr TO publisher_amount_xmr');
+}
 
 function readJsonFile(file) {
     if (!fs.existsSync(file)) return {};

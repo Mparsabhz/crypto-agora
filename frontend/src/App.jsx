@@ -14,6 +14,7 @@ import GetHelp from './screens/GetHelp';
 import Profile from './screens/Profile';
 import ProfileDirectory from './screens/ProfileDirectory';
 import PublisherPanel from './screens/PublisherPanel';
+import TrustDashboard from './screens/TrustDashboard';
 import './App.css';
 
 const API_BASE = 'http://localhost:3000';
@@ -234,6 +235,7 @@ function Shell() {
         {screen === 'explorer' && <NetworkExplorer />}
         {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
         {screen === 'profile' && <Profile authToken={user.credential} user={user} />}
+        {screen === 'trust' && <TrustDashboard authToken={user.credential} />}
         {screen === 'authors' && <ProfileDirectory initialType="author" />}
         {screen === 'publishers' && <ProfileDirectory initialType="publisher" />}
       </main>

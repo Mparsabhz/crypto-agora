@@ -21,8 +21,10 @@ export default function ReaderVerification({ books }) {
   const [lot, setLot] = useState('');
   const [tipSending, setTipSending] = useState(false);
   const [tipSent, setTipSent] = useState(false);
+  const [payment, setPayment] = useState(null);
   const [showRawJson, setShowRawJson] = useState(false);
   const [verification, setVerification] = useState(null);
+  const [copyInvalid, setCopyInvalid] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -43,7 +45,11 @@ export default function ReaderVerification({ books }) {
       : `http://localhost:3000/books/${encodeURIComponent(selectedBookId)}`;
     fetch(endpoint)
       .then(async (response) => {
-        if (!response.ok) throw new Error('Book verification failed');
+        if (!response.ok) {
+          const error = new Error('Book verification failed');
+          error.status = response.status;
+          throw error;
+        }
         return response.json();
       })
       .then((data) => {
@@ -66,11 +72,12 @@ export default function ReaderVerification({ books }) {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         if (!active) return;
-        const fallback = books.find((item) => item.book_id === selectedBookId);
+        const fallback = books.find((item) => item.book_id === selectedBookId) || books[0];
         setBook(fallback);
         setVerification({ verified: false });
+        setCopyInvalid(error.status === 410);
       });
 
     return () => {
@@ -84,13 +91,28 @@ export default function ReaderVerification({ books }) {
     || item.author_pubkey?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleTip = () => {
+  const handleTip = async () => {
     setTipSending(true);
-    setTimeout(() => {
+    try {
+      const response = await fetch('http://localhost:3000/payments/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          book_id: book.book_id,
+          copy_id: book.copy_id || copyId || undefined,
+          amount_xmr: 0.021
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Plata simulată a eșuat.');
+      setPayment(data.payment);
       setTipSending(false);
       setTipSent(true);
-      toast('Tip broadcast to author via private Monero tx', 'success');
-    }, 1500);
+      toast('Tranzacție Monero simulată și confirmată', 'success');
+    } catch (error) {
+      setTipSending(false);
+      toast(error.message || 'Plata simulată a eșuat.', 'error');
+    }
   };
 
   const handleCopy = async (text) => {
@@ -154,7 +176,7 @@ export default function ReaderVerification({ books }) {
         </div>
         
         <div className="verify-hero__text">
-          <h1>{verification?.verified === false ? 'AUTENTICITATE NEVERIFICATĂ' : 'AUTENTICITATE VERIFICATĂ MATEMATIC'}</h1>
+          <h1>{copyInvalid ? 'COD QR DEJA FOLOSIT' : verification?.verified === false ? 'AUTENTICITATE NEVERIFICATĂ' : 'AUTENTICITATE VERIFICATĂ MATEMATIC'}</h1>
           <p className="mono">
             <Lock size={12} /> SHA-256 · SIGNATURE VERIFIED ON-CHAIN · WEB OF TRUST CONSENSUS
           </p>
@@ -256,16 +278,16 @@ export default function ReaderVerification({ books }) {
           <div className="payment-status-box">
             <CheckCircle2 size={20} className="success" />
             <div>
-              <div className="payment-title">Decontat direct în portofelul autorului</div>
-              <div className="payment-sub mono">Fără intermediari · Necenzurabil</div>
+              <div className="payment-title">{copyInvalid ? 'Acest cod QR nu mai este valabil' : 'Plată primită și împărțită automat'}</div>
+                <div className="payment-sub mono">{copyInvalid ? 'Exemplarul a fost deja achitat' : 'Escrow protocol → autor + editură'}</div>
             </div>
           </div>
 
           <div className="xmr-proof-box">
             <div className="xmr-proof__header">
               <span className="mono muted">XMR TX PROOF</span>
-              <span className="mono amber">{shortHash(book.xmr_tx_proof, 12, 6)}</span>
-              <button className="copy-icon" onClick={() => handleCopy(book.xmr_tx_proof)}>
+              <span className="mono amber">{shortHash(payment?.tx_id || book.xmr_tx_proof, 12, 6)}</span>
+              <button className="copy-icon" onClick={() => handleCopy(payment?.tx_id || book.xmr_tx_proof)}>
                 <Copy size={13} />
               </button>
             </div>
@@ -282,6 +304,11 @@ export default function ReaderVerification({ books }) {
                 <span>Protocol</span>
               </div>
               <ArrowRight size={14} className="route-arrow" />
+              <div className="route-node active">
+                <div className="route-icon"><Wallet size={14} /></div>
+                <span>Publisher</span>
+              </div>
+              <ArrowRight size={14} className="route-arrow" />
               <div className="route-node">
                 <div className="route-icon"><Wallet size={14} /></div>
                 <span>Author</span>
@@ -290,7 +317,7 @@ export default function ReaderVerification({ books }) {
 
             <div className="data-row mt-2">
               <span className="data-label">ROYALTY SPLIT</span>
-              <span className="data-value mono success">20% Direct-to-Author</span>
+              <span className="data-value mono success">{payment?.royalty_percent || 20}% autor · {100 - (payment?.royalty_percent || 20)}% editură</span>
             </div>
             <div className="data-row">
               <span className="data-label">PAYMENT NETWORK</span>
@@ -298,25 +325,33 @@ export default function ReaderVerification({ books }) {
             </div>
             <div className="data-row">
               <span className="data-label">ROUTE</span>
-              <span className="data-value mono">Reader → Author (Direct)</span>
+              <span className="data-value mono">Reader → escrow → editură + autor</span>
             </div>
+            {payment && (
+              <div className="data-row">
+                <span className="data-label">SIMULATED SPLIT</span>
+                <span className="data-value mono success">
+                  {payment.author_amount_xmr} XMR autor · {payment.publisher_amount_xmr} XMR editură
+                </span>
+              </div>
+            )}
           </div>
 
           <button
             className={`btn-amber full ${tipSent ? 'success-btn' : ''}`}
-            disabled={tipSending || tipSent}
+            disabled={tipSending || tipSent || copyInvalid}
             onClick={handleTip}
           >
             {tipSending ? <Loader2 size={16} className="spin" /> : 
              tipSent ? <Check size={16} /> : <Send size={16} />}
             {tipSending ? 'Broadcasting private tx...' : 
-             tipSent ? 'Tip trimis cu succes' : 'Trimite bacșiș extra / Susține Autorul'}
+             tipSent ? 'Tranzacție simulată confirmată' : 'Simulează plata XMR / Susține Autorul'}
           </button>
 
           {tipSent && (
             <div className="tip-confirmed mono">
               <Sparkles size={12} className="success" /> 
-              0.0042 XMR routed to author wallet · tx_private_confirmed
+              {payment.amount_xmr} XMR simulated → {payment.author_amount_xmr} XMR autor + {payment.publisher_amount_xmr} XMR editură · {payment.status}
             </div>
           )}
         </section>

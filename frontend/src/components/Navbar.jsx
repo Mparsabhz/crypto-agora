@@ -1,4 +1,4 @@
-import { BookOpen, ChevronDown, HelpCircle, Home, Instagram, Linkedin, Printer, ShieldCheck, UserRound } from 'lucide-react';
+import { BookOpen, BrainCircuit, ChevronDown, HelpCircle, Home, Instagram, Linkedin, Printer, ShieldCheck, UserRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import './Navbar.css';
 
@@ -7,6 +7,7 @@ const MODULES = [
   { id: 'print', label: 'Print House Panel', publisherLabel: 'Print Management', icon: Printer },
   { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
   { id: 'help', label: 'Get Help', icon: HelpCircle, badge: 'AI' },
+  { id: 'trust', label: 'Web of Trust', icon: BrainCircuit, badge: 'DEMO' },
   { id: 'profile', label: 'My Profile', icon: UserRound },
 ];
 
@@ -67,7 +68,10 @@ export default function Navbar({ active, onChange, user, profileType = 'author',
               .map(({ id, label, publisherLabel, icon: Icon, badge }) => (
               <button key={id} className={`navbar__module ${active === id ? 'is-active' : ''}`} onClick={() => navigate(id)}>
                 <Icon size={17} />
-                <span>{profileType === 'publisher' ? publisherLabel || label : label}</span>
+                <span>
+                  {profileType === 'publisher' ? publisherLabel || label : label}
+                  {badge && <em className="navbar__module-badge">{badge}</em>}
+                </span>
                 {active === id && <i className="navbar__module-active" />}
               </button>
             ))}

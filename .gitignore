@@ -7,3 +7,11 @@ backend/gemini-site/.env
 node_modules/
 .env
 dist/
+
+# Local runtime data
+*.sqlite
+*.sqlite-*
+*.db
+backend/uploads/
+*.log
+.DS_Store
