@@ -258,6 +258,21 @@ app.get('/ledger', (req, res) => {
 });
 
 // 3. Verifică o carte după hash-ul manuscrisului
+app.get('/books', (req, res) => {
+    const search = String(req.query.search || '').trim().toLowerCase();
+    const result = Object.values(books).filter((book) => {
+        if (!search) return true;
+        return book.title.toLowerCase().includes(search)
+            || book.author_pubkey.toLowerCase().includes(search)
+            || book.book_id.toLowerCase().includes(search);
+    });
+
+    res.json({
+        count: result.length,
+        books: result
+    });
+});
+
 app.get('/books/:bookId', (req, res) => {
     const book = books[req.params.bookId];
     if (!book) {

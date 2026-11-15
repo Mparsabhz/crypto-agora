@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { mockBooks } from './data/mockData';
 import { ToastProvider, useToast } from './components/Toast';
 import Navbar from './components/Navbar';
 import Home from './screens/Home';
@@ -16,25 +15,25 @@ function Shell() {
     const params = new URLSearchParams(window.location.search);
     return params.has('book_id') ? 'reader' : 'home';
   });
-  const [books, setBooks] = useState(mockBooks);
+  const [books, setBooks] = useState([]);
   const [demoSignal, setDemoSignal] = useState(0);
   const toast = useToast();
 
   useEffect(() => {
     let active = true;
 
-    fetch(`${API_BASE}/ledger`)
+    fetch(`${API_BASE}/books`)
       .then(async (response) => {
-        if (!response.ok) throw new Error('Ledger request failed');
+        if (!response.ok) throw new Error('Books request failed');
         return response.json();
       })
       .then((data) => {
-        if (active && Array.isArray(data.books) && data.books.length > 0) {
+        if (active && Array.isArray(data.books)) {
           setBooks(data.books);
         }
       })
       .catch(() => {
-        // Mock data remains available when the backend is offline.
+        if (active) setBooks([]);
       });
 
     return () => {
