@@ -45,7 +45,7 @@ function calculateEntropy(bytes) {
   }, 0);
 }
 
-function inspectFormat(file, bytes) {
+function getFormatInspection(file, bytes) {
   const extension = file.name.toLowerCase().split('.').pop();
   if (extension === 'pdf') {
     const headerValid = hasPrefix(bytes, PDF_HEADER);
@@ -66,15 +66,7 @@ function inspectFormat(file, bytes) {
     };
   }
 
-  return {
-    format: extension?.toUpperCase() || 'UNKNOWN',
-    formatValid: false,
-    detail: 'UNSUPPORTED FORMAT',
-  };
-}
-
-function hexToBytes(hex) {
-  return new Uint8Array(hex.match(/.{2}/g).map((byte) => parseInt(byte, 16)));
+  return { format: extension?.toUpperCase() || 'UNKNOWN', formatValid: false, detail: 'UNSUPPORTED FORMAT' };
 }
 
 async function calculateMerkleRoot(bytes) {
@@ -89,11 +81,9 @@ async function calculateMerkleRoot(bytes) {
     const nextLevel = [];
     for (let index = 0; index < level.length; index += 2) {
       const right = level[index + 1] || level[index];
-      const leftBytes = hexToBytes(level[index]);
-      const rightBytes = hexToBytes(right);
-      const pair = new Uint8Array(leftBytes.length + rightBytes.length);
-      pair.set(leftBytes);
-      pair.set(rightBytes, leftBytes.length);
+      const pair = new Uint8Array(level[index].length / 2 + right.length / 2);
+      pair.set(level[index].match(/.{2}/g).map((byte) => parseInt(byte, 16)));
+      pair.set(right.match(/.{2}/g).map((byte) => parseInt(byte, 16)), level[index].length / 2);
       nextLevel.push(await sha256(pair));
     }
     level = nextLevel;
@@ -121,7 +111,7 @@ function isExistingHash(hash, existingWorks) {
   });
 }
 
-export async function analyzeManuscript(file, authorPubKey = '', existingWorks = []) {
+export async function analyzeManuscript(file, authorPubKey = '', existingWorks = [], aiTrustScore = null) {
   if (!file || typeof file.arrayBuffer !== 'function') {
     throw new TypeError('A readable manuscript file is required');
   }
@@ -129,7 +119,7 @@ export async function analyzeManuscript(file, authorPubKey = '', existingWorks =
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const sha256Hash = await sha256(buffer);
-  const formatInspection = inspectFormat(file, bytes);
+  const formatInspection = getFormatInspection(file, bytes);
   const entropy = calculateEntropy(bytes);
   const sizeValid = bytes.length > 0 && bytes.length <= MAX_FILE_SIZE;
   const entropyValid = entropy >= 3.5 && entropy <= 7.95;
@@ -137,12 +127,15 @@ export async function analyzeManuscript(file, authorPubKey = '', existingWorks =
   const isDuplicate = isExistingHash(sha256Hash, existingWorks);
   const keyValid = isValidPublicKey(authorPubKey);
   const merkleValid = merkle.chunks.length > 0 && Boolean(merkle.root);
-  const trustScore = isDuplicate ? 0 : Math.min(100, (
+  const baseTrustScore = (
     (formatInspection.formatValid ? 40 : 0)
     + (entropyValid && sizeValid ? 25 : 0)
     + (merkleValid ? 20 : 0)
     + (keyValid ? 15 : 0)
-  ));
+  );
+  const aiVerified = Number(aiTrustScore) >= 75;
+  const aiBonus = aiVerified ? 15 : 0;
+  const trustScore = isDuplicate ? 0 : Math.min(100, baseTrustScore + aiBonus);
 
   return {
     sha256Hash,
@@ -158,6 +151,8 @@ export async function analyzeManuscript(file, authorPubKey = '', existingWorks =
     isDuplicate,
     keyValid,
     merkleValid,
+    aiVerified,
+    aiBonus,
     trustScore: Number(trustScore.toFixed(1)),
     publishable: formatInspection.formatValid && !isDuplicate,
   };

@@ -34,12 +34,18 @@
 .navbar__drawer-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid rgba(0, 229, 255, .14); color: var(--text-muted); font-size: 10px; }
 .navbar__drawer-status { color: #10b981; font: 10px var(--mono); }
 .navbar__drawer-status i, .navbar__network-status i { display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, .6); }
+.navbar__session { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; padding: 12px; border: 1px solid rgba(0, 229, 255, .16); border-radius: 8px; background: rgba(0, 229, 255, .04); }
+.navbar__role-badge { color: var(--accent-primary); font: 10px var(--mono); letter-spacing: .08em; }
+.navbar__logout { padding: 6px 10px; color: var(--text-muted); background: transparent; border: 1px solid rgba(239, 68, 68, .25); border-radius: 6px; font-size: 11px; transition: color .2s, border-color .2s, background .2s; }
+.navbar__logout:hover { color: #fca5a5; background: rgba(239, 68, 68, .08); border-color: rgba(239, 68, 68, .55); }
 .navbar__drawer-section { padding-top: 28px; }
 .navbar__drawer-label { display: block; margin-bottom: 12px; color: var(--text-muted); font: 10px var(--mono); letter-spacing: .14em; }
 .navbar__modules { display: flex; flex-direction: column; gap: 5px; }
 .navbar__module { position: relative; display: grid; grid-template-columns: 22px 1fr; align-items: center; gap: 10px; width: 100%; padding: 14px 12px; color: var(--text-muted); text-align: left; border: 1px solid transparent; border-radius: 6px; font-size: 13px; transition: color .2s, background .2s, border-color .2s; }
 .navbar__module:hover, .navbar__module.is-active { color: var(--text-main); background: rgba(0, 229, 255, .07); border-color: rgba(0, 229, 255, .2); }
 .navbar__module.is-active { color: var(--accent-primary); }
+.navbar__module > span { display: flex; align-items: center; gap: 8px; }
+.navbar__module-badge { padding: 2px 5px; color: var(--accent-primary); border: 1px solid rgba(0, 229, 255, .3); border-radius: 4px; font: 8px var(--mono); letter-spacing: .08em; }
 .navbar__module-active { position: absolute; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary); }
 .navbar__session { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; padding: 12px; border: 1px solid rgba(0, 229, 255, .16); border-radius: 8px; background: rgba(0, 229, 255, .04); }
 .navbar__role-badge { color: var(--accent-primary); font: 10px var(--mono); letter-spacing: .08em; }
@@ -52,7 +58,8 @@
 .navbar__contacts-toggle.is-open svg { transform: rotate(180deg); }
 .navbar__contacts-toggle:hover { color: var(--accent-primary); }
 .navbar__contacts-list { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
-.navbar__contact { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--text); font-size: 13px; }
+.navbar__contact { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; color: var(--text); font-size: 13px; }
+.navbar__contacts-list .navbar__contact { margin-top: 0; }
 .navbar__contact-links { display: flex; gap: 8px; }
 .navbar__social { display: grid; width: 34px; height: 34px; place-items: center; color: #fff; border-radius: 8px; transition: transform .2s, box-shadow .2s; }
 .navbar__social:hover { transform: translateY(-3px); }

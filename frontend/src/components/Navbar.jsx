@@ -1,4 +1,4 @@
-import { BookOpen, ChevronDown, Home, Instagram, Linkedin, Printer, ShieldCheck, UserRound } from 'lucide-react';
+import { BookOpen, ChevronDown, HelpCircle, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import './Navbar.css';
 
@@ -6,7 +6,7 @@ const MODULES = [
   { id: 'author', label: 'Author Terminal', icon: BookOpen },
   { id: 'print', label: 'Print House Panel', icon: Printer },
   { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
-  { id: 'profile', label: 'My Profile', icon: UserRound },
+  { id: 'help', label: 'Get Help', icon: HelpCircle, badge: 'AI' },
 ];
 
 export default function Navbar({ active, onChange, user, onLogout }) {
@@ -61,10 +61,10 @@ export default function Navbar({ active, onChange, user, onLogout }) {
               <span>Home</span>
               {active === 'home' && <i className="navbar__module-active" />}
             </button>
-            {MODULES.map(({ id, label, icon: Icon }) => (
+            {MODULES.map(({ id, label, icon: Icon, badge }) => (
               <button key={id} className={`navbar__module ${active === id ? 'is-active' : ''}`} onClick={() => navigate(id)}>
                 <Icon size={17} />
-                <span>{label}</span>
+                <span>{label}{badge && <small className="navbar__module-badge">{badge}</small>}</span>
                 {active === id && <i className="navbar__module-active" />}
               </button>
             ))}
@@ -81,26 +81,38 @@ export default function Navbar({ active, onChange, user, onLogout }) {
           </button>
           {contactsOpen && <div className="navbar__contacts-list">
             <div className="navbar__contact">
-              <span>Alex</span>
-              <div className="navbar__contact-links">
-                <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/alexandru.j1/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Alex on Instagram"><Instagram size={17} /></a>
-                <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/alex-username" target="_blank" rel="noopener noreferrer" aria-label="Alex on LinkedIn"><Linkedin size={17} /></a>
-              </div>
+            <span>Alex</span>
+            <div className="navbar__contact-links">
+              <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/alexandru.j1/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Alex on Instagram">
+                <Instagram size={17} />
+              </a>
+              <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/alex-username" target="_blank" rel="noopener noreferrer" aria-label="Alex on LinkedIn">
+                <Linkedin size={17} />
+              </a>
             </div>
+          </div>
             <div className="navbar__contact">
-              <span>Parsabhz</span>
-              <div className="navbar__contact-links">
-                <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/pars.bhz4/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on Instagram"><Instagram size={17} /></a>
-                <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/parsabhz-username" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on LinkedIn"><Linkedin size={17} /></a>
-              </div>
+            <span>Parsabhz</span>
+            <div className="navbar__contact-links">
+              <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/pars.bhz4/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on Instagram">
+                <Instagram size={17} />
+              </a>
+              <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/parsabhz-username" target="_blank" rel="noopener noreferrer" aria-label="Parsabhz on LinkedIn">
+                <Linkedin size={17} />
+              </a>
             </div>
+          </div>
             <div className="navbar__contact">
-              <span>Dani Puscaș</span>
-              <div className="navbar__contact-links">
-                <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/puscasdani07/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on Instagram"><Instagram size={17} /></a>
-                <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/dani-puscas" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on LinkedIn"><Linkedin size={17} /></a>
-              </div>
+            <span>Dani Puscaș</span>
+            <div className="navbar__contact-links">
+              <a className="navbar__social navbar__social--instagram" href="https://www.instagram.com/puscasdani07/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on Instagram">
+                <Instagram size={17} />
+              </a>
+              <a className="navbar__social navbar__social--linkedin" href="https://linkedin.com/in/dani-puscas" target="_blank" rel="noopener noreferrer" aria-label="Dani Puscaș on LinkedIn">
+                <Linkedin size={17} />
+              </a>
             </div>
+          </div>
           </div>}
         </div>
       </aside>
