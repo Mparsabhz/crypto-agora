@@ -1,1 +1,32 @@
 /* App-level styles are provided by the routed screen components. */
+.auth-entry {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px 16px;
+  background: #05070a;
+}
+.auth-entry__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 520px);
+  padding: 48px 32px;
+  color: #e8ecef;
+  background: #0c1118;
+  border: 1px solid rgba(0, 229, 255, .22);
+  border-radius: 12px;
+  box-shadow: 0 0 34px rgba(0, 229, 255, .08);
+  text-align: center;
+}
+.auth-entry .home-kicker { margin-bottom: 18px; color: #00e5ff; font: 10px var(--mono); letter-spacing: .16em; }
+.auth-required__icon { display: grid; width: 64px; height: 64px; place-items: center; margin-bottom: 20px; color: #00e5ff; border: 1px solid rgba(0, 229, 255, .35); border-radius: 50%; font: 700 18px var(--mono); box-shadow: 0 0 22px rgba(0, 229, 255, .12); }
+.auth-entry h1 { margin-bottom: 12px; color: #e8ecef; font-size: clamp(24px, 4vw, 34px); }
+.auth-entry p { max-width: 390px; margin-bottom: 24px; color: #7f8ea3; font-size: 14px; line-height: 1.7; }
+.auth-role-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: min(100%, 300px); margin-bottom: 14px; }
+.auth-role-toggle button { padding: 8px 10px; color: #7f8ea3; background: transparent; border: 1px solid rgba(0, 229, 255, .2); border-radius: 6px; font: 10px var(--mono); transition: color .2s, background .2s, border-color .2s; }
+.auth-role-toggle button:hover, .auth-role-toggle button.is-selected { color: #031116; background: #00e5ff; border-color: #00e5ff; }
+.auth-required__login { display: flex; justify-content: center; overflow: hidden; }
+@media (max-width: 640px) {
+  .auth-entry__card { padding: 36px 20px; }
+}
