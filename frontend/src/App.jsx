@@ -226,7 +226,7 @@ function Shell() {
       />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
         {screen === 'home' && <Home onNavigate={setScreen} />}
-        {screen === 'author' && <AuthorDashboard books={myBooks} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
+        {screen === 'author' && <AuthorDashboard books={myBooks} authToken={user.credential} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
         {screen === 'print' && (profileType === 'publisher'
           ? <PublisherPanel authToken={user.credential} />
           : <PrintHousePanel books={myBooks} authToken={user.credential} />)}

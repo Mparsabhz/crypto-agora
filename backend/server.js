@@ -5,6 +5,14 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { OAuth2Client } = require('google-auth-library');
+const {
+    loadBooks,
+    loadPrintRuns,
+    loadProfiles,
+    saveBooks,
+    savePrintRuns,
+    saveProfiles
+} = require('./database');
 
 const app = express();
 app.use(express.json());
@@ -13,9 +21,6 @@ app.use(cors()); // Permite cereri din frontend fără bătăi de cap cu CORS
 const uploadDirectory = path.join(__dirname, 'uploads');
 fs.mkdirSync(uploadDirectory, { recursive: true });
 const blockchainFile = path.join(__dirname, 'blockchain.json');
-const booksFile = path.join(__dirname, 'books.json');
-const printRunsFile = path.join(__dirname, 'print-runs.json');
-const profilesFile = path.join(__dirname, 'profiles.json');
 const googleClientId = process.env.GOOGLE_CLIENT_ID
     || '588696727944-fljtld63gs6ottrkus3vibc80pjv781q.apps.googleusercontent.com';
 const googleClient = new OAuth2Client(googleClientId);
@@ -35,63 +40,6 @@ const upload = multer({
         callback(null, allowedExtensions.has(extension));
     }
 });
-
-function loadBooks() {
-    if (!fs.existsSync(booksFile)) {
-        return {};
-    }
-
-    const storedBooks = JSON.parse(fs.readFileSync(booksFile, 'utf8'));
-    if (!storedBooks || typeof storedBooks !== 'object' || Array.isArray(storedBooks)) {
-        throw new Error(`Format invalid pentru ${booksFile}`);
-    }
-
-    return storedBooks;
-}
-
-function saveBooks(books) {
-    const temporaryFile = `${booksFile}.tmp`;
-    fs.writeFileSync(temporaryFile, JSON.stringify(books, null, 2), 'utf8');
-    fs.renameSync(temporaryFile, booksFile);
-}
-
-function loadPrintRuns() {
-    if (!fs.existsSync(printRunsFile)) {
-        return {};
-    }
-
-    const storedRuns = JSON.parse(fs.readFileSync(printRunsFile, 'utf8'));
-    if (!storedRuns || typeof storedRuns !== 'object' || Array.isArray(storedRuns)) {
-        throw new Error(`Format invalid pentru ${printRunsFile}`);
-    }
-
-    return storedRuns;
-}
-
-function savePrintRuns(printRuns) {
-    const temporaryFile = `${printRunsFile}.tmp`;
-    fs.writeFileSync(temporaryFile, JSON.stringify(printRuns, null, 2), 'utf8');
-    fs.renameSync(temporaryFile, printRunsFile);
-}
-
-function loadProfiles() {
-    if (!fs.existsSync(profilesFile)) {
-        return {};
-    }
-
-    const storedProfiles = JSON.parse(fs.readFileSync(profilesFile, 'utf8'));
-    if (!storedProfiles || typeof storedProfiles !== 'object' || Array.isArray(storedProfiles)) {
-        throw new Error(`Format invalid pentru ${profilesFile}`);
-    }
-
-    return storedProfiles;
-}
-
-function saveProfiles(profiles) {
-    const temporaryFile = `${profilesFile}.tmp`;
-    fs.writeFileSync(temporaryFile, JSON.stringify(profiles, null, 2), 'utf8');
-    fs.renameSync(temporaryFile, profilesFile);
-}
 
 function findLatestBlockByHash(hash) {
     return [...cryptoAgoraChain.chain]

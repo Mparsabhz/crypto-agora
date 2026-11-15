@@ -22,7 +22,7 @@ const TerminalLine = ({ time, type, text }) => {
   );
 };
 
-export default function AuthorDashboard({ books, onRegister, demoSignal, aiTrustScore, onOpenHelp }) {
+export default function AuthorDashboard({ books, authToken, onRegister, demoSignal, aiTrustScore, onOpenHelp }) {
   const toast = useToast();
   const fileInput = useRef(null);
   
@@ -164,32 +164,32 @@ Network: CryptoAgora-Mainnet
     toast('Manuscript signed successfully', 'success');
   };
 
-  // ÃŽnregistrare Ã®n Protocol (cu P2P Simulator)
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!file || !title || !pubkey || !hash || !signature || !analysis?.publishable) return;
     setRegistering(true);
     setP2pStep(1);
-    setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Broadcasting to P2P mesh initiated...', type: 'warn' }]);
+    setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Uploading manuscript to the SQLite-backed node...', type: 'warn' }]);
 
-    setTimeout(() => { setP2pStep(2); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Chunking verified. Pinning to IPFS...', type: 'info' }]); }, 1200);
-    setTimeout(() => { setP2pStep(3); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Anchoring to 14 peer nodes...', type: 'info' }]); }, 2400);
-    setTimeout(() => { setP2pStep(4); setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Consensus reached. Block mined!', type: 'success' }]); }, 3600);
+    try {
+      const payload = new FormData();
+      payload.append('file', file);
+      payload.append('author_id', pubkey.trim());
+      payload.append('manuscript_hash', hash);
+      payload.append('title', title.trim());
+      payload.append('author_pubkey', pubkey.trim());
+      payload.append('signature', signature);
 
-    setTimeout(() => {
-      const newBook = {
-        book_id: `ca_${String(books.length + 1).padStart(2, '0')}`,
-        title: title.trim(),
-        author_pubkey: pubkey.trim(),
-        sha256_hash: hash,
-        merkle_root: analysis.merkleRoot,
-        chunk_count: analysis.chunkCount,
-        web_of_trust_score: `${analysis.trustScore.toFixed(1)}% (Verified Manuscript)`,
-        print_batch: '—',
-        royalty_split: `${royalty}% Direct-to-Author`,
-        xmr_tx_proof: `tx_private_${Date.now().toString(16)}`,
-      };
+      const response = await fetch('http://localhost:3000/register-book', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${authToken}` },
+        body: payload,
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Manuscrisul nu a putut fi salvat.');
 
-      onRegister(newBook);
+      setP2pStep(4);
+      setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: 'Upload accepted. Block mined and metadata saved in SQLite.', type: 'success' }]);
+      onRegister(data.data);
       setRegistering(false);
       setP2pStep(0);
       setFile(null);
@@ -202,7 +202,12 @@ Network: CryptoAgora-Mainnet
       setAnalysis(null);
       setAnalysisError('');
       toast('Cartea a fost ancorată oficial în protocol!', 'success');
-    }, 4500);
+    } catch (error) {
+      setRegistering(false);
+      setP2pStep(0);
+      setLogs(prev => [...prev, { id: Date.now(), time: new Date().toLocaleTimeString(), text: `Upload failed: ${error.message}`, type: 'error' }]);
+      toast(error.message || 'Manuscrisul nu a putut fi salvat.', 'error');
+    }
   };
 
   const verificationUrl = managedBook
