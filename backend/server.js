@@ -1,14 +1,29 @@
 const express = require('express');
 const crypto = require('crypto');
-const cors = require('cors'); // opțional, dar bun dacă frontend-ul rulează pe alt port (ex: 5173)
+const cors = require('cors');
+const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { OAuth2Client } = require('google-auth-library');
+const { GoogleGenAI } = require('@google/genai');
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors()); // Permite cereri din frontend fără bătăi de cap cu CORS
+const allowedOrigins = new Set([
+    'http://localhost:5173',
+    'http://127.0.0.1:5173'
+]);
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.has(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Origin not allowed by CORS.'));
+    }
+}));
 
 const uploadDirectory = path.join(__dirname, 'uploads');
 fs.mkdirSync(uploadDirectory, { recursive: true });
@@ -19,6 +34,8 @@ const profilesFile = path.join(__dirname, 'profiles.json');
 const googleClientId = process.env.GOOGLE_CLIENT_ID
     || '588696727944-fljtld63gs6ottrkus3vibc80pjv781q.apps.googleusercontent.com';
 const googleClient = new OAuth2Client(googleClientId);
+const geminiApiKey = String(process.env.GEMINI_API_KEY || '').trim();
+const ai = geminiApiKey ? new GoogleGenAI() : null;
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -278,6 +295,35 @@ async function authenticateGoogle(req, res, next) {
 }
 
 // --- ENDPOINT-URI API ---
+
+app.post('/api/chat', async (req, res) => {
+    const prompt = typeof req.body?.prompt === 'string' ? req.body.prompt.trim() : '';
+
+    if (!prompt) {
+        return res.status(400).json({ error: 'Promptul este obligatoriu.' });
+    }
+
+    if (!ai) {
+        return res.status(503).json({ error: 'Gemini API nu este configurat pe server.' });
+    }
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt
+        });
+        const reply = typeof response.text === 'string' ? response.text.trim() : '';
+
+        if (!reply) {
+            return res.status(502).json({ error: 'Gemini a returnat un răspuns gol.' });
+        }
+
+        return res.json({ reply });
+    } catch (error) {
+        console.error('Gemini request failed:', error.message);
+        return res.status(502).json({ error: 'Serviciul Gemini nu a putut procesa cererea.' });
+    }
+});
 
 // 1. Salvează manuscrisul și îl înregistrează în blockchain
 app.post('/register-book', authenticateGoogle, upload.single('file'), (req, res) => {

@@ -1,6 +1,7 @@
 ﻿__pycache__/
 *.pyc
 .env
+backend/gemini-site/.env
 .venv/
 
 node_modules/
