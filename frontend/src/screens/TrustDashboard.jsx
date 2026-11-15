@@ -49,6 +49,7 @@ export default function TrustDashboard({ authToken }) {
   };
 
   const selectedProfile = profiles.find((profile) => profile.profile_id === selectedId);
+  const selectedIsPublisher = selectedProfile?.profile_type === 'publisher';
 
   return (
     <div className="trust-page fade-up">
@@ -100,10 +101,10 @@ export default function TrustDashboard({ authToken }) {
             <span><Gauge size={13} /> {investigation.ai_enabled ? 'AI + deterministic agents' : 'Deterministic agents'}</span>
           </div>
           <div className="trust-metrics">
-            <div className="card"><strong>{investigation.metrics.books}</strong><span>cărți</span></div>
-            <div className="card"><strong>{investigation.metrics.attestations}</strong><span>attestations</span></div>
-            <div className="card"><strong>{investigation.metrics.reports}</strong><span>reports</span></div>
-            <div className="card"><strong>{investigation.metrics.duplicate_hashes}</strong><span>duplicate</span></div>
+            <div className="card"><strong>{selectedIsPublisher ? investigation.metrics.print_runs : investigation.metrics.books}</strong><span>{selectedIsPublisher ? 'tiraje' : 'cărți'}</span></div>
+            <div className="card"><strong>{selectedIsPublisher ? investigation.metrics.qr_codes : investigation.metrics.attestations}</strong><span>{selectedIsPublisher ? 'coduri QR' : 'attestations'}</span></div>
+            <div className="card"><strong>{selectedIsPublisher ? investigation.metrics.payments : investigation.metrics.reports}</strong><span>{selectedIsPublisher ? 'plăți' : 'reports'}</span></div>
+            <div className="card"><strong>{selectedIsPublisher ? investigation.metrics.qr_reports : investigation.metrics.duplicate_hashes}</strong><span>{selectedIsPublisher ? 'QR reports' : 'duplicate'}</span></div>
           </div>
           <div className="trust-agents">
             {investigation.agents.map((agent) => {
