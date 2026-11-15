@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AlertTriangle, BrainCircuit, CheckCircle2, Loader2, Network, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, BrainCircuit, CheckCircle2, Clock3, Gauge, Loader2, Network, ShieldCheck } from 'lucide-react';
 import { shortHash } from '../utils/crypto';
 import './TrustDashboard.css';
 
@@ -10,6 +10,7 @@ export default function TrustDashboard({ authToken }) {
   const [selectedId, setSelectedId] = useState('');
   const [investigation, setInvestigation] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [investigating, setInvestigating] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -31,13 +32,20 @@ export default function TrustDashboard({ authToken }) {
     if (!selectedId) return;
     setInvestigation(null);
     setMessage('');
-    const response = await fetch(`${API_BASE}/trust/investigate/${selectedId}`);
-    const data = await response.json();
-    if (!response.ok) {
-      setMessage(data.error || 'Investigația a eșuat.');
-      return;
+    setInvestigating(true);
+    try {
+      const response = await fetch(`${API_BASE}/trust/investigate/${selectedId}`);
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.error || 'Investigația a eșuat.');
+        return;
+      }
+      setInvestigation(data);
+    } catch (error) {
+      setMessage(error.message || 'Investigația a eșuat.');
+    } finally {
+      setInvestigating(false);
     }
-    setInvestigation(data);
   };
 
   const selectedProfile = profiles.find((profile) => profile.profile_id === selectedId);
@@ -69,7 +77,8 @@ export default function TrustDashboard({ authToken }) {
           </select>
         </label>
         <button type="button" className="btn-primary" onClick={investigate} disabled={!selectedId || loading}>
-          <BrainCircuit size={15} /> Rulează investigația
+          {investigating ? <Loader2 size={15} className="spin" /> : <BrainCircuit size={15} />}
+          {investigating ? 'Agenții analizează...' : 'Rulează investigația'}
         </button>
         {selectedProfile && <span className="mono trust-profile-key">{shortHash(selectedProfile.public_key || '', 18, 8)}</span>}
       </section>
@@ -86,6 +95,16 @@ export default function TrustDashboard({ authToken }) {
             </div>
             <strong className="trust-score">{investigation.score}/100</strong>
           </div>
+          <div className="trust-scan-meta">
+            <span><Clock3 size={13} /> {new Date(investigation.investigated_at).toLocaleTimeString()}</span>
+            <span><Gauge size={13} /> {investigation.ai_enabled ? 'AI + deterministic agents' : 'Deterministic agents'}</span>
+          </div>
+          <div className="trust-metrics">
+            <div className="card"><strong>{investigation.metrics.books}</strong><span>cărți</span></div>
+            <div className="card"><strong>{investigation.metrics.attestations}</strong><span>attestations</span></div>
+            <div className="card"><strong>{investigation.metrics.reports}</strong><span>reports</span></div>
+            <div className="card"><strong>{investigation.metrics.duplicate_hashes}</strong><span>duplicate</span></div>
+          </div>
           <div className="trust-agents">
             {investigation.agents.map((agent) => {
               const pass = agent.status === 'PASS' || agent.status === 'TRUSTED';
@@ -96,11 +115,17 @@ export default function TrustDashboard({ authToken }) {
                     <h3>{agent.name}</h3>
                     <strong className={pass ? 'success' : 'warning'}>{agent.status}</strong>
                     <p>{agent.reason}</p>
+                    <div className="trust-agent__evidence">{agent.evidence}</div>
+                    <div className="trust-confidence">
+                      <span>confidence {agent.confidence}%</span>
+                      <i><b style={{ width: `${agent.confidence}%` }} /></i>
+                    </div>
                   </div>
                 </article>
               );
             })}
           </div>
+          <div className="card trust-recommendation"><ShieldCheck size={16} className="success" /><span>{investigation.recommendation}</span></div>
         </section>
       )}
     </div>

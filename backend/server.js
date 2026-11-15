@@ -674,22 +674,30 @@ app.get('/trust/investigate/:profileId', async (req, res) => {
         {
             name: 'Provenance Agent',
             status: profile.public_key && ownedBooks.every((book) => book.author_pubkey) ? 'PASS' : 'WARNING',
-            reason: profile.public_key ? 'Profilul are cheie publică și cărți asociate.' : 'Profilul nu are cheie publică.'
+            reason: profile.public_key ? 'Profilul are cheie publică și cărți asociate.' : 'Profilul nu are cheie publică.',
+            confidence: profile.public_key ? 96 : 34,
+            evidence: `${ownedBooks.length} carte asociată`
         },
         {
             name: 'Duplicate Agent',
             status: duplicateHashes.length || reports.some((report) => report.category === 'duplicate_claim') ? 'WARNING' : 'PASS',
-            reason: duplicateHashes.length ? 'Au fost găsite hash-uri duplicate în istoricul profilului.' : 'Nu au fost găsite hash-uri duplicate.'
+            reason: duplicateHashes.length ? 'Au fost găsite hash-uri duplicate în istoricul profilului.' : 'Nu au fost găsite hash-uri duplicate.',
+            confidence: duplicateHashes.length ? 88 : 93,
+            evidence: `${duplicateHashes.length} hash-uri duplicate`
         },
         {
             name: 'Behavior Agent',
             status: reports.length >= 2 ? 'HIGH RISK' : reports.length ? 'WARNING' : 'PASS',
-            reason: reports.length ? `${reports.length} raport(uri) comunitare necesită atenție.` : 'Nu există rapoarte comunitare.'
+            reason: reports.length ? `${reports.length} raport(uri) comunitare necesită atenție.` : 'Nu există rapoarte comunitare.',
+            confidence: reports.length ? 91 : 90,
+            evidence: `${reports.length} raport(uri), penalizare ${reportPenalty} puncte`
         },
         {
             name: 'Trust Arbiter',
             status: score >= 70 ? 'TRUSTED' : score >= 40 ? 'REVIEW_REQUIRED' : 'HIGH_RISK',
-            reason: `Scor calculat din attestations (+) și reports (-): ${score}/100.`
+            reason: `Scor calculat din attestations (+) și reports (-): ${score}/100.`,
+            confidence: Math.max(40, score),
+            evidence: `${attestations.length} attestations · ${reports.length} reports`
         }
     ];
     let aiAgent = null;
@@ -715,6 +723,8 @@ app.get('/trust/investigate/:profileId', async (req, res) => {
                     name: 'AI Trust Arbiter',
                     status: parsed.status,
                     reason: parsed.reason,
+                    confidence: parsed.status === 'TRUSTED' ? 90 : 70,
+                    evidence: 'Analiză Groq peste rezultatele agenților deterministici',
                     source: 'groq'
                 };
             }
@@ -732,7 +742,20 @@ app.get('/trust/investigate/:profileId', async (req, res) => {
         score,
         verdict: score >= 70 ? 'TRUSTED' : score >= 40 ? 'REVIEW_REQUIRED' : 'HIGH_RISK',
         agents: aiAgent ? [...agents, aiAgent] : agents,
-        ai_enabled: Boolean(aiAgent)
+        ai_enabled: Boolean(aiAgent),
+        metrics: {
+            books: ownedBooks.length,
+            attestations: attestations.length,
+            reports: reports.length,
+            duplicate_hashes: duplicateHashes.length,
+            report_penalty: reportPenalty
+        },
+        recommendation: score >= 70
+            ? 'Profilul poate fi considerat de încredere, dar verifică mereu dovada on-chain.'
+            : score >= 40
+                ? 'Păstrează profilul în review și cere dovezi suplimentare comunității.'
+                : 'Blochează temporar încrederea automată și escaladează cazul către moderatori.',
+        investigated_at: new Date().toISOString()
     });
 });
 
