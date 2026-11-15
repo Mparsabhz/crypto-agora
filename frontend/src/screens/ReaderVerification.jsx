@@ -18,6 +18,7 @@ export default function ReaderVerification({ books }) {
   });
   const [copyId] = useState(() => new URLSearchParams(window.location.search).get('copy_id') || '');
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const [lot, setLot] = useState('');
   const [tipSending, setTipSending] = useState(false);
   const [tipSent, setTipSent] = useState(false);
@@ -131,32 +132,50 @@ export default function ReaderVerification({ books }) {
 
   return (
     <div className="verify-page fade-up">
-      <section className="verify-card" style={{ marginBottom: 24 }}>
+      <section className="verify-card book-search-card" style={{ marginBottom: 24 }}>
         <div className="verify-card__header">
           <FileText size={16} className="success" />
           <h2>CAUTĂ O CARTE ÎN BLOCKCHAIN</h2>
         </div>
         <div className="data-group">
           <label className="data-label" htmlFor="book-search">Titlu sau autor</label>
-          <input
-            id="book-search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Caută după numele cărții..."
-          />
-          <label className="data-label" htmlFor="book-select">Carte</label>
-          <select
-            id="book-select"
-            value={selectedBookId}
-            onChange={(event) => setSelectedBookId(event.target.value)}
-          >
-            {filteredBooks.length === 0 && <option value="">Nicio carte găsită</option>}
-            {filteredBooks.map((item) => (
-              <option key={item.book_id} value={item.book_id}>
-                {item.title} — {item.author_pubkey}
-              </option>
-            ))}
-          </select>
+          <div className="book-search-shell">
+            <input
+              id="book-search"
+              value={searchTerm}
+              onFocus={() => setSearchOpen(true)}
+              onChange={(event) => {
+                setSearchTerm(event.target.value);
+                setSearchOpen(true);
+              }}
+              placeholder="Caută după titlu, autor sau cheie publică..."
+              autoComplete="off"
+            />
+            {searchOpen && (
+              <div className="book-search-dropdown" role="listbox" aria-label="Rezultate căutare cărți">
+                {filteredBooks.length === 0 ? (
+                  <div className="book-search-empty">Nicio carte găsită în catalog.</div>
+                ) : filteredBooks.slice(0, 8).map((item) => (
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selectedBookId === item.book_id}
+                    className={`book-search-option ${selectedBookId === item.book_id ? 'is-selected' : ''}`}
+                    key={item.book_id}
+                    onClick={() => {
+                      setSelectedBookId(item.book_id);
+                      setSearchTerm(item.title);
+                      setSearchOpen(false);
+                    }}
+                  >
+                    <span className="book-search-option__title">{item.title}</span>
+                    <span className="book-search-option__meta">{item.author_name || 'Autor necunoscut'} · {item.author_pubkey}</span>
+                  </button>
+                ))}
+                {filteredBooks.length > 8 && <div className="book-search-more">+{filteredBooks.length - 8} rezultate — rafinează căutarea</div>}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
