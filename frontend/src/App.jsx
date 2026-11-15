@@ -8,12 +8,8 @@ import Navbar from './components/Navbar';
 import AuthorDashboard from './screens/AuthorDashboard';
 import PrintHousePanel from './screens/PrintHousePanel';
 import ReaderVerification from './screens/ReaderVerification';
-<<<<<<< Updated upstream
 import NetworkExplorer from './screens/NetworkExplorer';
-=======
-import NetworkExplorer from './screens/NetworkExplorer'; // NOU
 import GetHelp from './screens/GetHelp';
->>>>>>> Stashed changes
 import './App.css';
 
 const HOW_IT_WORKS = [
@@ -298,7 +294,6 @@ function Shell() {
         onLogout={handleLogout}
       />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
-<<<<<<< Updated upstream
         {screen === 'home' && (
           <>
             <section className="home-screen" aria-label="CryptoAgora">
@@ -372,18 +367,11 @@ function Shell() {
             </div>
           </>
         )}
-        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} demoSignal={demoSignal} />}
-        {screen === 'print' && <PrintHousePanel books={books} />}
-        {screen === 'reader' && <ReaderVerification books={books} />}
-        {screen === 'explorer' && <NetworkExplorer />} {/* NOU */}
-=======
-        {screen === 'home' && <Home onNavigate={setScreen} />}
-        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
+        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
         {screen === 'print' && <PrintHousePanel books={books} />}
         {screen === 'reader' && <ReaderVerification books={books} />}
         {screen === 'explorer' && <NetworkExplorer />}
         {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
->>>>>>> Stashed changes
       </main>
     </>
   );
