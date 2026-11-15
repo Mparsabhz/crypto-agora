@@ -61,5 +61,14 @@
     "previous_hash": "0036d6d9e50313f137fb8a2624f2bbf36a6dd9bbf00d3f0d5dcd1feaed38ec5a",
     "nonce": 303,
     "hash": "004ba24c14909fa60ff6004376bb99a08d655c089c42b3949c820f99ba0a07a1"
+  },
+  {
+    "index": 8,
+    "timestamp": 1794730414892,
+    "author_id": "0x6adaa5c2f6d0ef166cb73e8cba958846ba424fab",
+    "manuscript_hash": "d9f3470cdbe5ab93ab8c0b8091e68e1f6ebc47b7ded25cd0d75f4c71ddf9a1c0",
+    "previous_hash": "004ba24c14909fa60ff6004376bb99a08d655c089c42b3949c820f99ba0a07a1",
+    "nonce": 361,
+    "hash": "007673c54ac106c189b47e590174c109089c0e4138b5b9cfa4e21043279a6b9b"
   }
 ]
