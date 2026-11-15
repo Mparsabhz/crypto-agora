@@ -1,4 +1,4 @@
-import { BookOpen, ChevronDown, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
+import { BookOpen, ChevronDown, Home, Instagram, Linkedin, Printer, ShieldCheck, UserRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import './Navbar.css';
 
@@ -6,6 +6,7 @@ const MODULES = [
   { id: 'author', label: 'Author Terminal', icon: BookOpen },
   { id: 'print', label: 'Print House Panel', icon: Printer },
   { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
+  { id: 'profile', label: 'My Profile', icon: UserRound },
 ];
 
 export default function Navbar({ active, onChange, user, onLogout }) {

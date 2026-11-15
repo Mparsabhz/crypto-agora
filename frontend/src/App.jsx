@@ -8,6 +8,7 @@ import AuthorDashboard from './screens/AuthorDashboard';
 import PrintHousePanel from './screens/PrintHousePanel';
 import ReaderVerification from './screens/ReaderVerification';
 import NetworkExplorer from './screens/NetworkExplorer'; // NOU
+import Profile from './screens/Profile';
 import './App.css';
 
 const API_BASE = 'http://localhost:3000';
@@ -172,6 +173,7 @@ function Shell() {
         {screen === 'print' && <PrintHousePanel books={myBooks} authToken={user.credential} />}
         {screen === 'reader' && <ReaderVerification books={allBooks} />}
         {screen === 'explorer' && <NetworkExplorer />}
+        {screen === 'profile' && <Profile authToken={user.credential} user={user} />}
       </main>
     </>
   );
