@@ -22,7 +22,7 @@ const TerminalLine = ({ time, type, text }) => {
   );
 };
 
-export default function AuthorDashboard({ books, onRegister, demoSignal }) {
+export default function AuthorDashboard({ books, onRegister, demoSignal, aiTrustScore, onOpenHelp }) {
   const toast = useToast();
   const fileInput = useRef(null);
   
@@ -107,7 +107,7 @@ export default function AuthorDashboard({ books, onRegister, demoSignal }) {
     setAnalysisError('');
     setSignature('');
 
-    analyzeManuscript(file, pubkey, books)
+    analyzeManuscript(file, pubkey, books, aiTrustScore?.score)
       .then((result) => {
         if (cancelled) return;
         setAnalysis(result);
@@ -133,7 +133,7 @@ export default function AuthorDashboard({ books, onRegister, demoSignal }) {
       });
 
     return () => { cancelled = true; };
-  }, [file, pubkey, books, toast]);
+  }, [file, pubkey, books, aiTrustScore?.score, toast]);
 
   // Generare Chei
   const generateKeypair = () => {
@@ -420,6 +420,56 @@ Network: CryptoAgora-Mainnet
                 <div className="hash-value mono">{hash}</div>
               </div>
 
+<<<<<<< Updated upstream
+=======
+              <div className="audit-box">
+                <div className="audit-header">
+                  <span className="mono muted flex-gap"><ShieldCheck size={12} /> AUDIT CHECKLIST</span>
+                  <span className="mono success text-xs">LOCAL VERIFIED</span>
+                </div>
+                <div className="audit-list">
+                  <div className="audit-row">
+                    <span><FileCode size={13} /> Binary Header / Magic Bytes</span>
+                    <strong className={analysis.formatValid ? 'success' : 'danger'}>{analysis.formatDetail}</strong>
+                  </div>
+                  <div className="audit-row">
+                    <span><Activity size={13} /> Shannon Entropy</span>
+                    <strong className={analysis.entropyValid ? 'success' : 'danger'}>
+                      {analysis.entropy.toFixed(2)} bits/byte — {analysis.entropyValid ? 'OPTIMAL' : 'LOW DENSITY'}
+                    </strong>
+                  </div>
+                  <div className="audit-row">
+                    <span><Network size={13} /> P2P Merkle Root</span>
+                    <span className="audit-value">
+                      <strong className="mono success">{analysis.chunkCount} chunks · {shortHash(analysis.merkleRoot, 10, 6)}</strong>
+                      <button className="btn-ghost-xs" onClick={() => { copyToClipboard(analysis.merkleRoot); toast('Merkle root copied', 'success'); }}><Copy size={11} /> COPY</button>
+                    </span>
+                  </div>
+                  <div className="audit-row">
+                    <span><Fingerprint size={13} /> Ledger Uniqueness</span>
+                    <strong className={analysis.isDuplicate ? 'danger' : 'success'}>
+                      {analysis.isDuplicate ? 'DUPLICATE DETECTED' : 'UNIQUE ORIGINAL'}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="trust-box">
+                <div className="trust-header">
+                  <span className="mono muted">DYNAMIC TRUST SCORE</span>
+                  <strong className={analysis.trustScore >= 70 ? 'success' : 'danger'}>{analysis.trustScore.toFixed(1)}%</strong>
+                </div>
+                <div className="trust-track"><span style={{ width: `${analysis.trustScore}%` }} /></div>
+                {analysis.aiVerified ? (
+                  <div className="ai-trust-badge">AI VERIFIED LEGIT (+15% WEB OF TRUST)</div>
+                ) : (
+                  <button className="ai-trust-link" onClick={onOpenHelp}>
+                    Fă Interviul AI în Get Help pentru +15% Trust Score →
+                  </button>
+                )}
+              </div>
+
+>>>>>>> Stashed changes
               {/* IPFS CHUNKS VISUALIZER */}
               {chunks.length > 0 && (
                 <div className="chunks-box fade-up">

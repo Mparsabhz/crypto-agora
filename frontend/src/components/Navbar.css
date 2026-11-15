@@ -44,6 +44,8 @@
 .navbar__module { position: relative; display: grid; grid-template-columns: 22px 1fr; align-items: center; gap: 10px; width: 100%; padding: 14px 12px; color: var(--text-muted); text-align: left; border: 1px solid transparent; border-radius: 6px; font-size: 13px; transition: color .2s, background .2s, border-color .2s; }
 .navbar__module:hover, .navbar__module.is-active { color: var(--text-main); background: rgba(0, 229, 255, .07); border-color: rgba(0, 229, 255, .2); }
 .navbar__module.is-active { color: var(--accent-primary); }
+.navbar__module > span { display: flex; align-items: center; gap: 8px; }
+.navbar__module-badge { padding: 2px 5px; color: var(--accent-primary); border: 1px solid rgba(0, 229, 255, .3); border-radius: 4px; font: 8px var(--mono); letter-spacing: .08em; }
 .navbar__module-active { position: absolute; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary); }
 .navbar__drawer-footer { margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(0, 229, 255, .14); }
 .navbar__contacts-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0; color: var(--text-muted); }

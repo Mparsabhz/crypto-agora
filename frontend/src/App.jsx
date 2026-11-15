@@ -8,7 +8,12 @@ import Navbar from './components/Navbar';
 import AuthorDashboard from './screens/AuthorDashboard';
 import PrintHousePanel from './screens/PrintHousePanel';
 import ReaderVerification from './screens/ReaderVerification';
+<<<<<<< Updated upstream
 import NetworkExplorer from './screens/NetworkExplorer';
+=======
+import NetworkExplorer from './screens/NetworkExplorer'; // NOU
+import GetHelp from './screens/GetHelp';
+>>>>>>> Stashed changes
 import './App.css';
 
 const HOW_IT_WORKS = [
@@ -215,6 +220,17 @@ function Shell() {
       return null;
     }
   });
+  const [aiTrustScore, setAiTrustScore] = useState(() => {
+    const storedResult = localStorage.getItem('cryptoagora_ai_trust');
+    if (!storedResult) return null;
+    try {
+      const parsedResult = JSON.parse(storedResult);
+      return typeof parsedResult?.score === 'number' ? parsedResult : null;
+    } catch {
+      localStorage.removeItem('cryptoagora_ai_trust');
+      return null;
+    }
+  });
   const toast = useToast();
 
   const handleRegister = (newBook) => {
@@ -264,6 +280,11 @@ function Shell() {
     toast('Google sign-in was cancelled or failed.', 'error');
   };
 
+  const handleAiTrustResult = (result) => {
+    setAiTrustScore(result);
+    localStorage.setItem('cryptoagora_ai_trust', JSON.stringify(result));
+  };
+
   if (!user) {
     return <LoginPage onLogin={handleGoogleLogin} onLoginError={handleGoogleLoginError} />;
   }
@@ -277,6 +298,7 @@ function Shell() {
         onLogout={handleLogout}
       />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
+<<<<<<< Updated upstream
         {screen === 'home' && (
           <>
             <section className="home-screen" aria-label="CryptoAgora">
@@ -354,6 +376,14 @@ function Shell() {
         {screen === 'print' && <PrintHousePanel books={books} />}
         {screen === 'reader' && <ReaderVerification books={books} />}
         {screen === 'explorer' && <NetworkExplorer />} {/* NOU */}
+=======
+        {screen === 'home' && <Home onNavigate={setScreen} />}
+        {screen === 'author' && <AuthorDashboard books={books} onRegister={handleRegister} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
+        {screen === 'print' && <PrintHousePanel books={books} />}
+        {screen === 'reader' && <ReaderVerification books={books} />}
+        {screen === 'explorer' && <NetworkExplorer />}
+        {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
+>>>>>>> Stashed changes
       </main>
     </>
   );

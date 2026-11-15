@@ -164,6 +164,9 @@
 .trust-header strong { font-size: 18px; }
 .trust-track { height: 7px; overflow: hidden; background: var(--bg); border: 1px solid var(--border-strong); border-radius: 5px; }
 .trust-track span { display: block; height: 100%; background: linear-gradient(90deg, var(--amber), var(--emerald)); box-shadow: 0 0 12px var(--emerald-glow); transition: width .3s ease; }
+.ai-trust-badge { margin-top: 10px; color: var(--emerald); font: 10px var(--mono); letter-spacing: .06em; }
+.ai-trust-link { margin-top: 10px; padding: 0; color: var(--accent-primary); border: 0; background: transparent; cursor: pointer; font: 11px var(--mono); text-align: left; }
+.ai-trust-link:hover { text-decoration: underline; }
 
 /* HASH */
 .hash-box { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }

@@ -1,4 +1,4 @@
-import { BookOpen, ChevronDown, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
+import { BookOpen, ChevronDown, HelpCircle, Home, Instagram, Linkedin, Printer, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import './Navbar.css';
 
@@ -6,6 +6,7 @@ const MODULES = [
   { id: 'author', label: 'Author Terminal', icon: BookOpen },
   { id: 'print', label: 'Print House Panel', icon: Printer },
   { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
+  { id: 'help', label: 'Get Help', icon: HelpCircle, badge: 'AI' },
 ];
 
 export default function Navbar({ active, onChange, user, onLogout }) {
@@ -60,10 +61,10 @@ export default function Navbar({ active, onChange, user, onLogout }) {
               <span>Home</span>
               {active === 'home' && <i className="navbar__module-active" />}
             </button>
-            {MODULES.map(({ id, label, icon: Icon }) => (
+            {MODULES.map(({ id, label, icon: Icon, badge }) => (
               <button key={id} className={`navbar__module ${active === id ? 'is-active' : ''}`} onClick={() => navigate(id)}>
                 <Icon size={17} />
-                <span>{label}</span>
+                <span>{label}{badge && <small className="navbar__module-badge">{badge}</small>}</span>
                 {active === id && <i className="navbar__module-active" />}
               </button>
             ))}

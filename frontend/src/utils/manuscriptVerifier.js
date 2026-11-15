@@ -111,7 +111,7 @@ function isExistingHash(hash, existingWorks) {
   });
 }
 
-export async function analyzeManuscript(file, authorPubKey = '', existingWorks = []) {
+export async function analyzeManuscript(file, authorPubKey = '', existingWorks = [], aiTrustScore = null) {
   if (!file || typeof file.arrayBuffer !== 'function') {
     throw new TypeError('A readable manuscript file is required');
   }
@@ -127,12 +127,15 @@ export async function analyzeManuscript(file, authorPubKey = '', existingWorks =
   const isDuplicate = isExistingHash(sha256Hash, existingWorks);
   const keyValid = isValidPublicKey(authorPubKey);
   const merkleValid = merkle.chunks.length > 0 && Boolean(merkle.root);
-  const trustScore = isDuplicate ? 0 : Math.min(100, (
+  const baseTrustScore = (
     (formatInspection.formatValid ? 40 : 0)
     + (entropyValid && sizeValid ? 25 : 0)
     + (merkleValid ? 20 : 0)
     + (keyValid ? 15 : 0)
-  ));
+  );
+  const aiVerified = Number(aiTrustScore) >= 75;
+  const aiBonus = aiVerified ? 15 : 0;
+  const trustScore = isDuplicate ? 0 : Math.min(100, baseTrustScore + aiBonus);
 
   return {
     sha256Hash,
@@ -148,6 +151,8 @@ export async function analyzeManuscript(file, authorPubKey = '', existingWorks =
     isDuplicate,
     keyValid,
     merkleValid,
+    aiVerified,
+    aiBonus,
     trustScore: Number(trustScore.toFixed(1)),
     publishable: formatInspection.formatValid && !isDuplicate,
   };
