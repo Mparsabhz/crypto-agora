@@ -355,6 +355,15 @@ app.get('/books', (req, res) => {
         return book.title.toLowerCase().includes(search)
             || book.author_pubkey.toLowerCase().includes(search)
             || book.book_id.toLowerCase().includes(search);
+    }).map((book) => {
+        const authorProfile = profiles[book.owner_email];
+        return {
+            ...book,
+            author_name: authorProfile?.display_name || 'Autor necunoscut',
+            author_profile_id: book.owner_email
+                ? crypto.createHash('sha256').update(book.owner_email).digest('hex').slice(0, 24)
+                : null
+        };
     });
 
     res.json({
@@ -379,8 +388,8 @@ app.get('/profiles', (req, res) => {
             if (!search) return true;
             const profileData = profile[1];
             const searchable = profileData.profile_type === 'author'
-                ? `${profileData.display_name} ${profileData.bio} ${profileData.genres}`
-                : `${profileData.company_name} ${profileData.description} ${profileData.specialties} ${profileData.location}`;
+                ? `${profileData.display_name} ${profileData.bio} ${profileData.genres} ${profileData.public_key}`
+                : `${profileData.company_name} ${profileData.description} ${profileData.specialties} ${profileData.location} ${profileData.public_key}`;
             return searchable.toLowerCase().includes(search);
         })
         .map(([ownerEmail, profile]) => ({
@@ -501,6 +510,7 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
     const publisherEntry = Object.entries(profiles)
         .find(([ownerEmail]) => crypto.createHash('sha256').update(ownerEmail).digest('hex').slice(0, 24) === publisherProfileId);
     const publisherProfile = publisherEntry?.[1];
+    const authorProfile = profiles[req.user.email];
 
     if (!book) {
         return res.status(404).json({ error: 'Cartea selectată nu există.' });
@@ -534,7 +544,10 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
     printRuns[runId] = {
         run_id: runId,
         book_id: book.book_id,
+        book_title: book.title,
         owner_email: req.user.email,
+        author_name: authorProfile?.display_name || req.user.name || 'Autor necunoscut',
+        author_profile_id: crypto.createHash('sha256').update(req.user.email).digest('hex').slice(0, 24),
         author_public_key: book.author_pubkey,
         publisher_profile_id: publisherProfileId,
         publisher_name: publisherProfile.company_name,
@@ -556,6 +569,11 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
 app.get('/my-print-runs', authenticateGoogle, (req, res) => {
     const result = Object.values(printRuns)
         .filter((run) => run.owner_email === req.user.email)
+        .map((run) => ({
+            ...run,
+            book_title: books[run.book_id]?.title || run.book_title || run.book_id,
+            author_name: profiles[run.owner_email]?.display_name || run.author_name || 'Autor necunoscut'
+        }))
         .sort((left, right) => right.approved_at.localeCompare(left.approved_at));
 
     return res.json({ count: result.length, print_runs: result });
@@ -568,6 +586,12 @@ app.get('/my-publisher-runs', authenticateGoogle, (req, res) => {
         .slice(0, 24);
     const result = Object.values(printRuns)
         .filter((run) => run.publisher_profile_id === publisherProfileId)
+        .map((run) => ({
+            ...run,
+            book_title: books[run.book_id]?.title || run.book_title || run.book_id,
+            author_name: profiles[run.owner_email]?.display_name || run.author_name || 'Autor necunoscut',
+            author_profile_id: crypto.createHash('sha256').update(run.owner_email).digest('hex').slice(0, 24)
+        }))
         .sort((left, right) => right.approved_at.localeCompare(left.approved_at));
 
     return res.json({ count: result.length, print_runs: result });
@@ -609,10 +633,17 @@ app.get('/books/:bookId', (req, res) => {
         return res.status(409).json({ detail: "Metadata cărții nu are un bloc valid în ledger!" });
     }
 
+    const authorProfile = profiles[book.owner_email];
     res.json({
         status: "AUTENTIC",
         verified: true,
-        data: book,
+        data: {
+            ...book,
+            author_name: authorProfile?.display_name || 'Autor necunoscut',
+            author_profile_id: book.owner_email
+                ? crypto.createHash('sha256').update(book.owner_email).digest('hex').slice(0, 24)
+                : null
+        },
         block
     });
 });

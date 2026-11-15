@@ -14,6 +14,8 @@
 .directory-card__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; color: var(--text-dim); font-size: 11px; }
 .directory-card__meta span, .directory-card__meta a { padding: 4px 7px; border: 1px solid var(--border); border-radius: 5px; }
 .directory-card__meta a { display: inline-flex; align-items: center; gap: 4px; color: var(--accent-primary); }
+.directory-public-key { display: flex; align-items: flex-start; gap: 6px; margin-top: 12px; color: var(--text-dim); font-size: 10px; }
+.directory-public-key strong { color: var(--text-main); overflow-wrap: anywhere; }
 .directory-empty { display: flex; min-height: 150px; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); }
 .directory-back { display: inline-flex; align-items: center; gap: 7px; width: fit-content; padding: 8px 0; color: var(--accent-primary); background: transparent; border: 0; cursor: pointer; }
 .directory-detail { display: flex; flex-direction: column; gap: 14px; }

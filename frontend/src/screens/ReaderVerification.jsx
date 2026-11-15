@@ -80,6 +80,7 @@ export default function ReaderVerification({ books }) {
 
   const filteredBooks = books.filter((item) =>
     item.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    || item.author_name?.toLowerCase().includes(searchTerm.toLowerCase())
     || item.author_pubkey?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -174,6 +175,10 @@ export default function ReaderVerification({ books }) {
             <div className="data-row">
               <span className="data-label">TITLE</span>
               <span className="data-value title-value">{book.title}</span>
+            </div>
+            <div className="data-row">
+              <span className="data-label">AUTHOR</span>
+              <span className="data-value">{book.author_name || 'Autor necunoscut'}</span>
             </div>
             
             <div className="data-row">

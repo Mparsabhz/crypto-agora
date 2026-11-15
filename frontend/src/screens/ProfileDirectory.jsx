@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Building2, Globe, Hash, Loader2, Search, ShieldCheck, UserRound } from 'lucide-react';
+import { ArrowLeft, Building2, Globe, Hash, KeyRound, Loader2, Search, ShieldCheck, UserRound } from 'lucide-react';
 import './ProfileDirectory.css';
 
 const API_BASE = 'http://localhost:3000';
@@ -72,6 +72,7 @@ export default function ProfileDirectory({ initialType = 'author' }) {
             {detail.location && <span>{detail.location}</span>}
             {detail.website && <a href={detail.website} target="_blank" rel="noreferrer"><Globe size={12} /> Website</a>}
           </div>
+          {detail.public_key && <div className="directory-public-key"><KeyRound size={12} /> <strong className="mono">{detail.public_key}</strong></div>}
         </section>
         <section className="directory-works">
           <div className="section-title"><ShieldCheck size={15} /> {author ? 'Cărți publicate și verificate' : 'Cărți asociate editurii'}</div>
@@ -114,7 +115,7 @@ export default function ProfileDirectory({ initialType = 'author' }) {
         </div>
         <label className="directory-search">
           <Search size={16} />
-          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={isAuthor ? 'Nume, gen sau descriere...' : 'Nume, locație sau specializare...'} />
+          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={isAuthor ? 'Nume, cheie publică, gen sau descriere...' : 'Nume, cheie publică, locație sau specializare...'} />
         </label>
       </section>
 
@@ -134,6 +135,7 @@ export default function ProfileDirectory({ initialType = 'author' }) {
                 {profile.location && <span>{profile.location}</span>}
                 {profile.website && <a href={profile.website} target="_blank" rel="noreferrer"><Globe size={12} /> Website</a>}
               </div>
+              {profile.public_key && <div className="directory-public-key"><KeyRound size={12} /> <strong className="mono">{profile.public_key}</strong></div>}
             </button>
           ))}
         </div>

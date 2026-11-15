@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, KeyRound, Loader2, Package, Printer, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, KeyRound, Loader2, Package, Printer, ShieldCheck, UserRound } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import './PublisherPanel.css';
 
@@ -70,7 +70,8 @@ export default function PublisherPanel({ authToken }) {
               <div className="publisher-run__header">
                 <div>
                   <span className="mono muted">{run.run_id}</span>
-                  <h2>{run.book_id}</h2>
+                  <h2>{run.book_title || run.book_id}</h2>
+                  <p className="publisher-run__author"><UserRound size={12} /> {run.author_name || 'Autor necunoscut'}</p>
                 </div>
                 <span className="pill success-pill"><CheckCircle2 size={11} /> BLESSED</span>
               </div>
@@ -98,7 +99,7 @@ export default function PublisherPanel({ authToken }) {
         <section className="card publisher-codes">
           <div className="publisher-codes__header">
             <div>
-              <div className="section-title"><Printer size={15} /> QR codes pentru {selectedRun.book_id}</div>
+              <div className="section-title"><Printer size={15} /> QR codes pentru {selectedRun.book_title || selectedRun.book_id}</div>
               <p className="dim">Fiecare exemplar are un cod unic care verifică exact copia scanată.</p>
             </div>
             <button type="button" className="btn-icon" onClick={() => setSelectedRun(null)} aria-label="Închide codurile QR">×</button>
@@ -135,7 +136,7 @@ export default function PublisherPanel({ authToken }) {
                   {page.map((copy) => (
                     <div className="publisher-print-label" key={copy.copy_id}>
                       <QRCodeSVG value={`${window.location.origin}/?copy_id=${encodeURIComponent(copy.copy_id)}`} size={130} bgColor="#ffffff" fgColor="#05070a" level="M" />
-                      <strong>{selectedRun.book_id} · COPY {copy.sequence}/{selectedRun.quantity}</strong>
+                      <strong>{selectedRun.book_title || selectedRun.book_id} · COPY {copy.sequence}/{selectedRun.quantity}</strong>
                       <span className="mono">{copy.copy_id}</span>
                     </div>
                   ))}
