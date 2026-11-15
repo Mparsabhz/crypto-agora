@@ -189,6 +189,8 @@ export default function Home({ onNavigate }) {
             <button onClick={() => onNavigate('author')}>Încarcă o carte <span>→</span></button>
             <button onClick={() => onNavigate('print')}>Generează un cod QR <span>→</span></button>
             <button onClick={() => onNavigate('reader')}>Verifică o carte <span>→</span></button>
+            <button onClick={() => onNavigate('authors')}>Caută autor <span>→</span></button>
+            <button onClick={() => onNavigate('publishers')}>Caută editură <span>→</span></button>
           </div>
         </section>
 

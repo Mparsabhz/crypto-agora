@@ -22,7 +22,7 @@ const emptyProfile = {
 
 export default function Profile({ authToken, user }) {
   const toast = useToast();
-  const [profile, setProfile] = useState(emptyProfile);
+  const [profile, setProfile] = useState({ ...emptyProfile, public_key: user.publicKey || '' });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -42,7 +42,13 @@ export default function Profile({ authToken, user }) {
         return data;
       })
       .then((data) => {
-        if (active && data.profile) setProfile({ ...emptyProfile, ...data.profile });
+        if (active) {
+          setProfile({
+            ...emptyProfile,
+            ...data.profile,
+            public_key: data.profile?.public_key || user.publicKey || '',
+          });
+        }
       })
       .catch((error) => {
         if (active) toast(error.message, 'error');
@@ -123,7 +129,7 @@ export default function Profile({ authToken, user }) {
             <label className="field"><span>Bio autor *</span><textarea value={profile.bio} onChange={update('bio')} rows={4} placeholder="Cine ești și ce publici?" /></label>
             <label className="field"><span>Genuri</span><input value={profile.genres} onChange={update('genres')} placeholder="ficțiune, eseu, poezie" /></label>
             <div className="profile-grid">
-              <label className="field"><span><KeyRound size={12} /> Cheie publică</span><input className="mono" value={profile.public_key} onChange={update('public_key')} placeholder="0x..." /></label>
+              <label className="field"><span><KeyRound size={12} /> Cheie publică (generată automat)</span><input className="mono" value={profile.public_key} readOnly aria-readonly="true" /></label>
               <label className="field"><span>Adresă payout</span><input className="mono" value={profile.payout_address} onChange={update('payout_address')} placeholder="Adresa pentru royalty" /></label>
             </div>
           </>
@@ -139,6 +145,7 @@ export default function Profile({ authToken, user }) {
               <label className="field"><span>Locație</span><input value={profile.location} onChange={update('location')} placeholder="București, România" /></label>
             </div>
             <label className="field"><span>Specializări</span><input value={profile.specialties} onChange={update('specialties')} placeholder="tipar, distribuție, fantasy" /></label>
+            <label className="field"><span><KeyRound size={12} /> Cheie publică editură (generată automat)</span><input className="mono" value={profile.public_key} readOnly aria-readonly="true" /></label>
           </>
         )}
 

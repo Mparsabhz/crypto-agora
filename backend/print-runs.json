@@ -1,0 +1,4016 @@
+{
+  "run_57fbce0ee00a062800ca": {
+    "run_id": "run_57fbce0ee00a062800ca",
+    "book_id": "ca_04",
+    "owner_email": "puscasdanielionut@gmail.com",
+    "author_public_key": "0x6047314b5bf61cbbfe1bbdf047ea6df30e8a4b28",
+    "publisher_profile_id": "1e844f52552ee522f3c42ce7",
+    "publisher_name": "PUSCAS PRINT",
+    "publisher_public_key": "0xCAEA9ADC...DC98",
+    "quantity": 500,
+    "royalty_percent": 20,
+    "approved_at": "2026-11-15T03:27:05.494Z",
+    "copies": [
+      {
+        "copy_id": "copy_93a3cd6bbd51b0a79b161832",
+        "sequence": 1,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_15864e024dcab0810579a509",
+        "sequence": 2,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_00b8cefd8e9e339cddbc7614",
+        "sequence": 3,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cdf0604f29d22b0031967d9d",
+        "sequence": 4,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5276bad8f2fcb4aac6079b61",
+        "sequence": 5,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_51812568772b79af28b444f6",
+        "sequence": 6,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8136ff15429602aea5c7d6d7",
+        "sequence": 7,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_95e6b35c4c933c5befe27bb2",
+        "sequence": 8,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_97d606fb49e2577cdac0ee55",
+        "sequence": 9,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0420d18998bac6404430aeac",
+        "sequence": 10,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8d3e2c5c7c27a1289ea340f3",
+        "sequence": 11,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8521f78ead674f44ffbd710e",
+        "sequence": 12,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ceb41e746431008887e7f8f7",
+        "sequence": 13,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ffbf65f3908447b81ae97310",
+        "sequence": 14,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_86c2b3ee55b2189ec3ec6f28",
+        "sequence": 15,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_21dd484c7d8f3e35d629d0ea",
+        "sequence": 16,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_34850427c4a770312667713c",
+        "sequence": 17,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0fd1ca422d901bd75827baf4",
+        "sequence": 18,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9bb34d2c1f1c636daa1f08ca",
+        "sequence": 19,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fc5fad7456dab61fe28856a3",
+        "sequence": 20,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_028aee9a87b4280ff1737aaf",
+        "sequence": 21,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4d66d00dd0c6de111ba30818",
+        "sequence": 22,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3056f6fda1f6b5f103043d9d",
+        "sequence": 23,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_14a8d09eef85424777fabb6b",
+        "sequence": 24,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6b750bd3d036d9cbd4149342",
+        "sequence": 25,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1b2b335216585ac6c645a278",
+        "sequence": 26,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_538d07038077364d44ba136b",
+        "sequence": 27,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4bbe9675ab304485442a065f",
+        "sequence": 28,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_14b09f1c28f4b33af707b1fb",
+        "sequence": 29,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_634f84149e2093760492c22d",
+        "sequence": 30,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e305bf459687aa0f0bc2e6d1",
+        "sequence": 31,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8c1c7bb1a26d1b42d54c0fb9",
+        "sequence": 32,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_64bfe9910b869d907d9929ac",
+        "sequence": 33,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_950cebc29453346f16f09b6b",
+        "sequence": 34,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_22295efa87ddb9dda0f0f697",
+        "sequence": 35,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3a05e45636decebb008b5c3b",
+        "sequence": 36,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7032eaaacd6014f6081541e7",
+        "sequence": 37,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7f45a458d3ee647f2a828b79",
+        "sequence": 38,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_69e05a7d32ed039321054beb",
+        "sequence": 39,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_eb5f06f3364f34c5ce197495",
+        "sequence": 40,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_865dd4d9f8ef1b367a4adb5d",
+        "sequence": 41,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b8c839943fe4fc71f65e1de2",
+        "sequence": 42,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ee5d4006e4aa5af42f76036f",
+        "sequence": 43,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3ecb9db434477cb71493a519",
+        "sequence": 44,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e0f298d6555c2f1c15eac11b",
+        "sequence": 45,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8879d58b82c18d48474634e4",
+        "sequence": 46,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_51c4abcf9cfe6bfb688d9cea",
+        "sequence": 47,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_54412ad733c1320a2ddb2424",
+        "sequence": 48,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_207f47cd8d5f69a35c99fcbf",
+        "sequence": 49,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bee5fb44e1a6ba455c9b12e5",
+        "sequence": 50,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_937553927cb3201eddd4e40b",
+        "sequence": 51,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_232e54de9534f932347d1448",
+        "sequence": 52,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1ad3946fdd0207056ee79cb4",
+        "sequence": 53,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_853468d8653357e0f09c479e",
+        "sequence": 54,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_24e0bd71ddc447afffa40c64",
+        "sequence": 55,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c327cd69879ddc3e4bc275f3",
+        "sequence": 56,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e890ac50aa6a0c396c79b058",
+        "sequence": 57,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fbe4eb764b0b8915c3172cd8",
+        "sequence": 58,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_caf7ff84f11020638c461008",
+        "sequence": 59,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f822b35d61d46619332c8a2a",
+        "sequence": 60,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e4f7c64021defb5382d85709",
+        "sequence": 61,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_381f8c4fde0ae8e9bccab976",
+        "sequence": 62,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1d4ff5020881ed642d113433",
+        "sequence": 63,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d0a9b0394c25889545acb3c8",
+        "sequence": 64,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e83df08b776c45dae18415bf",
+        "sequence": 65,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_10047c48b0f8d3d2f55d85eb",
+        "sequence": 66,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5215fac877855ec0637a4d7a",
+        "sequence": 67,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_286400bc605d5f5aafeb634e",
+        "sequence": 68,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b7ea9f3ba107520302795f43",
+        "sequence": 69,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ce48688537c864f304bc767d",
+        "sequence": 70,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_db670afea708db2bdba6c81d",
+        "sequence": 71,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0df17120c9773f274a28bf99",
+        "sequence": 72,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9b7c3d70322057e01dbffd1f",
+        "sequence": 73,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a416a89ebbaffdeb2ff3a559",
+        "sequence": 74,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_da389bb8b5919266ee333c12",
+        "sequence": 75,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5310056d0f58601d2838fffc",
+        "sequence": 76,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a4437ae872208a8e6a063fdf",
+        "sequence": 77,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_17fcd33eab3e53247f4adf33",
+        "sequence": 78,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_325497a8e63273ab1c4c9363",
+        "sequence": 79,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0bff4b714a2c98c69d265b2f",
+        "sequence": 80,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_39b5c50784b5e112ff561289",
+        "sequence": 81,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6b1eb2b8514c001081d150dc",
+        "sequence": 82,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8a8d690ad5bf60a56aa5d3ce",
+        "sequence": 83,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e12690ccf5193b58db1dfaa1",
+        "sequence": 84,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_aa6488a4ecffbbeddd8c567e",
+        "sequence": 85,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b4b5db02270b293ffd8366a9",
+        "sequence": 86,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_845f7a936db7e6741904166b",
+        "sequence": 87,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_79491dd7deef98dddadfa6f8",
+        "sequence": 88,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dbeffa3a8a0f07b2a75774d8",
+        "sequence": 89,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3f0cc42192ec1e0f93f19ccb",
+        "sequence": 90,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5ca71a1ad5a14aedde2bb4c8",
+        "sequence": 91,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_de8a1dd38e3473ab062b6906",
+        "sequence": 92,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b5471388ca67ab163dd4a752",
+        "sequence": 93,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9fd5d050d540e36de6b7b364",
+        "sequence": 94,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0c014f0996ee302a4c767fd2",
+        "sequence": 95,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f35c7b185ed35731c726515d",
+        "sequence": 96,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c4bdb6e31923cb2a9d8fdfee",
+        "sequence": 97,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a6ee58bae3de57638c9b3d88",
+        "sequence": 98,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7519b01c0afedad15c6e5a54",
+        "sequence": 99,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_33fdb5a6ca0d050c763cddf4",
+        "sequence": 100,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_903d0ae6e0c4c60177a5ddd7",
+        "sequence": 101,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_22f9bdbc4333677963de7887",
+        "sequence": 102,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3a7a26bbfc8f0426cb44e03f",
+        "sequence": 103,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dee6dcd2f49292fcd8652362",
+        "sequence": 104,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5b3c49452ccf228d80037b7d",
+        "sequence": 105,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0ef5ba2729a0478fda344aff",
+        "sequence": 106,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dd8b84404c0d7850c34d226b",
+        "sequence": 107,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ca59e5c101ac2bbd396aa04d",
+        "sequence": 108,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8ec6264cd18cedd7a20d5c0f",
+        "sequence": 109,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_415bb66efab494e3a9bcf0b5",
+        "sequence": 110,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_81a2b3e9e5fbe5cc4c2defa8",
+        "sequence": 111,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_75574f7d60f5853e1491bb17",
+        "sequence": 112,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f1f3a328df8bcd9e91b227b9",
+        "sequence": 113,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9ec8a4499336a1d35318d49a",
+        "sequence": 114,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_24577582b5f99f8a699225a1",
+        "sequence": 115,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2ce0c4471ec9d3899f82f4b4",
+        "sequence": 116,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ef9745a7999348cb4be308a0",
+        "sequence": 117,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e6dc8770e71cddcd1ef98d67",
+        "sequence": 118,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_520868b9a28cda4f9ecb3e6a",
+        "sequence": 119,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3d7a112a81054caa22d6c964",
+        "sequence": 120,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_970863b8268d865afcabce92",
+        "sequence": 121,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8a302023e702f088582e6702",
+        "sequence": 122,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_27206600b0c031431f73b656",
+        "sequence": 123,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_341ef943dae716406a8212d6",
+        "sequence": 124,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_541a603ca6fdfe71ee4371a9",
+        "sequence": 125,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2c75694ec1f6c26f47a2ebd5",
+        "sequence": 126,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fc779c3b6d8faeb1fe33ea32",
+        "sequence": 127,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_52971b29852ea47485800b31",
+        "sequence": 128,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3741ef3a7d2eeb0af267ebe0",
+        "sequence": 129,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c0199ff31c17406d8ce60f05",
+        "sequence": 130,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7b33f930226f0c8727de5ea9",
+        "sequence": 131,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4f3b793a2f7807e86bc15ca0",
+        "sequence": 132,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6db29b29c218bbcd248fa040",
+        "sequence": 133,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7bdf372b2716466fd8f2347c",
+        "sequence": 134,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_36c8a88e5215e89a3814575a",
+        "sequence": 135,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_77562c6d589c4b1b3861103d",
+        "sequence": 136,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8bd787f5effd68e43075360b",
+        "sequence": 137,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b7a946792602e48219426756",
+        "sequence": 138,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2c82f3492b9be2359377f798",
+        "sequence": 139,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_822564774b849c6727064754",
+        "sequence": 140,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cd1bed0ec7987bc81e356476",
+        "sequence": 141,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6011d08798bd99c0715b4ab3",
+        "sequence": 142,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c25108f05319c069152131b3",
+        "sequence": 143,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5e3bfa5a6f8856b4818d8c7c",
+        "sequence": 144,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_679dd7ff95189709c4e9e488",
+        "sequence": 145,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_effd6fb65d4f59fbaa8c9a0d",
+        "sequence": 146,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ade9a81d27fcb44601b2cc5c",
+        "sequence": 147,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_71e145b09dbff3fbd3e2dd58",
+        "sequence": 148,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b00cee05fcfaccade92d5a0e",
+        "sequence": 149,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_745777c5abc5d2690d17f002",
+        "sequence": 150,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e8578b738e4c164de2c9da4e",
+        "sequence": 151,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_44eee749e4a0acad9d7a5fc2",
+        "sequence": 152,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_198fdbf2568cb6621831d461",
+        "sequence": 153,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_19475be0a5a3fba48195fca8",
+        "sequence": 154,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9f39ddeda0fd6a399e67aa33",
+        "sequence": 155,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d2be4db8866ae0fde7afe05c",
+        "sequence": 156,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5445a58599df255fb9d3d37a",
+        "sequence": 157,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0c6bca9e1f2adcfb321ebd7e",
+        "sequence": 158,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3eb3edb3b257cc81592cc4d0",
+        "sequence": 159,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4d281cc452010fedcab26f10",
+        "sequence": 160,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_13fbe7acdccaeb21efed3d92",
+        "sequence": 161,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_49a33a909d3a1851cee222a2",
+        "sequence": 162,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_75731ac1c46714b31896430e",
+        "sequence": 163,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_84b7dcdf3b2e2f27321d921b",
+        "sequence": 164,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4d7b07f4063531c239f11f57",
+        "sequence": 165,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4969e0bf0413456e1cc50424",
+        "sequence": 166,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bca76a6bee00c49e277d7707",
+        "sequence": 167,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b04b6833ecd5e94597efd503",
+        "sequence": 168,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f94602bb655adf7c98a3aec2",
+        "sequence": 169,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9c412cec1919edfe0f2950f3",
+        "sequence": 170,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6e8070c9390e9471819e45df",
+        "sequence": 171,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e51778f70106d3cb24bd79f4",
+        "sequence": 172,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1aaeba3f6a8bc22be1cede1f",
+        "sequence": 173,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dd44a2f42484c6d68a164d55",
+        "sequence": 174,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6c255b179fb2b141ecaec252",
+        "sequence": 175,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f2004d173f89258003c872be",
+        "sequence": 176,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_70646c06900a741244236af3",
+        "sequence": 177,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b677ed177856271dfddeb9bc",
+        "sequence": 178,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3aba41efcd6db1c9ea839e14",
+        "sequence": 179,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_057be5f4ba12e8ceeee91f40",
+        "sequence": 180,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f74c6b816a0589d378c6ff23",
+        "sequence": 181,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c9743e2e62cfdebd0b34aeab",
+        "sequence": 182,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_eb83a346c99146450335b923",
+        "sequence": 183,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cc19e4ba29422ba2a37f8123",
+        "sequence": 184,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9b632370dbbf4feb15d8ac2e",
+        "sequence": 185,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_412dfdf0b244c1089d3a3265",
+        "sequence": 186,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4f635e5ebef9aa829eb04c89",
+        "sequence": 187,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_db4a580e89d441fb97fe680e",
+        "sequence": 188,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bd446e66b3427cf1b7a24794",
+        "sequence": 189,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5b60db518fd776845dbdecd1",
+        "sequence": 190,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6f0995dfa15a6f556bd7d2ea",
+        "sequence": 191,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8768df81120e7eaf3e33a28f",
+        "sequence": 192,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6aae9b596fabe785a44ee1cc",
+        "sequence": 193,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f7bb006148e5deb5345ec2b9",
+        "sequence": 194,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c661196e41f30edba552b76f",
+        "sequence": 195,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d94c43ca662de5269e9e8c68",
+        "sequence": 196,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fff5d1adc16468dbd1f74671",
+        "sequence": 197,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_93e353d016f422513c0162bc",
+        "sequence": 198,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ada0a647a80afbba6d8cbe2f",
+        "sequence": 199,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9880359a0c5f6fa43dffe3f7",
+        "sequence": 200,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c2f78323c0228f75e435d453",
+        "sequence": 201,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7752f3217c9fe68f59d838bd",
+        "sequence": 202,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3d36c923052fc83ee68b54af",
+        "sequence": 203,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1b29a62b540c8363b8804073",
+        "sequence": 204,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_12bf980b7aeab278a5d27bc0",
+        "sequence": 205,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5ccf8c8f776cc859b539b162",
+        "sequence": 206,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c15e84f72be8a7a0763b76ce",
+        "sequence": 207,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_364040017492114dbe97b520",
+        "sequence": 208,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ef81f99998f6bafeff71b721",
+        "sequence": 209,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2bd6594b105b1e067b8ab312",
+        "sequence": 210,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2d58745f15379a3449990088",
+        "sequence": 211,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_11d820ec0794e590db4f16b0",
+        "sequence": 212,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0e500e4e035355d0adb7e0ba",
+        "sequence": 213,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_71e98273ee5b4504b8d2a77c",
+        "sequence": 214,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_334dfa78daca8d4817cb8f32",
+        "sequence": 215,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_35e8abb951a678989b26aa32",
+        "sequence": 216,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7e2f6553d03f45216f8a3b7e",
+        "sequence": 217,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_28c7df8b047023ccd2755fdb",
+        "sequence": 218,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_67e95a19dd9f57d392af32bf",
+        "sequence": 219,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dd8942964c266625a26695b0",
+        "sequence": 220,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2636597e84c99d0d3e582d17",
+        "sequence": 221,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_644bc841decbb9c2e539e088",
+        "sequence": 222,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_61dccc22028e853511073c76",
+        "sequence": 223,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_37c6a7027505171567f04135",
+        "sequence": 224,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4bf584d7f80a2c017a1e3a8d",
+        "sequence": 225,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e6dea41142f2531b606e3709",
+        "sequence": 226,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8f9ae8140bae75e8f7eb6b72",
+        "sequence": 227,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4d8b1356914eab4c23d457a4",
+        "sequence": 228,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8749c6b020b919411b698846",
+        "sequence": 229,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b4afa8901967d5576327f0db",
+        "sequence": 230,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_04a854b905a6c33b60263626",
+        "sequence": 231,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fe89c949de523b84a5dd512a",
+        "sequence": 232,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ff4fece7c0471e50789b76b8",
+        "sequence": 233,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c89be31fdae6f83302c93db9",
+        "sequence": 234,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_17cf32ed3e43b379461f62c4",
+        "sequence": 235,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f1a19d380694b396d1be60cd",
+        "sequence": 236,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_243e6736fa10b245cc00655b",
+        "sequence": 237,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_871aef68f404ce9688f50836",
+        "sequence": 238,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9a59d8252d891961945d8bc9",
+        "sequence": 239,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ba616a0ea38d454f7cd5f271",
+        "sequence": 240,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fe5acd1a0f3aaaf5ed15c065",
+        "sequence": 241,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_437bd3cdf37c7d4288903c75",
+        "sequence": 242,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_791cf43afae7636b28e6afdc",
+        "sequence": 243,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1ed315cacb823ba7cee5c2d9",
+        "sequence": 244,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_82b9735bb745cf2a38c12672",
+        "sequence": 245,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_71eb7c1933224c6cf25def0b",
+        "sequence": 246,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b27950117953f6a49a8921a1",
+        "sequence": 247,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ae6e19229ae6903ca510ec14",
+        "sequence": 248,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_99327f15e60afd57299f6fa5",
+        "sequence": 249,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b843be99275701942813b873",
+        "sequence": 250,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_438503190e2fc088a63da234",
+        "sequence": 251,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1b94bd01def0a82d2b34844a",
+        "sequence": 252,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_307dd36be1f76c7adb058228",
+        "sequence": 253,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0f9229fdb1edd278dd83971d",
+        "sequence": 254,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_28168a62d80024ce2695aadd",
+        "sequence": 255,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0599f353f397058036fc3d50",
+        "sequence": 256,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5c8ae5761cd48b3b7afa6241",
+        "sequence": 257,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5f6228f6b698f30c3d5aa149",
+        "sequence": 258,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e4f5e9029ab6402992d05d80",
+        "sequence": 259,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3b350364712280666e6fb4b7",
+        "sequence": 260,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2634a21fcf5da707e4ceee3e",
+        "sequence": 261,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7780fb3694bba299e8b191f8",
+        "sequence": 262,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6e17fa7614f275f6052d6e5c",
+        "sequence": 263,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ba5abe6035df0dccda2bb249",
+        "sequence": 264,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_51854ba1164922cc8269fa9f",
+        "sequence": 265,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dcd09d384cd8865cd1be2f36",
+        "sequence": 266,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6ddcd6b52b0a63237a1415b6",
+        "sequence": 267,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_abf25b9635cf9946122df947",
+        "sequence": 268,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f41bdf01d8a3600ea37ed077",
+        "sequence": 269,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_32e4acb33d4bee275c54cc75",
+        "sequence": 270,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_60a6eee6b730d3de8615c51f",
+        "sequence": 271,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fcab792f3fab44cc29fb4503",
+        "sequence": 272,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d0ff4cf8f77b1b0be67c36cb",
+        "sequence": 273,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8ead707e59e44f035fd3d355",
+        "sequence": 274,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d7fb1bcea2defd9ed61aebbc",
+        "sequence": 275,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_591a1779fb0d1836f96b4b14",
+        "sequence": 276,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_67fe0d905fd9235781fd4929",
+        "sequence": 277,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_29816bba37a423d63e673229",
+        "sequence": 278,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8155732ca9f82eb654b03d30",
+        "sequence": 279,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1b306de396de4c428ac7808a",
+        "sequence": 280,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2276bb2c0554011bf45a2ccc",
+        "sequence": 281,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_11c57d980cb641d138ec8e96",
+        "sequence": 282,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7f8b926d29580290088dea11",
+        "sequence": 283,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3d6566d95f356a76ca13cfd0",
+        "sequence": 284,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_15282f784295b1eeae31e23d",
+        "sequence": 285,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ba5a424e4695b6434f70ebeb",
+        "sequence": 286,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5aa50d4951a6dcd94f8eb693",
+        "sequence": 287,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4d375276609677ded6cb41ae",
+        "sequence": 288,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_010a2ffd1620afb310d10f6b",
+        "sequence": 289,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e95e99c328a28eb2f3d5300b",
+        "sequence": 290,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9213b7ad176e167761a0e789",
+        "sequence": 291,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_79de7e5eb3086e730ec2cd6e",
+        "sequence": 292,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_89c344debd9db645984f3212",
+        "sequence": 293,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5f54b753f95c5f4f14059397",
+        "sequence": 294,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_25cea0c2b1c3091c380cbcd5",
+        "sequence": 295,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9e34a1512152764ffd0a3a1f",
+        "sequence": 296,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_99332bd35f92f2ab98d9ca70",
+        "sequence": 297,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_84eb421859bd18e9ddb21e09",
+        "sequence": 298,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6755d270c3730c1d03af2c9b",
+        "sequence": 299,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_623d81f82a17ef52b642c150",
+        "sequence": 300,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e8ba8d7a0c82f82f252d25ac",
+        "sequence": 301,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_868cb9d314bc97a53e120a86",
+        "sequence": 302,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0d619db01f03f0dcac77ad70",
+        "sequence": 303,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_44113ed916c39e341538d730",
+        "sequence": 304,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_668ad41b518e8d026b1e5244",
+        "sequence": 305,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_872131d759d80c6958a7908d",
+        "sequence": 306,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cebaa9ada80636b4cffd1250",
+        "sequence": 307,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4d0ea5e9055b78417ac7e131",
+        "sequence": 308,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_446dbbf5c40d725430d8eb57",
+        "sequence": 309,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fbfbae994c6bbe6b463872d8",
+        "sequence": 310,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_55a4a87737cc464e71338c92",
+        "sequence": 311,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6f86e588addfed1dcad74bc1",
+        "sequence": 312,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ec420ecd3272c0609d480880",
+        "sequence": 313,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_786836bd4326307a4824962c",
+        "sequence": 314,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_402476a120f49eec6d011454",
+        "sequence": 315,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5da8ab9f02fd7a6e40a508f0",
+        "sequence": 316,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e5719941e106b20c9b1bb493",
+        "sequence": 317,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c671a84aeb5e7b79503ec302",
+        "sequence": 318,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_58ab089169bd910b413648dc",
+        "sequence": 319,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1694350601a066bb48be56c0",
+        "sequence": 320,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8212a9aa2b9f59c33c17de1e",
+        "sequence": 321,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ec06b667570c60adb60892c1",
+        "sequence": 322,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_84b11fa03ba4a2783434125b",
+        "sequence": 323,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_87fc4e5f9e527ba754d043ad",
+        "sequence": 324,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3f83cf0ecb88a39823ae4c7c",
+        "sequence": 325,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a4fc4c149af55d92938e6fc1",
+        "sequence": 326,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8cd8b2af3c135b9b3d7fb41f",
+        "sequence": 327,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0125bcb21178c0e2067c7162",
+        "sequence": 328,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ef4eb603c8612ee6d01c0e1d",
+        "sequence": 329,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_087f8ef74bf806bf2a7869ed",
+        "sequence": 330,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_11c19efc16e3eff7283a6a36",
+        "sequence": 331,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_adff33b2529eb37fd654484e",
+        "sequence": 332,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6aabcf94a9eefcf7a56eb24e",
+        "sequence": 333,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_41c52cf3e45c3bfbd8d9240f",
+        "sequence": 334,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_41a2916c08831c768d24c4f5",
+        "sequence": 335,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f0c42bb4603d48f8e672a6ae",
+        "sequence": 336,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5f5eabdd43d74a68c2f84253",
+        "sequence": 337,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6678c279ae0aab9da285b217",
+        "sequence": 338,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ab967901ab5767f3acc36f69",
+        "sequence": 339,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9c997109458d87daa5f5e0eb",
+        "sequence": 340,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_429e11f514040e6ab032d3f7",
+        "sequence": 341,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_336af7d4980baf27db48371b",
+        "sequence": 342,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4edabaad6166ff0463aa2e8c",
+        "sequence": 343,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c49b0d59674eaf1acb96e9f1",
+        "sequence": 344,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_98cb8568d829474442b0228b",
+        "sequence": 345,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9f95801d88f1c863f7558530",
+        "sequence": 346,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_746a452235909c8e51e09542",
+        "sequence": 347,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5ddf8676ade7df1bfb396cd7",
+        "sequence": 348,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_80048e589f237be24111adae",
+        "sequence": 349,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_73f5211bcc83381de434b03b",
+        "sequence": 350,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b581e0356fd70570132799e0",
+        "sequence": 351,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_93c36a9fc8c861f73040c8c8",
+        "sequence": 352,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bc832e13a78ccec1b2122ce4",
+        "sequence": 353,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_299fa1e5913eb7984101b744",
+        "sequence": 354,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_71da9ed734be24d4b62f847e",
+        "sequence": 355,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d65841854b2927734c1802e2",
+        "sequence": 356,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2c2899f06681e11dedd22083",
+        "sequence": 357,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4e0c98e8b52cf9c540ac4421",
+        "sequence": 358,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7f498de857121b7c39baf769",
+        "sequence": 359,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_73f7f10c841b08edf57f38fe",
+        "sequence": 360,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_282e544bd321df0bdfd80125",
+        "sequence": 361,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_662cd17861b6e8462b65194d",
+        "sequence": 362,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7060ba1560e9ca158b899d6e",
+        "sequence": 363,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_160ab74b46cf7a4306be5b30",
+        "sequence": 364,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bdc08c634d44431449ec988c",
+        "sequence": 365,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8dbeebbcfe7d5eb7a7f5ef1a",
+        "sequence": 366,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_92053ca3407c2b2da92ca87f",
+        "sequence": 367,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ee209fc4b3e33d71cabf93cc",
+        "sequence": 368,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9fae14daf86aa23723e98826",
+        "sequence": 369,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_eefdda6f9e74259a4e79d20a",
+        "sequence": 370,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9d76645eda553035d354bae1",
+        "sequence": 371,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_101c0dfb079859d3610b3a6e",
+        "sequence": 372,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_da73d8a94a3f8efa808e7d11",
+        "sequence": 373,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dad7304b840f909fee4e312e",
+        "sequence": 374,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fac0c897013c7d1946b91d81",
+        "sequence": 375,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_94890ddd3a8baf545d987bed",
+        "sequence": 376,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7bddc8cf0d91fa9a0101dfa6",
+        "sequence": 377,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4a2391d227add96d72bfdba7",
+        "sequence": 378,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_927d092a46556f96ad3ba4f6",
+        "sequence": 379,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6b96bb545fd8cba479b560f1",
+        "sequence": 380,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4a78ebb29ac74f8e11a6120b",
+        "sequence": 381,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_acc4e2e3a4329c2692b02dc4",
+        "sequence": 382,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_645709321f6a9b55ed757805",
+        "sequence": 383,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_36ee1f3700daa9a1210e3115",
+        "sequence": 384,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1444c8fa8dae86d0d3a43a3e",
+        "sequence": 385,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_87bd2b28106cd00fdf8c1cbf",
+        "sequence": 386,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_af1f57eeea2f642893620061",
+        "sequence": 387,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_21015144c03ae97b52405289",
+        "sequence": 388,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ee82300cb3fb11d6d1065349",
+        "sequence": 389,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5ec68b9fdf8f58b4cd7c6436",
+        "sequence": 390,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3f29f9c14ed1eedb20fd8249",
+        "sequence": 391,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2dfbf0997c0b2cc76833151b",
+        "sequence": 392,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b7b8c328b0872a336821009f",
+        "sequence": 393,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ab503cc5ebaa319a40e24052",
+        "sequence": 394,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0fc2f81f013a7d97681bb363",
+        "sequence": 395,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2736f3ee232c3f3e4d9ea307",
+        "sequence": 396,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7e58ac0f48bb196ffb91b45a",
+        "sequence": 397,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9f243dee26c56f5ab4b8098e",
+        "sequence": 398,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bf9115b47c263eeed33e87db",
+        "sequence": 399,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_68f58e4ffdcdcfd42f393031",
+        "sequence": 400,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_406f476e1e96b6e0f41c7071",
+        "sequence": 401,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8143dd81933bfdc009d9f755",
+        "sequence": 402,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_28d09cd062cfa684040fbd5b",
+        "sequence": 403,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_04477fbec747f823c8e729fc",
+        "sequence": 404,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_00e28d5fa56448d6a4062563",
+        "sequence": 405,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_792d1c3f0f179055bc640523",
+        "sequence": 406,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b23757fe92644f511908c991",
+        "sequence": 407,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5d1b517350de8ecfcd0d3208",
+        "sequence": 408,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ac8c67c3a3dcc1a9ff944d24",
+        "sequence": 409,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_811cf0f22fa48d432b68da69",
+        "sequence": 410,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_962ba73f179cd0f6141f85d2",
+        "sequence": 411,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e199910d730033ad9382d865",
+        "sequence": 412,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a301688961a9eaf7dd0f31c4",
+        "sequence": 413,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_094102b445b8710f48e823f1",
+        "sequence": 414,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_c739fe1819d389a6785213f3",
+        "sequence": 415,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_db1ba97480d5b5dab60fa77e",
+        "sequence": 416,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_46c75c26fb8900b3e8240796",
+        "sequence": 417,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7198ced1eafdf2bc31b00cb4",
+        "sequence": 418,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f587364aee747f7e4aebda92",
+        "sequence": 419,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_ddea2096ad7d7eb6f11a05d4",
+        "sequence": 420,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_39fd7a9c2e22676e7b588375",
+        "sequence": 421,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_637ae20acd74dcc93ec9157d",
+        "sequence": 422,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b49dd646d5c0a31205b76f79",
+        "sequence": 423,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1dd451306a5c8a8f7020872d",
+        "sequence": 424,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0519fadd6447497b82beb150",
+        "sequence": 425,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a1c85dd983968d3e7aa9e70f",
+        "sequence": 426,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a0c221e7ff99ef6f28b07c1b",
+        "sequence": 427,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1f0785ab946790877729d7dc",
+        "sequence": 428,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bba5fe6b5c1bd2f591bf6159",
+        "sequence": 429,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1d667b41336e304eaea69792",
+        "sequence": 430,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5097cfc2f5d58769b0522eb8",
+        "sequence": 431,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8e79d6214f38d8787a95cd2c",
+        "sequence": 432,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_53c13741dc19fd6d4a44e077",
+        "sequence": 433,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cc584e8e4ed28129f8af1efd",
+        "sequence": 434,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2c5b021991efcd6bbccd32a3",
+        "sequence": 435,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f4e203bafddd7144077ad956",
+        "sequence": 436,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b18cf5753fe5bc599600297c",
+        "sequence": 437,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_616a1dc60449231a13479e0f",
+        "sequence": 438,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0b2316189c36559f48cae4c9",
+        "sequence": 439,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_43e596b31f0313e8c5866f06",
+        "sequence": 440,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_737560467908199c546ee15d",
+        "sequence": 441,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_63ea5abd299b59e6939c6c2f",
+        "sequence": 442,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_53986700efa52e0bdd9a1cff",
+        "sequence": 443,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8ef1b16b0a06ab6cad85d885",
+        "sequence": 444,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_f7c38c5b92cac234d1b9349b",
+        "sequence": 445,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a8480084e24a74d0c46b1b65",
+        "sequence": 446,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_1adf8f18f3a4991bbaf824ff",
+        "sequence": 447,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_903c96ef970484e2e852c992",
+        "sequence": 448,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a586ba5a4e9eb49872ab95ab",
+        "sequence": 449,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_04fa6b7355d7a49f69fbae75",
+        "sequence": 450,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2b4084c2f81111be89dc3612",
+        "sequence": 451,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_8439915f38262a3dd41888a7",
+        "sequence": 452,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a33d116aa3fced17ccf57960",
+        "sequence": 453,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d1c6e5904511c45705c4bcba",
+        "sequence": 454,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d62918fd22be6692dc853bcd",
+        "sequence": 455,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3aad6e0dff81ed923b6b9b1f",
+        "sequence": 456,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_65090f2d3bbdf3fdf02884af",
+        "sequence": 457,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5d9adb69717c33d1ccb53864",
+        "sequence": 458,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_532f3249c620bbe5ea4bb8a3",
+        "sequence": 459,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7004e349dca833c55b884626",
+        "sequence": 460,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6b114323ef7846875eb3d0a0",
+        "sequence": 461,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6b3e1e6bbf930687714268b7",
+        "sequence": 462,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_daa63253b8c841571feebf2e",
+        "sequence": 463,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_139966db3737b27331d394e2",
+        "sequence": 464,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_5c2a9f4334a526667a602451",
+        "sequence": 465,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fae1028762c291b8dc646d01",
+        "sequence": 466,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3682b8eaeee741e2db2058cd",
+        "sequence": 467,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_0c816416ddcacaf655b663bf",
+        "sequence": 468,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_72c381152339807ab6088bef",
+        "sequence": 469,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d8209861bb159df339046972",
+        "sequence": 470,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_3d38f1d24dfeb2fd2b606ae0",
+        "sequence": 471,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_b61947b50d4cb8602a0aa3f6",
+        "sequence": 472,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a6340fa997568e0f3789dd75",
+        "sequence": 473,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_4854701196c8b5560c599077",
+        "sequence": 474,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_e2446a30b8f81c8343e4bc72",
+        "sequence": 475,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_2761c3f11bd1919e85fe62c3",
+        "sequence": 476,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_370d9e41132bd30ece88e874",
+        "sequence": 477,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_63d832e3f2f9ea5143aef173",
+        "sequence": 478,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7d54b52d1b7d67e1d1fda06d",
+        "sequence": 479,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d67855044d0be28700733c10",
+        "sequence": 480,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7abcd9235f070f2921d04cd1",
+        "sequence": 481,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_564b54c42063ffe5029aa602",
+        "sequence": 482,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_dbbf46850314292923ff516b",
+        "sequence": 483,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_7e6d15412fb83a1bee008f5e",
+        "sequence": 484,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cc7ed9d9bcf52c3fb35375b8",
+        "sequence": 485,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_27bb4aa24bb77b5618280cba",
+        "sequence": 486,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_62bb158f8b8e7684fbece4fc",
+        "sequence": 487,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d05776694641951dbc7bfa80",
+        "sequence": 488,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a8520f21c513ef4e29de8c4d",
+        "sequence": 489,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cc6d3d60a74242494e74d642",
+        "sequence": 490,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_11a434b661c705895eba37fa",
+        "sequence": 491,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d44a83c6abae82a17f21f3ba",
+        "sequence": 492,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_d8a418f50161c4ab575c7cb9",
+        "sequence": 493,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_a48465275b2dd7f77ec024bf",
+        "sequence": 494,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_6d033443fc100cc300aaa14b",
+        "sequence": 495,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_bd77309645984dba470be8e3",
+        "sequence": 496,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_9760236ef080a046afe82f62",
+        "sequence": 497,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_cc0f2567cf46560bcaebe657",
+        "sequence": 498,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_69e6464efdc81cc06a8b53bc",
+        "sequence": 499,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      },
+      {
+        "copy_id": "copy_fd244c6418b2b8e8994e7f56",
+        "sequence": 500,
+        "run_id": "run_57fbce0ee00a062800ca",
+        "book_id": "ca_04",
+        "status": "approved",
+        "created_at": "2026-11-15T03:27:05.494Z"
+      }
+    ]
+  }
+}

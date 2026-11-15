@@ -1,0 +1,25 @@
+{
+  "puscasdanielionut@gmail.com": {
+    "owner_email": "puscasdanielionut@gmail.com",
+    "profile_type": "author",
+    "updated_at": "2026-11-15T03:07:54.258Z",
+    "display_name": "Dani",
+    "bio": "asdsadsa",
+    "website": "asdsa",
+    "genres": "asdsadsa",
+    "public_key": "0xCA64ACE7...E763",
+    "payout_address": "asdasd"
+  },
+  "danutcmv@gmail.com": {
+    "owner_email": "danutcmv@gmail.com",
+    "profile_type": "publisher",
+    "updated_at": "2026-11-15T03:26:14.225Z",
+    "company_name": "PUSCAS PRINT",
+    "description": "Publicam cărți de ficțiune",
+    "website": "",
+    "contact_email": "danutcmv@gmail.com",
+    "location": "Ineu, Romania",
+    "specialties": "distributie",
+    "public_key": "0xCAEA9ADC...DC98"
+  }
+}

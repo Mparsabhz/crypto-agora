@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import './Navbar.css';
 
 const MODULES = [
-  { id: 'author', label: 'Author Terminal', icon: BookOpen },
-  { id: 'print', label: 'Print House Panel', icon: Printer },
+  { id: 'author', label: 'Author Terminal', publisherLabel: 'Publisher Workspace', icon: BookOpen },
+  { id: 'print', label: 'Print House Panel', publisherLabel: 'Print Management', icon: Printer },
   { id: 'reader', label: 'Reader Verification', icon: ShieldCheck },
   { id: 'help', label: 'Get Help', icon: HelpCircle, badge: 'AI' },
   { id: 'profile', label: 'My Profile', icon: UserRound },
 ];
 
-export default function Navbar({ active, onChange, user, onLogout }) {
+export default function Navbar({ active, onChange, user, profileType = 'author', onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
   const [contactsOpen, setContactsOpen] = useState(false);
 
@@ -62,17 +62,21 @@ export default function Navbar({ active, onChange, user, onLogout }) {
               <span>Home</span>
               {active === 'home' && <i className="navbar__module-active" />}
             </button>
-            {MODULES.map(({ id, label, icon: Icon, badge }) => (
+            {MODULES
+              .filter(({ id }) => !(profileType === 'publisher' && id === 'author'))
+              .map(({ id, label, publisherLabel, icon: Icon, badge }) => (
               <button key={id} className={`navbar__module ${active === id ? 'is-active' : ''}`} onClick={() => navigate(id)}>
                 <Icon size={17} />
-                <span>{label}</span>
+                <span>{profileType === 'publisher' ? publisherLabel || label : label}</span>
                 {active === id && <i className="navbar__module-active" />}
               </button>
             ))}
           </div>
         </div>
         <div className="navbar__session">
-          <span className="navbar__role-badge">{user.role === 'dev' ? 'DEV ACCESS' : 'CLIENT ACCESS'}</span>
+          <span className="navbar__role-badge">
+            {user.role === 'dev' ? 'DEV ACCESS' : profileType === 'publisher' ? 'PUBLISHER ACCESS' : 'AUTHOR ACCESS'}
+          </span>
           <button className="navbar__logout" type="button" onClick={onLogout}>Sign Out</button>
         </div>
         <div className="navbar__drawer-footer">

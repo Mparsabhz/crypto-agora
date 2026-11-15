@@ -12,6 +12,8 @@ import NetworkExplorer from './screens/NetworkExplorer';
 import Home from './screens/Home';
 import GetHelp from './screens/GetHelp';
 import Profile from './screens/Profile';
+import ProfileDirectory from './screens/ProfileDirectory';
+import PublisherPanel from './screens/PublisherPanel';
 import './App.css';
 
 const API_BASE = 'http://localhost:3000';
@@ -64,6 +66,7 @@ function Shell() {
   });
   const [allBooks, setAllBooks] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
+  const [profileType, setProfileType] = useState('author');
   const [demoSignal, setDemoSignal] = useState(0);
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('cryptoagora_user');
@@ -129,8 +132,23 @@ function Shell() {
           }
           if (active) setMyBooks([]);
         });
+
+      fetch(`${API_BASE}/profile`, {
+        headers: { Authorization: `Bearer ${user.credential}` },
+      })
+        .then(async (response) => {
+          if (!response.ok) throw new Error('Profile request failed');
+          return response.json();
+        })
+        .then((data) => {
+          if (active) setProfileType(data.profile?.profile_type || 'author');
+        })
+        .catch(() => {
+          if (active) setProfileType('author');
+        });
     } else {
       setMyBooks([]);
+      setProfileType('author');
     }
 
     return () => { active = false; };
@@ -159,6 +177,7 @@ function Shell() {
         email: decoded.email,
         picture: decoded.picture || '',
         publicKey: derivePublicKey(decoded.email),
+        credential: response.credential,
         role,
       };
       setUser(nextUser);
@@ -202,16 +221,21 @@ function Shell() {
         active={screen}
         onChange={setScreen}
         user={user}
+        profileType={profileType}
         onLogout={handleLogout}
       />
       <main className={`app-main ${screen === 'home' ? 'home-main' : ''}`}>
         {screen === 'home' && <Home onNavigate={setScreen} />}
         {screen === 'author' && <AuthorDashboard books={myBooks} onRegister={handleRegister} demoSignal={demoSignal} aiTrustScore={aiTrustScore} onOpenHelp={() => setScreen('help')} />}
-        {screen === 'print' && <PrintHousePanel books={myBooks} authToken={user.credential} />}
+        {screen === 'print' && (profileType === 'publisher'
+          ? <PublisherPanel authToken={user.credential} />
+          : <PrintHousePanel books={myBooks} authToken={user.credential} />)}
         {screen === 'reader' && <ReaderVerification books={allBooks} />}
         {screen === 'explorer' && <NetworkExplorer />}
         {screen === 'help' && <GetHelp aiTrustScore={aiTrustScore} onTrustResult={handleAiTrustResult} />}
         {screen === 'profile' && <Profile authToken={user.credential} user={user} />}
+        {screen === 'authors' && <ProfileDirectory initialType="author" />}
+        {screen === 'publishers' && <ProfileDirectory initialType="publisher" />}
       </main>
     </>
   );

@@ -14,9 +14,10 @@ export default function PrintHousePanel({ books, authToken }) {
   const [bookId, setBookId] = useState(books[0]?.book_id || '');
   const [batch, setBatch] = useState(500);
   const [royalty, setRoyalty] = useState(20);
-  const [code, setCode] = useState('RO');
   const [run, setRun] = useState(null);
   const [printRuns, setPrintRuns] = useState([]);
+  const [publishers, setPublishers] = useState([]);
+  const [publisherId, setPublisherId] = useState('');
   const [selectedCopyId, setSelectedCopyId] = useState('');
   const [generating, setGenerating] = useState(false);
 
@@ -49,6 +50,17 @@ export default function PrintHousePanel({ books, authToken }) {
     };
   }, [authToken]);
 
+  useEffect(() => {
+    fetch('http://localhost:3000/profiles?type=publisher')
+      .then((response) => response.json())
+      .then((data) => {
+        const availablePublishers = Array.isArray(data.profiles) ? data.profiles : [];
+        setPublishers(availablePublishers);
+        setPublisherId((current) => current || availablePublishers[0]?.profile_id || '');
+      })
+      .catch(() => setPublishers([]));
+  }, []);
+
   const verifyUrl = useMemo(() => {
     if (!book || !copy) return '';
     const origin = window.location.origin;
@@ -69,7 +81,7 @@ export default function PrintHousePanel({ books, authToken }) {
           book_id: book.book_id,
           quantity: batch,
           royalty_percent: royalty,
-          print_house_code: code,
+          publisher_profile_id: publisherId,
         }),
       });
       const responseText = await response.text();
@@ -221,13 +233,15 @@ export default function PrintHousePanel({ books, authToken }) {
               />
             </label>
             <label className="field">
-              <span>Print House Code</span>
-              <input
-                className="mono"
-                maxLength={4}
-                value={code}
-                onChange={(e) => setCode(e.target.value.toUpperCase())}
-              />
+              <span>Publisher aprobat de autor</span>
+              <select value={publisherId} onChange={(e) => setPublisherId(e.target.value)} disabled={publishers.length === 0}>
+                {publishers.length === 0 && <option value="">Nu există edituri cu profil</option>}
+                {publishers.map((publisher) => (
+                  <option key={publisher.profile_id} value={publisher.profile_id}>
+                    {publisher.company_name}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
 
@@ -250,11 +264,11 @@ export default function PrintHousePanel({ books, authToken }) {
           <button
             className="btn-primary full"
             style={{ marginTop: 16 }}
-            disabled={!book || generating}
+            disabled={!book || !publisherId || generating}
             onClick={handleGenerate}
           >
             {generating ? <Loader2 size={15} className="spin" /> : <Barcode size={15} />}
-            {generating ? 'Creating approved run…' : 'Approve Print Run'}
+            {generating ? 'Creating approved run…' : 'Bless Publisher & Approve Run'}
           </button>
 
           {run && (

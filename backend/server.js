@@ -369,6 +369,60 @@ app.get('/my-books', authenticateGoogle, (req, res) => {
     res.json({ count: result.length, books: result });
 });
 
+app.get('/profiles', (req, res) => {
+    const profileType = String(req.query.type || '').trim().toLowerCase();
+    const search = String(req.query.search || '').trim().toLowerCase();
+
+    const result = Object.entries(profiles)
+        .filter((profile) => !profileType || profile[1].profile_type === profileType)
+        .filter((profile) => {
+            if (!search) return true;
+            const profileData = profile[1];
+            const searchable = profileData.profile_type === 'author'
+                ? `${profileData.display_name} ${profileData.bio} ${profileData.genres}`
+                : `${profileData.company_name} ${profileData.description} ${profileData.specialties} ${profileData.location}`;
+            return searchable.toLowerCase().includes(search);
+        })
+        .map(([ownerEmail, profile]) => ({
+            profile_id: crypto.createHash('sha256').update(ownerEmail).digest('hex').slice(0, 24),
+            ...profile,
+            owner_email: undefined
+        }));
+
+    return res.json({ count: result.length, profiles: result });
+});
+
+app.get('/profiles/:profileId', (req, res) => {
+    const entry = Object.entries(profiles)
+        .find(([ownerEmail]) => crypto.createHash('sha256').update(ownerEmail).digest('hex').slice(0, 24) === req.params.profileId);
+
+    if (!entry) {
+        return res.status(404).json({ error: 'Profilul nu există.' });
+    }
+
+    const [ownerEmail, profile] = entry;
+    const publishedBooks = Object.values(books)
+        .filter((book) => book.owner_email === ownerEmail)
+        .map((book) => ({
+            book_id: book.book_id,
+            title: book.title,
+            author_pubkey: book.author_pubkey,
+            sha256_hash: book.sha256_hash,
+            block_index: book.block_index,
+            block_hash: book.block_hash,
+            web_of_trust_score: book.web_of_trust_score
+        }));
+
+    return res.json({
+        profile: {
+            profile_id: req.params.profileId,
+            ...profile,
+            owner_email: undefined
+        },
+        books: publishedBooks
+    });
+});
+
 app.get('/profile', authenticateGoogle, (req, res) => {
     return res.json({
         profile: profiles[req.user.email] || null,
@@ -416,7 +470,8 @@ app.put('/profile', authenticateGoogle, (req, res) => {
                 website: String(website || '').trim(),
                 contact_email: String(contactEmail || '').trim().toLowerCase(),
                 location: String(location || '').trim(),
-                specialties: String(specialties || '').trim()
+                specialties: String(specialties || '').trim(),
+                public_key: String(publicKey || '').trim()
             })
     };
 
@@ -434,11 +489,18 @@ app.put('/profile', authenticateGoogle, (req, res) => {
 });
 
 app.post('/print-runs', authenticateGoogle, (req, res) => {
-    const { book_id: bookId, quantity, royalty_percent: royaltyPercent, print_house_code: printHouseCode } = req.body;
+    const {
+        book_id: bookId,
+        quantity,
+        royalty_percent: royaltyPercent,
+        publisher_profile_id: publisherProfileId
+    } = req.body;
     const book = books[bookId];
     const parsedQuantity = Number(quantity);
     const parsedRoyalty = Number(royaltyPercent);
-    const normalizedCode = String(printHouseCode || '').trim().toUpperCase();
+    const publisherEntry = Object.entries(profiles)
+        .find(([ownerEmail]) => crypto.createHash('sha256').update(ownerEmail).digest('hex').slice(0, 24) === publisherProfileId);
+    const publisherProfile = publisherEntry?.[1];
 
     if (!book) {
         return res.status(404).json({ error: 'Cartea selectată nu există.' });
@@ -446,16 +508,18 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
     if (book.owner_email !== req.user.email) {
         return res.status(403).json({ error: 'Doar autorul cărții poate aproba un tiraj.' });
     }
+    if (!publisherProfile || publisherProfile.profile_type !== 'publisher') {
+        return res.status(400).json({ error: 'Selectează o editură cu profil valid.' });
+    }
+    if (!publisherProfile.public_key) {
+        return res.status(409).json({ error: 'Editura selectată nu are încă o cheie publică.' });
+    }
     if (!Number.isInteger(parsedQuantity) || parsedQuantity < 1 || parsedQuantity > 10000) {
         return res.status(400).json({ error: 'Tirajul trebuie să fie între 1 și 10.000 de exemplare.' });
     }
     if (!Number.isFinite(parsedRoyalty) || parsedRoyalty < 0 || parsedRoyalty > 100) {
         return res.status(400).json({ error: 'Procentul autorului trebuie să fie între 0 și 100.' });
     }
-    if (!/^[A-Z0-9_-]{2,12}$/.test(normalizedCode)) {
-        return res.status(400).json({ error: 'Codul tipografiei poate conține doar litere, cifre, _ sau -.' });
-    }
-
     const runId = `run_${crypto.randomBytes(10).toString('hex')}`;
     const createdAt = new Date().toISOString();
     const copies = Array.from({ length: parsedQuantity }, (_, index) => ({
@@ -471,7 +535,10 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
         run_id: runId,
         book_id: book.book_id,
         owner_email: req.user.email,
-        print_house_code: normalizedCode,
+        author_public_key: book.author_pubkey,
+        publisher_profile_id: publisherProfileId,
+        publisher_name: publisherProfile.company_name,
+        publisher_public_key: publisherProfile.public_key,
         quantity: parsedQuantity,
         royalty_percent: parsedRoyalty,
         approved_at: createdAt,
@@ -489,6 +556,18 @@ app.post('/print-runs', authenticateGoogle, (req, res) => {
 app.get('/my-print-runs', authenticateGoogle, (req, res) => {
     const result = Object.values(printRuns)
         .filter((run) => run.owner_email === req.user.email)
+        .sort((left, right) => right.approved_at.localeCompare(left.approved_at));
+
+    return res.json({ count: result.length, print_runs: result });
+});
+
+app.get('/my-publisher-runs', authenticateGoogle, (req, res) => {
+    const publisherProfileId = crypto.createHash('sha256')
+        .update(req.user.email)
+        .digest('hex')
+        .slice(0, 24);
+    const result = Object.values(printRuns)
+        .filter((run) => run.publisher_profile_id === publisherProfileId)
         .sort((left, right) => right.approved_at.localeCompare(left.approved_at));
 
     return res.json({ count: result.length, print_runs: result });
