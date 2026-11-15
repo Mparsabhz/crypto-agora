@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Building2, Globe, Hash, KeyRound, Loader2, Search, ShieldCheck, UserRound } from 'lucide-react';
+import { shortHash } from '../utils/crypto';
 import './ProfileDirectory.css';
 
 const API_BASE = 'http://localhost:3000';
@@ -72,7 +73,7 @@ export default function ProfileDirectory({ initialType = 'author' }) {
             {detail.location && <span>{detail.location}</span>}
             {detail.website && <a href={detail.website} target="_blank" rel="noreferrer"><Globe size={12} /> Website</a>}
           </div>
-          {detail.public_key && <div className="directory-public-key"><KeyRound size={12} /> <strong className="mono">{detail.public_key}</strong></div>}
+          {detail.public_key && <div className="directory-public-key"><KeyRound size={12} /> <strong className="mono">{shortHash(detail.public_key, 18, 8)}</strong></div>}
         </section>
         <section className="directory-works">
           <div className="section-title"><ShieldCheck size={15} /> {author ? 'Cărți publicate și verificate' : 'Cărți asociate editurii'}</div>
@@ -135,7 +136,7 @@ export default function ProfileDirectory({ initialType = 'author' }) {
                 {profile.location && <span>{profile.location}</span>}
                 {profile.website && <a href={profile.website} target="_blank" rel="noreferrer"><Globe size={12} /> Website</a>}
               </div>
-              {profile.public_key && <div className="directory-public-key"><KeyRound size={12} /> <strong className="mono">{profile.public_key}</strong></div>}
+              {profile.public_key && <div className="directory-public-key"><KeyRound size={12} /> <strong className="mono">{shortHash(profile.public_key, 18, 8)}</strong></div>}
             </button>
           ))}
         </div>

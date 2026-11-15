@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AlertTriangle, BrainCircuit, CheckCircle2, Loader2, Network, ShieldCheck } from 'lucide-react';
+import { shortHash } from '../utils/crypto';
 import './TrustDashboard.css';
 
 const API_BASE = 'http://localhost:3000';
@@ -62,7 +63,7 @@ export default function TrustDashboard({ authToken }) {
           <select value={selectedId} onChange={(event) => setSelectedId(event.target.value)} disabled={loading}>
             {profiles.map((profile) => (
               <option key={profile.profile_id} value={profile.profile_id}>
-                {profile.display_name || profile.company_name} — {profile.public_key || 'fără cheie'}
+                {profile.display_name || profile.company_name} — {profile.public_key ? shortHash(profile.public_key, 12, 8) : 'fără cheie'}
               </option>
             ))}
           </select>
@@ -70,7 +71,7 @@ export default function TrustDashboard({ authToken }) {
         <button type="button" className="btn-primary" onClick={investigate} disabled={!selectedId || loading}>
           <BrainCircuit size={15} /> Rulează investigația
         </button>
-        {selectedProfile && <span className="mono trust-profile-key">{selectedProfile.public_key}</span>}
+        {selectedProfile && <span className="mono trust-profile-key">{shortHash(selectedProfile.public_key || '', 18, 8)}</span>}
       </section>
 
       {message && <div className="card trust-message"><AlertTriangle size={16} /> {message}</div>}
